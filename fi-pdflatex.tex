@@ -111,11 +111,15 @@
 \markright{\textsc{Introduction}}
 \addcontentsline{toc}{chapter}{Introduction}
 
-Theses are rumoured to be \enquote{the capstones of education}, so
-I decided to write one of my own. If all goes well, I will soon
-have a diploma under my belt. Wish me luck!
+TODO
+In today's digital landscape, where cybersecurity threats continue to evolve in sophistication and frequency, the need for robust authentication mechanisms to safeguard sensitive data and systems has become paramount.
+Traditional authentication methods, such as static passwords or even static multi-factor authentication (MFA), often fall short of adequately addressing the dynamic nature of security risks and user behavior.
+As a response to these challenges, adaptive authentication has emerged as a promising approach to authentication, offering a dynamic and context-aware method for verifying user identities.
 
-\chapter{Terminology}
+This thesis aims to explore the principles, mechanisms, benefits, and challenges of adaptive authentication in-depth.
+By examining the underlying concepts and technologies, as well as conducting case studies and analyses, this research seeks to provide insights into the effectiveness and applicability of adaptive authentication solutions in diverse organizational contexts.
+Through a comprehensive examination of adaptive authentication, this thesis aims to contribute to the understanding of modern authentication practices and their role in mitigating cybersecurity risks.
+
 \shorthandoff{-}
 \begin{markdown*}{%
   hybrid,
@@ -129,10 +133,155 @@ have a diploma under my belt. Wish me luck!
   pipeTables,
   tableCaptions,
 }
-\section{Adaptive Authentication}
-TODO - what is Adaptive Authn + Risk-based
+\chapter{Adaptive Authentication}
+\section{Introduction}
+Adaptive authentication is an advanced security mechanism designed to dynamically adjust the level of authentication required for accessing digital systems, applications, or data based on various factors such as user behavior, context, and risk levels.
+Unlike traditional authentication methods that rely on static credentials or fixed multi-factor authentication (MFA) processes, adaptive authentication continuously evaluates the risk associated with each authentication attempt and adapts the authentication requirements accordingly.
 
-\section{Keycloak}
+At its core, adaptive authentication leverages real-time data analysis and contextual insights to make informed decisions about the appropriate level of authentication needed to verify a user's identity.
+This dynamic approach allows organizations to strengthen security measures while minimizing disruption to user workflows.
+Unlike static authentication methods, which apply the exact authentication requirements to all users and sessions, adaptive authentication systems continuously evaluate risk factors and adjust authentication measures accordingly.
+
+By leveraging real-time data and analytical capabilities, adaptive authentication enhances security while also optimizing the user experience.
+\newpage
+\section{Benefits}
+As was stated in the introduction of Adaptive Authentication, the main benefits behind its usability are mainly the dynamics.
+As in the traditional approaches, the static MFA is very often used when assessing authentication policies with predefined exact rules that the user might comply with or the system's state is in.
+
+Adaptive Authentication provides the ability to have a more frictionless approach when a user is trying to prove their identity.
+\newline
+\newline
+The summarization of the more exciting benefits might be as follows:
+
+% https://www.silverfort.com/glossary/adaptive-authentication/#adaptive-authentication-vs-traditional-authentication-pros-and-cons
+% https://www.descope.com/learn/post/adaptive-authentication#benefits-and-drawbacks-of-adaptive-authentication
+% https://www.logintc.com/types-of-authentication/adaptive-authentication/
+% https://www.incognia.com/the-authentication-reference/what-is-adaptive-authentication
+
+\begin{itemize}
+    \item \textbf{Better user experience} - provides more frictionless authentication as a user is not required to provide too many aspects of their identity
+    \item \textbf{Strengthen security} - when a user is trying to access sensitive or important resources, additional factors might be required
+    \item \textbf{Context-Aware protection} - takes into account contextual information, such as device information, location, IP address, and behavioral patterns
+    \item \textbf{Flexibility and extendability} - by leveraging more contextual data, the policies and rules might better comply with customers' needs
+    \item \textbf{Integration with AI/ML} - Artificial Intelligence, or Machine learning, might be used for processing contextual data, assessing risk levels, and making more knowledgeable decisions
+    \item \textbf{Alignment with zero trust model} - Adaptive authentication aligns well with the Zero trust security model due to its main principle to 'never trust, always verify'
+\end{itemize}
+
+\newpage
+\section{Challenges}
+While the benefits of adaptive authentication are clear and compelling, it's essential to acknowledge that this approach might face several challenges.
+Despite its dynamic nature and improved user experience, adaptive authentication presents several challenges that organizations must address to realize its full potential.
+\newline
+\newline
+The summarization of the biggest challenges might be as follows:
+
+% https://www.silverfort.com/glossary/adaptive-authentication/#adaptive-authentication-vs-traditional-authentication-pros-and-cons
+% https://www.descope.com/learn/post/adaptive-authentication#benefits-and-drawbacks-of-adaptive-authentication
+% https://www.logintc.com/types-of-authentication/adaptive-authentication/
+
+\begin{itemize}
+    \item \textbf{Complexity} - the implementation of the processing user behavior and evaluation of contextual data might be very complex and time-consuming  
+    \item \textbf{Accuracy of Risk Assessment} - as the contextual data might not be reliable and correct in a particular context, the risk evaluation needs to be properly executed - we need to prevent count of false positives and false negatives 
+    \item \textbf{Privacy and Data protection} - as the contextual data might help to strengthen security, these data need to be collected and processed - compliance with data protection regulations and users' preferences needs to be assessed.
+    \item \textbf{Potentially non-deterministic} - the benefit of integration of AI/ML might also bring some challenges as we can achieve non-deterministic behavior in processing contextual data and assessing risk levels - it might be challenging to predict possible outcomes, which also makes testing harder
+    
+\end{itemize}
+
+\newpage
+\section{Authentication factors}
+Authentication factors play a crucial role in verifying the identity of users and granting them access to digital systems, applications, and data.
+In the realm of cybersecurity, authentication factors serve as the building blocks of authentication mechanisms, providing layers of security to protect against unauthorized access and mitigate the risk of security breaches.
+
+Authentication factors exist to address the inherent limitations and vulnerabilities of traditional password-based authentication methods.
+While passwords have long been the primary means of authenticating users, they are susceptible to various security threats, such as brute-force attacks, phishing, and password reuse.
+Authentication factors enhance security by introducing additional layers of verification beyond mere knowledge of a password.
+
+% https://www.aratek.co/news/5-authentication-factors-a-guide-from-passwords-to-biometrics
+% https://www.descope.com/learn/post/mfa
+%https://rublon.com/blog/what-are-the-three-authentication-factors/
+
+Adaptive Authentication uses Authentication factors to evaluate the potential risk that a user accessing a particular resource is fraudulent.
+\newline
+\newline
+These factors use contextual data obtained by arbitrary approaches and can be divided into a few categories:
+
+\begin{enumerate}
+    \item \textbf{Knowledge factor} (Something You Know)
+    \item \textbf{Possession factor}  (Something You Have)
+    \item \textbf{Inherence factor} (Something You Are)
+    \item \textbf{Location factor} (Somewhere You Are)
+    \item \textbf{Behavior factor} (Something You Do)
+\end{enumerate}
+
+The first three authentication factors \textit{Knowledge factor}, \textit{Posession factor}, and \textit{Inherence factor} are the well-known traditional factors used in many applications managing identity access.
+The last two authentication factors \textit{Location factor}, and \textit{Behavior factor}, are the extension of the traditional approaches and extensively used for the Adaptive authentication.  
+
+\newpage
+\subsection{Knowledge factor (Something You Know)}
+Knowledge factors involve users providing specific information or data to access a secured system.
+The most common type of knowledge-based authentication is through passwords or personal identification numbers (PINs), which are used to limit system access.
+
+Typically, in generic applications or network logins, users need to provide both a username/email and its associated password or PIN to gain entry. It is important to note that solely providing a username or email does not serve as an authentication factor.
+Instead, it functions as the user's identification within the system.
+
+Authentication occurs when the provided password or PIN verifies the associated username or email, confirming the user's identity.
+
+% TODO Some IMAGE
+
+\newpage
+\subsection{Possession factor (Something You Have)}
+Possession factors require users to possess a specific piece of information or device before gaining access to the system.
+Typically, possession factors are managed through a device known to belong to the correct user.
+A typical process flow for possession-based authentication might look like described in the following lines.
+
+The user registers an account with a password and their phone number recorded at the time of registration.
+The user logs in to their account with the username and password.
+When the user requests access to the system, a one-time password is generated and sent to the user's mobile phone number.
+The user enters the newly generated one-time password and gains access to the system.
+
+One-time passwords can be generated by a device like the RSA SecurID, or they may be automatically generated and sent to the user's cellular device via SMS.
+In either case, the correct user must possess the device that receives or generates the one-time password to access the system.
+
+% TODO Some Image
+
+\newpage
+\subsection{Inherence factor (Something You Are)}
+Inherence factors authenticate access credentials based on unique user characteristics.
+These include fingerprints, thumbprints, palm or handprints, as well as voice and facial recognition and retina or iris scans.
+
+When systems proficiently identify users via their biometric data, inherence stands as one of the most secure authentication methods.
+However, a downside is the potential loss of flexibility in account access.
+
+For instance, a system requiring a fingerprint scan can only be accessed on devices equipped with the necessary hardware.
+While this restriction enhances security, it may diminish user convenience.
+
+\newpage
+\subsection{Location factor (Somewhere You Are)}
+Location factors allow administrators to implement geolocation security checks to verify a user's location before granting access to an application, network, or system.
+
+Consider a multinational corporation with offices in various cities worldwide.
+In this scenario, a security analyst might identify a user attempting to access the network from an IP address originating from a country different from their assigned office as a potential cyber attacker or unauthorized entity.
+
+Geolocation security ensures access is restricted to users within a specified geographic area.
+While IP addresses offer insight into network traffic origin, hackers can avoid detection by using VPNs to mask their location.
+
+Alternatively, MAC addresses, unique to each computing device, can serve as a location-based authentication factor, allowing system access only from authorized devices within a defined range.
+
+%TODO IMAGE
+
+\newpage
+\subsection{Behavior factor (Something You Do)}
+Behavior factors depend on user actions to access the system. In systems accommodating behavior-based authentication factors, users may configure a password by executing specific actions within a defined interface, which they can subsequently replicate to verify their identity.
+
+Consider the gesture-based authentication feature found in some smartwatches, where users perform a series of taps or swipes to unlock the device. This serves as an example of behavior-based authentication factors.
+
+%TODO IMAGE
+
+% REF: https://www.sumologic.com/glossary/authentication-factor/
+% https://www.globalknowledge.com/us-en/resources/resource-library/articles/the-three-types-of-multi-factor-authentication-mfa/
+% https://www.aratek.co/news/5-authentication-factors-a-guide-from-passwords-to-biometrics
+
+\chapter{Keycloak}
 Keycloak
 
 \section{Service Provider Interface}
@@ -164,11 +313,29 @@ The intention behind analyzing existing solutions is to get information from the
 In order to create an optimal solution for Adaptive authentication, it is advantageous to recognize common patterns in these solutions, aggregate the best parts, enhance them, and tailor them to the needs of Keycloak. 
 
 In the following sections, there are some brief descriptions of products provided by the mentioned vendors.
-The list of existing solutions and their ordering is not sorted by any particular keys but rather gathered as the most promising and interesting solutions. 
-
+The list of existing solutions and their ordering is not sorted by any particular keys but rather gathered as the most promising and exciting solutions.
 
 \section{Okta}
-OKTA
+Okta is an identity management company that provides cloud-based solutions for businesses to connect people and technology securely.
+Okta offers a platform that enables organizations to manage and secure user authentication, access control, and identity governance across various applications and devices.
+The company's services include single sign-on, multi-factor authentication, lifecycle management, and API access management.
+Okta describes its Adaptive and risk-based capabilities as follows:
+
+"User and risk levels are always changing; your security should be able to keep up.
+Okta Adaptive MFA allows for dynamic policy changes and step-up authentication in response to changes in user and device behavior, location, or other contexts.
+Adaptive MFA supports detection and authentication challenges for riskier situations like":
+
+SOURCE: https://www.okta.com/sites/default/files/okta_mfa-datasheet.pdf
+
+\begin{itemize}
+    \item Use of weak/breached passwords
+    \item Proxy use
+    \item Geographic location and zone changes
+    \item Brute force and denial-of-service attacks
+    \item Use of new/untrusted devices
+    \item Indications of anomalous behavior
+\end{itemize}
+
 \section{Something}
 Something
 
