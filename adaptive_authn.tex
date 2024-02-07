@@ -312,6 +312,23 @@ Consider the gesture-based authentication feature found in some smartwatches, wh
 
 \newpage
 \section{Risk Levels}
+Risk levels in adaptive authentication typically refer to the likelihood that a particular access attempt is fraudulent or unauthorized.
+These risk levels are often categorized into low, medium, and high, though the specific criteria for each level can vary depending on the implementation.
+
+\textbf{Low-risk access} attempts might involve familiar devices, typical login times, and consistent behavior patterns. In these cases, the authentication process may be streamlined with minimal additional verification steps.
+
+\textbf{Medium-risk access} attempts might involve slightly unusual behavior, such as logging in from a new location or using a different device.
+In these cases, the system may prompt for additional verification, such as a one-time password sent via email or SMS.
+
+\textbf{High-risk access} attempts might involve highly suspicious behavior, such as multiple failed login attempts, login from a known compromised device, or access from a location far from the user's usual ones.
+In these cases, the system may require stricter authentication measures, such as biometric verification or challenge questions.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{img/risk.png}
+  \caption{Risk Levels}
+  \label{fig:risk-level}
+\end{figure}
 
 \chapter{Keycloak}
 Keycloak
@@ -363,7 +380,6 @@ The list of existing solutions and their ordering is not sorted by any particula
   \caption{Okta}
   \label{fig:okta-logo}
 \end{figure}
-
 
 Okta is an identity management company that provides cloud-based solutions for businesses to connect people and technology securely.
 Okta offers a platform that enables organizations to manage and secure user authentication, access control, and identity governance across various applications and devices.
