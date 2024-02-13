@@ -330,51 +330,9 @@ In these cases, the system may require stricter authentication measures, such as
   \label{fig:risk-level}
 \end{figure}
 
-\chapter{Keycloak}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\textwidth]{img/keycloak.png}
-  \caption{Keycloak}
-  \label{fig:keycloak-logo}
-\end{figure}
-
-\section{Introduction}
-Keycloak is a very popular open-source single sign-on and identity and access management solution for web apps and RESTful web services.
-The goal of Keycloak is to simplify security so that it is easy for application developers to secure the apps and services they have deployed in their organization.
-Security features that developers normally have to write for themselves are provided out of the box and are easily tailorable to the individual requirements of your organization.
-
-Keycloak provides customizable user interfaces for login, registration, administration, and account management.
-You can also use Keycloak as an integration platform to hook it into existing LDAP and Active Directory servers.
-You can also delegate authentication to third-party identity providers like Facebook and Google.
-
-This community project is under the stewardship of Red Hat, which uses it as the upstream project for their Red Hat Single Sign-On and Red Hat Build of Keycloak products.
-
-% https://www.keycloak.org/docs/latest/server_admin/
-
-
-
-\section{Service Provider Interface}
-
-\end{markdown*}
-
-
 \shorthandon{-}
 
 \chapter{Existing solutions}
-\shorthandoff{-}
-\begin{markdown*}{%
-  hybrid,
-  definitionLists,
-  footnotes,
-  inlineFootnotes,
-  hashEnumerators,
-  fencedCode,
-  citations,
-  citationNbsps,
-  pipeTables,
-  tableCaptions,
-}
 
 This specific part of the thesis is focused on the analysis of existing solutions provided by other vendors that are present on the market.
 It is very beneficial to be aware of solutions for Adaptive Authentication as there are already some companies and institutions that are trying to solve the same problem as is touched on in this thesis.
@@ -416,6 +374,19 @@ Adaptive MFA supports detection and authentication challenges for riskier situat
 \end{itemize}
 
 \newpage
+Okta's approach introduces the consideration of external risk contexts, enhancing organizations' understanding of authentication processes by utilizing the ThreatInsight service.
+This service furnishes critical details encompassing users, devices, locations, and networks, thereby facilitating more informed decision-making regarding access permissions.
+
+By adding risk factors from external sources like third-party services, the range of factors considered in risk assessment expands, making authentication protocols more effective.
+However, relying on remote services may introduce challenges, such as potential latency issues, which could impede the authentication process and lead to user frustration and operational inefficiencies.
+
+Ensuring the safety and trustworthiness of these outside sources is very important.
+Organizations must be careful when choosing third-party services to avoid the risk of data leaks or mistakes that could harm the authentication system.
+
+Dealing with these challenges means finding the right balance between using external risk information to our advantage and handling any risks that come with it.
+Putting strong rules in place for watching and managing how third-party services are used is crucial for keeping the authentication system safe and effective.
+
+\newpage
 \section{Citrix}
 
 \begin{figure}[htbp]
@@ -425,14 +396,22 @@ Adaptive MFA supports detection and authentication challenges for riskier situat
   \label{fig:citrix-logo}
 \end{figure}
 
-Citrix Systems, Inc. is an American multinational cloud computing and virtualization technology company that provides server, application and desktop virtualization, networking, software as a service (SaaS), and cloud computing technologies.
+Citrix Systems, Inc. is an American multinational cloud computing and virtualization technology company that provides server, application, and desktop virtualization, networking, software as a service (SaaS), and cloud computing technologies.
 Citrix products were claimed to be used by over 400,000 clients worldwide, including 99\% of the Fortune 100 and 98\% of the Fortune 500.
+
+I appreciate how Citrix Systems handles the various details of user authentication.
+They carefully consider factors such as user roles, organizational affiliations, and unique user attributes.
+These factors are crucial in assessing the level of risk in each authentication attempt.
+
+What's impressive is that Citrix does not treat each factor in isolation.
+Instead, they integrate all these details to determine the overall security of an authentication attempt.
+By doing so, they ensure that security measures are tailored to suit the specific circumstances of each user's login attempt. This not only enhances overall security but also improves the user experience by making the authentication process smoother.
+It demonstrates Citrix's commitment to maintaining both security and user-friendliness in its authentication approach.
 
 % wiki: https://en.wikipedia.org/wiki/Citrix_Systems
 
 \newpage
 \section{OneLogin}
-OneLogin, Inc. is a cloud-based identity and access management (IAM) provider that develops a unified access management (UAM) platform for enterprise-level businesses and organizations.
 
 \begin{figure}[htbp]
   \centering
@@ -441,9 +420,13 @@ OneLogin, Inc. is a cloud-based identity and access management (IAM) provider th
   \label{fig:onelogin-logo}
 \end{figure}
 
-OneLogin
+OneLogin, Inc. is a cloud-based identity and access management (IAM) provider that develops a unified access management (UAM) platform for enterprise-level businesses and organizations.
 
-\newpage
+I like how OneLogin approaches risk-based authentication with the leverage of machine learning. 
+Their tools learn from user behavior over time to create a detailed profile of each user's login habits.
+That includes tracking devices, typical login times, and usual work locations.
+Additionally, they analyze IP addresses, network reputations, and threat data to enhance security further.
+
 \section{Delinea}
 
 \begin{figure}[htbp]
@@ -453,51 +436,84 @@ OneLogin
   \label{fig:delinea-logo}
 \end{figure}
 
-Delinea
+Delinea provides Privileged Access Management (PAM) solutions for the modern, hybrid enterprise.
+The Delinea Platform seamlessly extends PAM by providing authorization for all identities and controlling access to an organization’s most critical hybrid cloud infrastructure and sensitive data to help reduce risk, ensure compliance, and simplify security.
+Delinea removes complexity and defines the boundaries of access for thousands of customers worldwide.
+
+I like the way Delinea handles the device profile aspect.
+They make sure to thoroughly check each device, verifying if it's a known device or one that the company has given to the user. This attention to detail ensures that only authorized and safe devices are allowed access, providing an additional layer of security to the authentication process.
+
+Their approach to location awareness is also quite effective.
+Instead of simply relying on basic location data, Delinea delves deep into IP addresses to identify any unusual login locations. By doing so, they can detect potential security threats early on and take proactive measures to prevent unauthorized access, thereby safeguarding sensitive data from potential breaches.
+
+Moreover, Delinea also provides an approach for recognizing abnormal user behavior.
+They analyze access patterns, which could indicate suspicious activity or unauthorized access attempts.
+By promptly addressing such anomalies, Delinea ensures the integrity of the authentication process and protects sensitive information from potential risks with the help of this risk factor evaluation.
+
+% https://www.linkedin.com/company/delinea/?originalSubdomain=cz
+% https://delinea.com/blog/what-is-adaptive-authentication
+
+\section{Beyond Identity}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\textwidth]{img/BeyondIdentity-logo.png}
+  \caption{Beyond Identity}
+  \label{fig:beyond-identity-logo}
+\end{figure}
+
+Beyond Identity is a company that specializes in passwordless identity management and authentication solutions. They offer a platform that aims to eliminate the need for passwords and provide more secure and user-friendly authentication methods.
+
+I like the concept called The Triad of Risk that Beyond Identity provided in relation to Adaptive (risk-based) Authentication.
+The triad of risk is a methodology for conceptualizing risk factors when permitting or denying access to applications.
+The triad consists of three factors: Device risk, Application risk, and Contextual risk.
+
+% TODO - describe the triad of risk
+
+% https://www.beyondidentity.com/blog/what-risk-based-authentication
+
+%https://www.beyondidentity.com/company
 
 \newpage
 \section{Common patterns}
 
-\end{markdown*}
+\chapter{Keycloak}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/keycloak.png}
+  \caption{Keycloak}
+  \label{fig:keycloak-logo}
+\end{figure}
+
+\section{Introduction}
+Keycloak is a very popular open-source single sign-on and identity and access management solution for web apps and RESTful web services.
+The goal of Keycloak is to simplify security so that it is easy for application developers to secure the apps and services they have deployed in their organization.
+Security features that developers normally have to write for themselves are provided out of the box and are easily tailorable to the individual requirements of your organization.
+
+Keycloak provides customizable user interfaces for login, registration, administration, and account management.
+You can also use Keycloak as an integration platform to hook it into existing LDAP and Active Directory servers.
+You can also delegate authentication to third-party identity providers like Facebook and Google.
+
+This community project is under the stewardship of Red Hat, which uses it as the upstream project for their Red Hat Single Sign-On and Red Hat Build of Keycloak products.
+
+% https://www.keycloak.org/docs/latest/server_admin/
+
+\section{Service Provider Interface}
 
 \chapter{Analysis}
 \shorthandoff{-}
-\shorthandoff{-}
-\begin{markdown*}{%
-  hybrid,
-  definitionLists,
-  footnotes,
-  inlineFootnotes,
-  hashEnumerators,
-  fencedCode,
-  citations,
-  citationNbsps,
-  pipeTables,
-  tableCaptions,
-}
+
 
 \section{Necessary parts}
 TODO -
 
 
-\end{markdown*}
 \shorthandon{-}
 
 
 \chapter{Implementation}
 \shorthandoff{-}
-\begin{markdown*}{%
-  hybrid,
-  definitionLists,
-  footnotes,
-  inlineFootnotes,
-  hashEnumerators,
-  fencedCode,
-  citations,
-  citationNbsps,
-  pipeTables,
-  tableCaptions,
-}
 
 IMPLEMENTATION
 \end{markdown*}
@@ -555,6 +571,5 @@ its location will be decided by the template.
 
 \appendix %% Start the appendices.
 \chapter{An appendix}
-Here you can insert the appendices of your thesis.
 
 \end{document}
