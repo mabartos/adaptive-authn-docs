@@ -366,6 +366,7 @@ Adaptive MFA supports detection and authentication challenges for riskier situat
 \end{itemize}
 
 \newpage
+\subsection{Takeaways}
 Okta's approach introduces the consideration of external risk contexts, enhancing organizations' understanding of authentication processes by utilizing the ThreatInsight service.
 This service furnishes critical details encompassing users, devices, locations, and networks, thereby facilitating more informed decision-making regarding access permissions.
 
@@ -391,6 +392,7 @@ Putting strong rules in place for watching and managing how third-party services
 Citrix Systems, Inc. is an American multinational cloud computing and virtualization technology company that provides server, application, and desktop virtualization, networking, software as a service (SaaS), and cloud computing technologies.
 Citrix products were claimed to be used by over 400,000 clients worldwide, including 99\% of the Fortune 100 and 98\% of the Fortune 500.
 
+\subsection{Takeaways}
 I appreciate how Citrix Systems handles the various details of user authentication.
 They carefully consider factors such as user roles, organizational affiliations, and unique user attributes.
 These factors are crucial in assessing the level of risk in each authentication attempt.
@@ -414,6 +416,7 @@ It demonstrates Citrix's commitment to maintaining both security and user-friend
 
 OneLogin, Inc. is a cloud-based identity and access management (IAM) provider that develops a unified access management (UAM) platform for enterprise-level businesses and organizations. \cite{existing-onelogin}
 
+\subsection{Takeaways}
 I like how OneLogin approaches risk-based authentication with the leverage of machine learning. 
 Their tools learn from user behavior over time to create a detailed profile of each user's login habits.
 That includes tracking devices, typical login times, and usual work locations.
@@ -432,6 +435,7 @@ Delinea provides Privileged Access Management (PAM) solutions for the modern, hy
 The Delinea Platform seamlessly extends PAM by providing authorization for all identities and controlling access to an organization’s most critical hybrid cloud infrastructure and sensitive data to help reduce risk, ensure compliance, and simplify security.
 Delinea removes complexity and defines the boundaries of access for thousands of customers worldwide.
 
+\subsection{Takeaways}
 I like the way Delinea handles the device profile aspect.
 They make sure to thoroughly check each device, verifying if it's a known device or one that the company has given to the user. This attention to detail ensures that only authorized and safe devices are allowed access, providing an additional layer of security to the authentication process.
 
@@ -456,11 +460,21 @@ By promptly addressing such anomalies, Delinea ensures the integrity of the auth
 
 Beyond Identity is a company that specializes in passwordless identity management and authentication solutions. They offer a platform that aims to eliminate the need for passwords and provide more secure and user-friendly authentication methods.
 
+\subsection{Takeaways}
 I like the concept called The Triad of Risk that Beyond Identity provided in relation to Adaptive (risk-based) Authentication.
 The triad of risk is a methodology for conceptualizing risk factors when permitting or denying access to applications.
-The triad consists of three factors: Device risk, Application risk, and Contextual risk.\cite{existing-beyond-identity}
+The triad consists of three factors: Device risk, Application risk, and Contextual risk.
 
-% TODO - describe the triad of risk
+Device Risk involves assessing the security of the user's hardware, considering factors like passcodes, authentication methods, operating system updates, presence of firewalls, etc.
+This assessment helps determine the likelihood of the device being compromised.
+
+Application Risk focuses on the potential impact an application's access could have on operations if exploited by a malicious actor, rather than the inherent riskiness of the application itself.
+It considers the sensitivity of the data or functions accessible through the application.
+
+Contextual Risk takes into account the user's behavior and environment, especially in the context of remote work. Factors such as geographic location, typical access patterns, and time of access are considered to identify abnormal behavior that may indicate fraud or malicious intent.
+
+Adaptive authentication utilizes these contextual factors to assess the legitimacy of access attempts, raising alarms when behavior deviates from established patterns.
+Certain abnormalities, such as accessing an application from an unusual location, are weighted more heavily in determining potential risk.\cite{existing-beyond-identity}
 
 % https://www.beyondidentity.com/blog/what-risk-based-authentication
 
