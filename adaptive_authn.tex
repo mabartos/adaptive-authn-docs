@@ -75,7 +75,7 @@
     thanks      = {%
       I am deeply grateful to my supervisor, Václav Matyáš, for his guidance and support throughout this thesis. I would also like to thank Marek Posolda for his valuable insights, which greatly enriched this work. Their contributions have been instrumental in its completion.
     },
-    bib         = example.bib,
+    bib         = adaptive_authn.bib,
     %% Remove the following line to use the JVS 2018 faculty logo.
     facultyLogo = fithesis-fi,
 }
@@ -143,21 +143,17 @@ At its core, adaptive authentication leverages real-time data analysis and conte
 This dynamic approach allows organizations to strengthen security measures while minimizing disruption to user workflows.
 Unlike static authentication methods, which apply the exact authentication requirements to all users and sessions, adaptive authentication systems continuously evaluate risk factors and adjust authentication measures accordingly.
 
-By leveraging real-time data and analytical capabilities, adaptive authentication enhances security while also optimizing the user experience.
+By leveraging real-time data and analytical capabilities, adaptive authentication enhances security while also optimizing the user experience.\cite{intro-logintc}
 \newpage
 \section{Benefits}
 As was stated in the introduction of Adaptive Authentication, the main benefits behind its usability are mainly the dynamics.
-As in the traditional approaches, the static MFA is very often used when assessing authentication policies with predefined exact rules that the user might comply with or the system's state is in.
+As in the traditional approaches, the static MFA is very often used when assessing authentication policies with predefined exact rules that the user might comply with or the system's state is in. 
 
 Adaptive Authentication provides the ability to have a more frictionless approach when a user is trying to prove their identity.
+\cite{intro-silverfort}\cite{intro-descope}
 \newline
 \newline
 The summarization of the more exciting benefits might be as follows:
-
-% https://www.silverfort.com/glossary/adaptive-authentication/#adaptive-authentication-vs-traditional-authentication-pros-and-cons
-% https://www.descope.com/learn/post/adaptive-authentication#benefits-and-drawbacks-of-adaptive-authentication
-% https://www.logintc.com/types-of-authentication/adaptive-authentication/
-% https://www.incognia.com/the-authentication-reference/what-is-adaptive-authentication
 
 \begin{itemize}
     \item \textbf{Better user experience} - provides more frictionless authentication as a user is not required to provide too many aspects of their identity
@@ -165,7 +161,7 @@ The summarization of the more exciting benefits might be as follows:
     \item \textbf{Context-Aware protection} - takes into account contextual information, such as device information, location, IP address, and behavioral patterns
     \item \textbf{Flexibility and extendability} - by leveraging more contextual data, the policies and rules might better comply with customers' needs
     \item \textbf{Integration with AI/ML} - Artificial Intelligence, or Machine learning, might be used for processing contextual data, assessing risk levels, and making more knowledgeable decisions
-    \item \textbf{Alignment with zero trust model} - Adaptive authentication aligns well with the Zero trust security model due to its main principle to 'never trust, always verify'
+    \item \textbf{Alignment with zero trust model} - Adaptive authentication aligns well with the Zero trust security model due to its main principle to 'never trust, always verify' \cite{intro-incognia}
 \end{itemize}
 
 \newpage
@@ -176,15 +172,11 @@ Despite its dynamic nature and improved user experience, adaptive authentication
 \newline
 The summarization of the biggest challenges might be as follows:
 
-% https://www.silverfort.com/glossary/adaptive-authentication/#adaptive-authentication-vs-traditional-authentication-pros-and-cons
-% https://www.descope.com/learn/post/adaptive-authentication#benefits-and-drawbacks-of-adaptive-authentication
-% https://www.logintc.com/types-of-authentication/adaptive-authentication/
-
 \begin{itemize}
     \item \textbf{Complexity} - the implementation of the processing user behavior and evaluation of contextual data might be very complex and time-consuming  
     \item \textbf{Accuracy of Risk Assessment} - as the contextual data might not be reliable and correct in a particular context, the risk evaluation needs to be properly executed - we need to prevent count of false positives and false negatives 
     \item \textbf{Privacy and Data protection} - as the contextual data might help to strengthen security, these data need to be collected and processed - compliance with data protection regulations and users' preferences needs to be assessed.
-    \item \textbf{Potentially non-deterministic} - the benefit of integration of AI/ML might also bring some challenges as we can achieve non-deterministic behavior in processing contextual data and assessing risk levels - it might be challenging to predict possible outcomes, which also makes testing harder
+    \item \textbf{Potentially non-deterministic} - the benefit of integration of AI/ML might also bring some challenges as we can achieve non-deterministic behavior in processing contextual data and assessing risk levels - it might be challenging to predict possible outcomes, which also makes testing harder\cite{intro-silverfort}\cite{intro-descope}\cite{intro-logintc}
     
 \end{itemize}
 
@@ -195,7 +187,7 @@ In the realm of cybersecurity, authentication factors serve as the building bloc
 
 Authentication factors exist to address the inherent limitations and vulnerabilities of traditional password-based authentication methods.
 While passwords have long been the primary means of authenticating users, they are susceptible to various security threats, such as brute-force attacks, phishing, and password reuse.
-Authentication factors enhance security by introducing additional layers of verification beyond mere knowledge of a password.
+Authentication factors enhance security by introducing additional layers of verification beyond mere knowledge of a password.\cite{auth-factors-aratek}
 
 % https://www.aratek.co/news/5-authentication-factors-a-guide-from-passwords-to-biometrics
 % https://www.descope.com/learn/post/mfa
@@ -215,7 +207,7 @@ These factors use contextual data obtained by arbitrary approaches and can be di
 \end{enumerate}
 
 The first three authentication factors \textit{Knowledge factor}, \textit{Posession factor}, and \textit{Inherence factor} are the well-known traditional factors used in many applications managing identity access.
-The last two authentication factors \textit{Location factor}, and \textit{Behavior factor}, are the extension of the traditional approaches and extensively used for the Adaptive authentication.  
+The last two authentication factors \textit{Location factor}, and \textit{Behavior factor}, are the extension of the traditional approaches and extensively used for the Adaptive authentication.\cite{auth-factors-descope}  
 
 \newpage
 \subsection{Knowledge factor (Something You Know)}
@@ -265,7 +257,7 @@ When systems proficiently identify users via their biometric data, inherence sta
 However, a downside is the potential loss of flexibility in account access.
 
 For instance, a system requiring a fingerprint scan can only be accessed on devices equipped with the necessary hardware.
-While this restriction enhances security, it may diminish user convenience.
+While this restriction enhances security, it may diminish user convenience. \cite{auth-factors-rublon}
 
 \begin{figure}[htbp]
   \centering
@@ -297,7 +289,7 @@ Alternatively, MAC addresses, unique to each computing device, can serve as a lo
 \subsection{Behavior factor (Something You Do)}
 Behavior factors depend on user actions to access the system. In systems accommodating behavior-based authentication factors, users may configure a password by executing specific actions within a defined interface, which they can subsequently replicate to verify their identity.
 
-Consider the gesture-based authentication feature found in some smartwatches, where users perform a series of taps or swipes to unlock the device. This serves as an example of behavior-based authentication factors.
+Consider the gesture-based authentication feature found in some smartwatches, where users perform a series of taps or swipes to unlock the device. This serves as an example of behavior-based authentication factors.\cite{auth-factors-sumologic} \cite{auth-factors-globalknowledge} \cite{auth-factors-aratek}
 
 \begin{figure}[htbp]
   \centering
@@ -370,7 +362,7 @@ Adaptive MFA supports detection and authentication challenges for riskier situat
     \item Geographic location and zone changes
     \item Brute force and denial-of-service attacks
     \item Use of new/untrusted devices
-    \item Indications of anomalous behavior
+    \item Indications of anomalous behavior \cite{existing-okta}
 \end{itemize}
 
 \newpage
@@ -384,7 +376,7 @@ Ensuring the safety and trustworthiness of these outside sources is very importa
 Organizations must be careful when choosing third-party services to avoid the risk of data leaks or mistakes that could harm the authentication system.
 
 Dealing with these challenges means finding the right balance between using external risk information to our advantage and handling any risks that come with it.
-Putting strong rules in place for watching and managing how third-party services are used is crucial for keeping the authentication system safe and effective.
+Putting strong rules in place for watching and managing how third-party services are used is crucial for keeping the authentication system safe and effective. \cite{existing-okta-lowrisk} \cite{existing-okta-confidence}
 
 \newpage
 \section{Citrix}
@@ -406,7 +398,7 @@ These factors are crucial in assessing the level of risk in each authentication 
 What's impressive is that Citrix does not treat each factor in isolation.
 Instead, they integrate all these details to determine the overall security of an authentication attempt.
 By doing so, they ensure that security measures are tailored to suit the specific circumstances of each user's login attempt. This not only enhances overall security but also improves the user experience by making the authentication process smoother.
-It demonstrates Citrix's commitment to maintaining both security and user-friendliness in its authentication approach.
+It demonstrates Citrix's commitment to maintaining both security and user-friendliness in its authentication approach.\cite{existing-citrix-wiki} \cite{existing-citrix-blog}
 
 % wiki: https://en.wikipedia.org/wiki/Citrix_Systems
 
@@ -420,7 +412,7 @@ It demonstrates Citrix's commitment to maintaining both security and user-friend
   \label{fig:onelogin-logo}
 \end{figure}
 
-OneLogin, Inc. is a cloud-based identity and access management (IAM) provider that develops a unified access management (UAM) platform for enterprise-level businesses and organizations.
+OneLogin, Inc. is a cloud-based identity and access management (IAM) provider that develops a unified access management (UAM) platform for enterprise-level businesses and organizations. \cite{existing-onelogin}
 
 I like how OneLogin approaches risk-based authentication with the leverage of machine learning. 
 Their tools learn from user behavior over time to create a detailed profile of each user's login habits.
@@ -448,9 +440,9 @@ Instead of simply relying on basic location data, Delinea delves deep into IP ad
 
 Moreover, Delinea also provides an approach for recognizing abnormal user behavior.
 They analyze access patterns, which could indicate suspicious activity or unauthorized access attempts.
-By promptly addressing such anomalies, Delinea ensures the integrity of the authentication process and protects sensitive information from potential risks with the help of this risk factor evaluation.
+By promptly addressing such anomalies, Delinea ensures the integrity of the authentication process and protects sensitive information from potential risks with the help of this risk factor evaluation. \cite{existing-delinea}
 
-% https://www.linkedin.com/company/delinea/?originalSubdomain=cz
+% TODO ADD BIB https://www.linkedin.com/company/delinea/?originalSubdomain=cz
 % https://delinea.com/blog/what-is-adaptive-authentication
 
 \section{Beyond Identity}
@@ -466,7 +458,7 @@ Beyond Identity is a company that specializes in passwordless identity managemen
 
 I like the concept called The Triad of Risk that Beyond Identity provided in relation to Adaptive (risk-based) Authentication.
 The triad of risk is a methodology for conceptualizing risk factors when permitting or denying access to applications.
-The triad consists of three factors: Device risk, Application risk, and Contextual risk.
+The triad consists of three factors: Device risk, Application risk, and Contextual risk.\cite{existing-beyond-identity}
 
 % TODO - describe the triad of risk
 
@@ -519,55 +511,7 @@ IMPLEMENTATION
 \end{markdown*}
 \shorthandon{-}
 
-\chapter{Inserting the bibliography}
-After linking a bibliography data\-base files to the document using
-the \verb"\"\texttt{thesis\discretionary{-}{}{}setup\{bib\discretionary{=}{=}{=}%
-\{\textit{file1},\textit{file2},\,\ldots\,\}\}} command, you can
-start citing the entries. This is just dummy text
-\parencite{borgman03} lightly sprinkled with citations
-\parencite[p.~123]{greenberg98}. Several sources can be cited at
-once: \cite{borgman03,greenberg98,thanh01}.
-\citetitle{greenberg98} was written by \citeauthor{greenberg98} in
-\citeyear{greenberg98}. We can also produce \textcite{greenberg98}%
-\ or %% Let us define a compound command:
-\def\citeauthoryear#1{(\textcite{#1},~\citeyear{#1})}%
-\citeauthoryear{greenberg98}%
-. The full bibliographic citation is:
-\emph{\fullcite{greenberg98}}. We can easily insert a bibliographic
-citation into the footnote\footfullcite{greenberg98}.
-
-The \verb"\nocite" command will not generate any
-output\nocite{muni}, but it will insert its arguments into
-the bibliography. The \verb"\nocite{*}" command will insert all the
-records in the bibliography database file into the bibliography.
-Try uncommenting the command
-%% \nocite{*}
-and watch the bibliography section come apart at the seams.
-
-When typesetting the document for the first time, citing a
-\texttt{work} will expand to [\textbf{work}] and the
-\verb"\printbibliography" command will produce no output. It is now
-necessary to generate the bibliography by running \texttt{biber
-\jobname.bcf} from the command line and then by typesetting the
-document again twice. During the first run, the bibliography
-section and the citations will be typeset, and in the second run,
-the bibliography section will appear in the table of contents.
-
-The \texttt{biber} command needs to be executed from within the
-directory, where the \LaTeX\ source file is located. In Windows,
-the command line can be opened in a directory by holding down the
-\textsf{Shift} key and by clicking the right mouse button while
-hovering the cursor over a directory.  Select the \textsf{Open
-Command Window Here} option in the context menu that opens shortly
-afterwards.
-
-With online services -- such as Overleaf -- or when using an
-automatic tool -- such as \LaTeX MK -- all commands are executed
-automatically. When you omit the \verb"\printbibliography" command,
-its location will be decided by the template.
-
-  \printbibliography[heading=bibintoc] %% Print the bibliography.
-
+\printbibliography[heading=bibintoc] %% Print the bibliography.
 
 \appendix %% Start the appendices.
 \chapter{An appendix}
