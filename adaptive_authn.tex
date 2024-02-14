@@ -90,6 +90,7 @@
 \usepackage{markdown} %% Lightweight markup
 \usepackage{listings} %% Source code highlighting
 \usepackage{graphicx}
+\usepackage{rotating}
 \lstset{
   basicstyle      = \ttfamily,
   identifierstyle = \color{black},
@@ -568,6 +569,13 @@ Otherwise, a user needs to provide their password and then biometrics via the We
 \chapter{Design}
 \shorthandoff{-}
 
+<TODO>
+\begin{sidewaysfigure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/Design1.0.png}
+    \caption{Design}
+    \label{fig:design}
+\end{sidewaysfigure}
 
 \chapter{Implementation}
 \shorthandoff{-}
@@ -575,7 +583,7 @@ Otherwise, a user needs to provide their password and then biometrics via the We
 \end{markdown*}
 \shorthandon{-}
 
-\printbibliography[heading=bibintoc] %% Print the bibliography.
+\printbibliography[heading=bibintoc]
 
 \appendix %% Start the appendices.
 \chapter{An appendix}
