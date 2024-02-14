@@ -112,7 +112,7 @@
 \markright{\textsc{Introduction}}
 \addcontentsline{toc}{chapter}{Introduction}
 
-TODO
+<TODO>
 In today's digital landscape, where cybersecurity threats continue to evolve in sophistication and frequency, the need for robust authentication mechanisms to safeguard sensitive data and systems has become paramount.
 Traditional authentication methods, such as static passwords or even static multi-factor authentication (MFA), often fall short of adequately addressing the dynamic nature of security risks and user behavior.
 As a response to these challenges, adaptive authentication has emerged as a promising approach to authentication, offering a dynamic and context-aware method for verifying user identities.
@@ -422,6 +422,7 @@ Their tools learn from user behavior over time to create a detailed profile of e
 That includes tracking devices, typical login times, and usual work locations.
 Additionally, they analyze IP addresses, network reputations, and threat data to enhance security further.
 
+\newpage
 \section{Delinea}
 
 \begin{figure}[htbp]
@@ -463,25 +464,23 @@ Beyond Identity is a company that specializes in passwordless identity managemen
 \subsection{Takeaways}
 I like the concept called The Triad of Risk that Beyond Identity provided in relation to Adaptive (risk-based) Authentication.
 The triad of risk is a methodology for conceptualizing risk factors when permitting or denying access to applications.
-The triad consists of three factors: Device risk, Application risk, and Contextual risk.
+The triad consists of three factors: \textit{Device risk}, \textit{Application risk}, and \textit{Contextual risk}.
 
-Device Risk involves assessing the security of the user's hardware, considering factors like passcodes, authentication methods, operating system updates, presence of firewalls, etc.
+\textit{Device Risk} involves assessing the security of the user's hardware, considering factors like passcodes, authentication methods, operating system updates, presence of firewalls, etc.
 This assessment helps determine the likelihood of the device being compromised.
 
-Application Risk focuses on the potential impact an application's access could have on operations if exploited by a malicious actor, rather than the inherent riskiness of the application itself.
+\textit{Application Risk} focuses on the potential impact an application's access could have on operations if exploited by a malicious actor, rather than the inherent riskiness of the application itself.
 It considers the sensitivity of the data or functions accessible through the application.
 
-Contextual Risk takes into account the user's behavior and environment, especially in the context of remote work. Factors such as geographic location, typical access patterns, and time of access are considered to identify abnormal behavior that may indicate fraud or malicious intent.
+\textit{Contextual Risk} takes into account the user's behavior and environment, especially in the context of remote work. Factors such as geographic location, typical access patterns, and time of access are considered to identify abnormal behavior that may indicate fraud or malicious intent.
 
-Adaptive authentication utilizes these contextual factors to assess the legitimacy of access attempts, raising alarms when behavior deviates from established patterns.
-Certain abnormalities, such as accessing an application from an unusual location, are weighted more heavily in determining potential risk.\cite{existing-beyond-identity}
+Adaptive authentication uses contextual factors to evaluate access attempts, triggering alarms for deviations from established patterns. Certain anomalies, like accessing an app from an unusual location, are given higher risk weighting. \cite{existing-beyond-identity}
 
 % https://www.beyondidentity.com/blog/what-risk-based-authentication
 
 %https://www.beyondidentity.com/company
 
 \newpage
-\section{Common patterns}
 
 \chapter{Keycloak}
 
@@ -493,7 +492,7 @@ Certain abnormalities, such as accessing an application from an unusual location
 \end{figure}
 
 \section{Introduction}
-Keycloak is a very popular open-source single sign-on and identity and access management solution for web apps and RESTful web services.
+Keycloak is a very popular open-source single sign-on and identity and access management solution for modern applications and services.
 The goal of Keycloak is to simplify security so that it is easy for application developers to secure the apps and services they have deployed in their organization.
 Security features that developers normally have to write for themselves are provided out of the box and are easily tailorable to the individual requirements of your organization.
 
@@ -501,27 +500,78 @@ Keycloak provides customizable user interfaces for login, registration, administ
 You can also use Keycloak as an integration platform to hook it into existing LDAP and Active Directory servers.
 You can also delegate authentication to third-party identity providers like Facebook and Google.
 
-This community project is under the stewardship of Red Hat, which uses it as the upstream project for their Red Hat Single Sign-On and Red Hat Build of Keycloak products.
+This community project is currently, in 2024, under the stewardship of the Cloud Native Computing Foundation (CNCF).\cite{keycloak-web}
 
 % https://www.keycloak.org/docs/latest/server_admin/
 
+\newpage
 \section{Service Provider Interface}
+Service Provider Interface (SPI) is an API intended to be implemented or extended by a third party.
+It can be used to enable framework extension and replaceable components.\cite{keycloak-spi}
 
-\chapter{Analysis}
+Service Provider Interface (SPI) is an essential tool for developers to customize different aspects of Keycloak as per their specific requirements.
+Using SPI, developers can create their own Keycloak extensions and modify functionalities such as the login screen appearance, adding new authentication methods, or integrating with different credential stores.
+
+SPI provides developers with the flexibility to adapt Keycloak to diverse environments and business needs.
+This includes enhancing security measures, integrating with different databases, or improving the overall user experience. Essentially, SPI empowers developers to extend Keycloak beyond its original functionalities, making it adaptable and versatile across a range of scenarios.
+
+\section{Authentication flow}
+An Authentication flow is a container for all authentications, screens, and actions that must happen during login, registration, and other Keycloak workflows.
+It is essentially a step-by-step process that users need to go through during authentication.
+For instance, a login flow outlines the necessary credentials a user needs to provide to gain access.
+Similarly, a registration flow dictates the required profile information a user must provide, and whether additional measures like reCAPTCHA are necessary to prevent bot activity.
+Additionally, a credential reset flow specifies the actions a user must take before being able to reset their password. \cite{keycloak-auth-flows}
+
+\newpage
+\section{Authentication execution}
+Authentication executions are the foundational elements of Authentication flows.
+They empower administrators to craft tailored authentication processes for specific needs.
+These executions allow for the creation of comprehensive authentication flows, providing flexibility and control to address various scenarios effectively.
+
+By orchestrating a series of steps and actions, administrators can ensure secure authentication while accommodating diverse user requirements.
+The modular nature of authentication executions enables administrators to mix and match components, facilitating adaptability and reusability.
+Ultimately, authentication executions serve as the cornerstone for building robust and user-centric authentication experiences within systems.
+
+Authentication executions may play different roles in the context of particular authentication flows and provide the ability to control authentication flows in a more fine-grained way. \cite{keycloak-auth-flows}
+Every authentication execution has a specified requirement type in its parent flow as follows:
+
+\begin{enumerate}
+    \item \textbf{Required} - all \textit{required} elements in the flow must be successfully sequentially executed. The flow terminates if a \textit{required} element fails
+    \item \textbf{Alternative} - a single element needs to execute successfully for the flow to be considered successful. If a flow includes \textit{required} elements, they alone determine its success, rendering any \textit{alternative} elements within it unnecessary
+    \item \textbf{Disabled} - the element does not count to mark a flow as successful
+    \item \textbf{Conditional} - (only set on sub-flows) if all executions evaluate as \textit{true}, the \textit{conditional} sub-flow acts as \textit{required}, otherwise \textit{disabled}
+\end{enumerate}
+
+\newpage
+
+\section{Basic authentication flow}
+Authentication flows in Keycloak are very flexible and can address the unique needs of organizations.
+To illustrate the relationships between flows, sub-flows, and executions, Keycloak renders a graph with these elements, as shown in the picture below.
+
+The authentication flow contains several authentication flows and authentication executions.
+In the graph, every sub-flow is noted by a circle with the inner text \textit{Start <auth-flow-name>}, and the end of the sub-flow by a circle with the inner text \textit{End <auth-flow-name>}.
+
+The flow contains on the first level 3 elements as \textit{Cookie}, \textit{Kerberos}, and flow \textit{WebAuthn forms}.
+These elements are marked as alternatives, and if one of them succeeds, the authentication can proceed.
+When the \textit{Cookie} and \textit{Kerberos} executions are not fulfilled, the \textit{WebAuthn forms} flow starts.
+
+When a user provides their credentials via the Passwordless WebAuthn authenticator, the authentication is successful.
+Otherwise, a user needs to provide their password and then biometrics via the WebAuthn authenticator.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1.04\textwidth]{img/flow.png}
+  \caption{WebAuthn flow}
+  \label{fig:basic-auth-flow}
+\end{figure}
+
+\chapter{Design}
 \shorthandoff{-}
-
-
-\section{Necessary parts}
-TODO -
-
-
-\shorthandon{-}
 
 
 \chapter{Implementation}
 \shorthandoff{-}
 
-IMPLEMENTATION
 \end{markdown*}
 \shorthandon{-}
 
