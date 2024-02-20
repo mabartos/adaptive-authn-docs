@@ -53,7 +53,7 @@
 %%
 %% The following section sets up the metadata of the thesis.
 \thesissetup{
-    date        = \the\year/\the\month/\the\day,
+    date        = 2024/04/02, % TODO date
     university  = mu,
     faculty     = fi,
     type        = mgr,
@@ -63,10 +63,10 @@
     advisor     = {prof. RNDr. Václav Matyáš, M.Sc., Ph.D.},
     title       = {Adaptive Authentication in Keycloak},
     TeXtitle    = {Adaptive Authentication in Keycloak},
-    keywords    = {Keycloak, authentication, security, open-source, risk-based, adaptive, Red Hat},
-    TeXkeywords = {Keycloak, authentication, security, open-source, risk-based, adaptive, Red Hat},
+    keywords    = {adaptive, authentication, Keycloak, open-source, Red Hat, risk-based, security},
+    TeXkeywords = {adaptive, authentication, Keycloak, open-source, Red Hat, risk-based, security},
     abstract    = {%
-      Keycloak is an open-source identity and access management system that provides robust security solutions for applications and services. It acts as a centralized authentication and authorization platform, enabling organizations to secure their resources while offering Single Sign-On (SSO) capabilities. Keycloak is widely used in various industries, including web applications, microservices, and APIs, to protect sensitive data and streamline user access control. 
+      Keycloak is an open-source identity and access management system that provides robust security solutions for applications and services. It acts as a centralized authentication and authorization platform, enabling organizations to secure their resources while offering Single Sign-On capabilities. Keycloak is widely used in various industries, including web applications, microservices, and APIs, to protect sensitive data and streamline user access control. 
       
       The thesis aims to enhance the security of authentication processes in Keycloak. Traditional static authentication mechanisms, such as username and password, are vulnerable to various security threats, including password breaches, phishing attacks, and unauthorized access. Adaptive authentication might help mitigate these issues. 
       
@@ -137,52 +137,59 @@ Through a comprehensive examination of adaptive authentication, this thesis aims
 }
 \chapter{Adaptive Authentication}
 \section{Introduction}
-Adaptive authentication is an advanced security mechanism designed to dynamically adjust the level of authentication required for accessing digital systems, applications, or data based on various factors such as user behavior, context, and risk levels.
+Authentication incorporates two primary domains: user authentication and data authentication. 
+
+User authentication is the process of verifying the identity of an individual to grant access to a system or service.
+It ensures that individuals are who they claim to be before allowing them access to resources.
+
+Data authentication, on the other hand, verifies data integrity and origin, ensuring it remains unaltered during transmission or storage, focusing solely on data content.
+
+Adaptive authentication extends user authentication, as it is an advanced security mechanism designed to dynamically adjust the level of authentication based on various factors such as user behavior, context, and risk levels.
 Unlike traditional authentication methods that rely on static credentials or fixed multi-factor authentication (MFA) processes, adaptive authentication continuously evaluates the risk associated with each authentication attempt and adapts the authentication requirements accordingly.
 
-At its core, adaptive authentication leverages real-time data analysis and contextual insights to make informed decisions about the appropriate level of authentication needed to verify a user's identity.
+At its core, adaptive authentication usually leverages real-time data analysis and contextual insights to make informed decisions about the appropriate level of authentication needed to verify a user's identity.
 This dynamic approach allows organizations to strengthen security measures while minimizing disruption to user workflows.
 Unlike static authentication methods, which apply the exact authentication requirements to all users and sessions, adaptive authentication systems continuously evaluate risk factors and adjust authentication measures accordingly.
 
 By leveraging real-time data and analytical capabilities, adaptive authentication enhances security while also optimizing the user experience.\cite{intro-logintc}
 \newpage
 \section{Benefits}
-As was stated in the introduction of Adaptive Authentication, the main benefits behind its usability are mainly the dynamics.
+As was stated in the introduction of adaptive authentication, the main benefits behind its usability are mainly the dynamics.
 As in the traditional approaches, the static MFA is very often used when assessing authentication policies with predefined exact rules that the user might comply with or the system's state is in. 
 
-Adaptive Authentication provides the ability to have a more frictionless approach when a user is trying to prove their identity.
+Adaptive authentication may provide the ability to have a more frictionless approach when a user is trying to prove their identity.
 \cite{intro-silverfort}\cite{intro-descope}
 \newline
 \newline
 The summarization of the more exciting benefits might be as follows:
 
 \begin{itemize}
-    \item \textbf{Better user experience} - provides more frictionless authentication as a user is not required to provide too many aspects of their identity
-    \item \textbf{Strengthen security} - when a user is trying to access sensitive or important resources, additional factors might be required
-    \item \textbf{Context-Aware protection} - takes into account contextual information, such as device information, location, IP address, and behavioral patterns
-    \item \textbf{Flexibility and extendability} - by leveraging more contextual data, the policies and rules might better comply with customers' needs
-    \item \textbf{Integration with AI/ML} - Artificial Intelligence, or Machine learning, might be used for processing contextual data, assessing risk levels, and making more knowledgeable decisions
-    \item \textbf{Alignment with zero trust model} - Adaptive authentication aligns well with the Zero trust security model due to its main principle to 'never trust, always verify' \cite{intro-incognia}
+    \item \textbf{Strengthen security} -- when a user is trying to access sensitive or important resources, additional factors might be required.
+    \item \textbf{Context-Aware protection} -- takes into account contextual information, such as device information, location, IP address, and behavioral patterns.
+    \item \textbf{Flexibility and extendability} -- by leveraging more contextual data, the policies and rules might better comply with customers' needs.
+    \item \textbf{Better user experience} -- may provide more frictionless authentication as a user is not required to provide too many aspects of their identity.
+    \item \textbf{Integration with AI/ML} -- artificial intelligence, or machine learning, might be used for processing contextual data, assessing risk levels, and making more knowledgeable decisions.
+    \item \textbf{Alignment with zero trust model} -- Adaptive authentication, in most cases, aligns well with the zero trust security model due to its main principle to 'never trust, always verify'. \cite{intro-incognia}
 \end{itemize}
 
 \newpage
 \section{Challenges}
-While the benefits of adaptive authentication are clear and compelling, it's essential to acknowledge that this approach might face several challenges.
+While the benefits of adaptive authentication are clear and compelling, it is essential to acknowledge that this approach might face several challenges.
 Despite its dynamic nature and improved user experience, adaptive authentication presents several challenges that organizations must address to realize its full potential.
 \newline
 \newline
 The summarization of the biggest challenges might be as follows:
 
 \begin{itemize}
-    \item \textbf{Complexity} - the implementation of the processing user behavior and evaluation of contextual data might be very complex and time-consuming  
-    \item \textbf{Accuracy of Risk Assessment} - as the contextual data might not be reliable and correct in a particular context, the risk evaluation needs to be properly executed - we need to prevent count of false positives and false negatives 
-    \item \textbf{Privacy and Data protection} - as the contextual data might help to strengthen security, these data need to be collected and processed - compliance with data protection regulations and users' preferences needs to be assessed.
-    \item \textbf{Potentially non-deterministic} - the benefit of integration of AI/ML might also bring some challenges as we can achieve non-deterministic behavior in processing contextual data and assessing risk levels - it might be challenging to predict possible outcomes, which also makes testing harder\cite{intro-silverfort}\cite{intro-descope}\cite{intro-logintc}
+    \item \textbf{Complexity} -- the implementation of the processing user behavior and evaluation of contextual data might be very complex and time-consuming.  
+    \item \textbf{Accuracy of risk assessment} -- as the contextual data might not be reliable and correct in a particular context, the risk evaluation needs to be properly executed - we need to prevent the count of false positives and false negatives. 
+    \item \textbf{Privacy and data protection} -- as the contextual data might help to strengthen security, these data need to be collected and processed - compliance with data protection regulations and users' preferences need to be assessed.
+    \item \textbf{Potentially non-deterministic} -- the benefit of integration of AI/ML might also bring some challenges as we can achieve non-deterministic behavior in processing contextual data and assessing risk levels -- it might be challenging to predict possible outcomes, which also makes testing harder.\cite{intro-logintc}\cite{intro-silverfort}\cite{intro-descope}
     
 \end{itemize}
 
 \newpage
-\section{Authentication factors}
+\section{Authentication Factors}
 Authentication factors play a crucial role in verifying the identity of users and granting them access to digital systems, applications, and data.
 In the realm of cybersecurity, authentication factors serve as the building blocks of authentication mechanisms, providing layers of security to protect against unauthorized access and mitigate the risk of security breaches.
 
@@ -194,63 +201,49 @@ Authentication factors enhance security by introducing additional layers of veri
 % https://www.descope.com/learn/post/mfa
 %https://rublon.com/blog/what-are-the-three-authentication-factors/
 
-Adaptive Authentication uses Authentication factors to evaluate the potential risk that a user accessing a particular resource is fraudulent.
+Adaptive authentication uses authentication factors to evaluate the potential risk that a user accessing a particular resource is fraudulent.
 \newline
 \newline
 These factors use contextual data obtained by arbitrary approaches and can be divided into a few categories:
 
 \begin{enumerate}
-    \item \textbf{Knowledge factor} (Something You Know)
-    \item \textbf{Possession factor}  (Something You Have)
-    \item \textbf{Inherence factor} (Something You Are)
-    \item \textbf{Location factor} (Somewhere You Are)
-    \item \textbf{Behavior factor} (Something You Do)
+    \item \textbf{Knowledge factor} -- Something you know.
+    \item \textbf{Possession factor} -- Something you have.
+    \item \textbf{Inherence factor} -- Something you are.
+    \item \textbf{Location factor} -- Somewhere you are.
+    \item \textbf{Behavior factor} -- Something you do.
 \end{enumerate}
 
-The first three authentication factors \textit{Knowledge factor}, \textit{Posession factor}, and \textit{Inherence factor} are the well-known traditional factors used in many applications managing identity access.
-The last two authentication factors \textit{Location factor}, and \textit{Behavior factor}, are the extension of the traditional approaches and extensively used for the Adaptive authentication.\cite{auth-factors-descope}  
+The first three authentication factors \textit{Knowledge factor}, \textit{Possession factor}, and \textit{Inherence factor} are the well-known traditional factors used in many applications managing identity access.
+The last two authentication factors \textit{Location factor}, and \textit{Behavior factor}, are extensions of traditional approaches and are extensively used for adaptive authentication.\cite{auth-factors-descope}  
 
 \newpage
-\subsection{Knowledge factor (Something You Know)}
+\subsection{Knowledge Factor (Something you know)}
 Knowledge factors involve users providing specific information or data to access a secured system.
 The most common type of knowledge-based authentication is through passwords or personal identification numbers (PINs), which are used to limit system access.
 
 Typically, in generic applications or network logins, users need to provide both a username/email and its associated password or PIN to gain entry. It is important to note that solely providing a username or email does not serve as an authentication factor.
-Instead, it functions as the user's identification within the system.
+Instead, it functions as the user identification within the system.
 
-Authentication occurs when the provided password or PIN verifies the associated username or email, confirming the user's identity.
+Authentication occurs when the provided password or PIN verifies the associated username or email, confirming the identity of the user.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.6\textwidth]{img/knowledge-final.png}
-  \caption{Knowledge factor}
-  \label{fig:knowledge-factor}
-\end{figure}
-
-\newpage
-\subsection{Possession factor (Something You Have)}
-Possession factors require users to possess a specific piece of information or device before gaining access to the system.
+\subsection{Possession Factor (Something you have)}
+Possession factors require users to possess a specific physical object before gaining access to the system.
 Typically, possession factors are managed through a device known to belong to the correct user.
 A typical process flow for possession-based authentication might look like described in the following lines.
 
 The user registers an account with a password and their phone number recorded at the time of registration.
 The user logs in to their account with the username and password.
-When the user requests access to the system, a one-time password is generated and sent to the user's mobile phone number.
+When the user requests access to the system, a one-time password is generated and sent to the mobile phone number of the user.
 The user enters the newly generated one-time password and gains access to the system.
 
 One-time passwords can be generated by a device like the RSA SecurID, or they may be automatically generated and sent to the user's cellular device via SMS.
 In either case, the correct user must possess the device that receives or generates the one-time password to access the system.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.53\textwidth]{img/posession-final.png}
-  \caption{Posession factor}
-  \label{fig:posession-factor}
-\end{figure}
 % https://www.pinclipart.com/maxpin/ioRwbxT/
 
 \newpage
-\subsection{Inherence factor (Something You Are)}
+\subsection{Inherence Factor (Something you are)}
 Inherence factors authenticate access credentials based on unique user characteristics.
 These include fingerprints, thumbprints, palm or handprints, as well as voice and facial recognition and retina or iris scans.
 
@@ -260,44 +253,24 @@ However, a downside is the potential loss of flexibility in account access.
 For instance, a system requiring a fingerprint scan can only be accessed on devices equipped with the necessary hardware.
 While this restriction enhances security, it may diminish user convenience. \cite{auth-factors-rublon}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.55\textwidth]{img/inherence-final.png}
-  \caption{Inherence factor}
-  \label{fig:inherence-factor}
-\end{figure}
-
-\newpage
-\subsection{Location factor (Somewhere You Are)}
-Location factors allow administrators to implement geolocation security checks to verify a user's location before granting access to an application, network, or system.
+\subsection{Location Factor (Somewhere you are)}
+Location factors allow administrators to implement geolocation security checks to verify user location before granting access to an application, network, or system.
 
 Consider a multinational corporation with offices in various cities worldwide.
-In this scenario, a security analyst might identify a user attempting to access the network from an IP address originating from a country different from their assigned office as a potential cyber attacker or unauthorized entity.
+In this scenario, a security analyst might identify a user attempting to access the network from an IP address originating from a country different from their assigned office.
 
 Geolocation security ensures access is restricted to users within a specified geographic area.
 While IP addresses offer insight into network traffic origin, hackers can avoid detection by using VPNs to mask their location.
 
 Alternatively, MAC addresses, unique to each computing device, can serve as a location-based authentication factor, allowing system access only from authorized devices within a defined range.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.55\textwidth]{img/location-final.png}
-  \caption{Location factor}
-  \label{fig:location-factor}
-\end{figure}
-
 \newpage
-\subsection{Behavior factor (Something You Do)}
+\subsection{Behavior Factor (Something you do)}
 Behavior factors depend on user actions to access the system. In systems accommodating behavior-based authentication factors, users may configure a password by executing specific actions within a defined interface, which they can subsequently replicate to verify their identity.
 
-Consider the gesture-based authentication feature found in some smartwatches, where users perform a series of taps or swipes to unlock the device. This serves as an example of behavior-based authentication factors.\cite{auth-factors-sumologic} \cite{auth-factors-globalknowledge} \cite{auth-factors-aratek}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.6\textwidth]{img/behavior-final.png}
-  \caption{Behavior factor}
-  \label{fig:behavior-factor}
-\end{figure}
+Consider keystroke dynamics and mouse movement patterns as examples of behavior-based authentication factors.
+Keystroke dynamics can study the unique way a user types on a keyboard.
+Mouse movement patterns can analyze the way a user moves the mouse while interacting with a system. \cite{auth-factors-aratek} \cite{auth-factors-sumologic} \cite{auth-factors-globalknowledge} 
 
 % REF: https://www.sumologic.com/glossary/authentication-factor/
 % https://www.globalknowledge.com/us-en/resources/resource-library/articles/the-three-types-of-multi-factor-authentication-mfa/
@@ -316,22 +289,15 @@ In these cases, the system may prompt for additional verification, such as a one
 \textbf{High-risk access} attempts might involve highly suspicious behavior, such as multiple failed login attempts, login from a known compromised device, or access from a location far from the user's usual ones.
 In these cases, the system may require stricter authentication measures, such as biometric verification or challenge questions.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\textwidth]{img/risk.png}
-  \caption{Risk Levels}
-  \label{fig:risk-level}
-\end{figure}
-
 \shorthandon{-}
 
-\chapter{Existing solutions}
+\chapter{Existing Solutions}
 
-This specific part of the thesis is focused on the analysis of existing solutions provided by other vendors that are present on the market.
-It is very beneficial to be aware of solutions for Adaptive Authentication as there are already some companies and institutions that are trying to solve the same problem as is touched on in this thesis.
+This specific part of the thesis is focused on the analysis of existing solutions provided by particular vendors that are present on the market.
+It is very beneficial to be aware of solutions for adaptive authentication as there are already some companies and institutions that are trying to solve the same problem as is touched on in this thesis.
 
 The intention behind analyzing existing solutions is to get information from the other vendors in order not to reinvent the wheel.
-In order to create an optimal solution for Adaptive authentication, it is advantageous to recognize common patterns in these solutions, aggregate the best parts, enhance them, and tailor them to the needs of Keycloak. 
+In order to create an optimal solution for adaptive authentication, it is advantageous to recognize common patterns in these solutions, aggregate the best parts, enhance them, and tailor them to the needs of Keycloak. 
 
 In the following sections, there are some brief descriptions of products provided by the mentioned vendors.
 The list of existing solutions and their ordering is not sorted by any particular keys but rather gathered as the most promising and exciting solutions.
@@ -339,36 +305,31 @@ The list of existing solutions and their ordering is not sorted by any particula
 \newpage
 \section{Okta}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\textwidth]{img/okta.png}
-  \caption{Okta}
-  \label{fig:okta-logo}
-\end{figure}
-
 Okta is an identity management company that provides cloud-based solutions for businesses to connect people and technology securely.
 Okta offers a platform that enables organizations to manage and secure user authentication, access control, and identity governance across various applications and devices.
 The company's services include single sign-on, multi-factor authentication, lifecycle management, and API access management.
-Okta describes its Adaptive and risk-based capabilities as follows:
+Okta describes its adaptive and risk-based capabilities as follows:
 
-"User and risk levels are always changing; your security should be able to keep up.
-Okta Adaptive MFA allows for dynamic policy changes and step-up authentication in response to changes in user and device behavior, location, or other contexts.
-Adaptive MFA supports detection and authentication challenges for riskier situations like":
+``User and risk levels are always changing; your security should be able to keep up.
+Okta Adaptive MFA allows for dynamic policy changes and step-up authentication in response to changes in user and device behavior, location, or other contexts.''\cite{existing-okta}
+\newline
+\newline
+Adaptive MFA supports detection and authentication challenges for riskier situations like:
 
 %SOURCE: https://www.okta.com/sites/default/files/okta_mfa-datasheet.pdf
 
 \begin{itemize}
-    \item Use of weak/breached passwords
-    \item Proxy use
-    \item Geographic location and zone changes
-    \item Brute force and denial-of-service attacks
-    \item Use of new/untrusted devices
-    \item Indications of anomalous behavior \cite{existing-okta}
+    \item Use of weak/breached passwords.
+    \item Proxy use.
+    \item Geographic location and zone changes.
+    \item Brute force and denial-of-service attacks.
+    \item Use of new/untrusted devices.
+    \item Indications of anomalous behavior. 
 \end{itemize}
 
 \newpage
 \subsection{Takeaways}
-Okta's approach introduces the consideration of external risk contexts, enhancing organizations' understanding of authentication processes by utilizing the ThreatInsight service.
+Okta approach introduces the consideration of external risk contexts, enhancing organizations' understanding of authentication processes by utilizing the ThreatInsight service.
 This service furnishes critical details encompassing users, devices, locations, and networks, thereby facilitating more informed decision-making regarding access permissions.
 
 By adding risk factors from external sources like third-party services, the range of factors considered in risk assessment expands, making authentication protocols more effective.
@@ -382,13 +343,6 @@ Putting strong rules in place for watching and managing how third-party services
 
 \newpage
 \section{Citrix}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.45\textwidth]{img/citrix.png}
-  \caption{Citrix}
-  \label{fig:citrix-logo}
-\end{figure}
 
 Citrix Systems, Inc. is an American multinational cloud computing and virtualization technology company that provides server, application, and desktop virtualization, networking, software as a service (SaaS), and cloud computing technologies.
 Citrix products were claimed to be used by over 400,000 clients worldwide, including 99\% of the Fortune 100 and 98\% of the Fortune 500.
@@ -408,13 +362,6 @@ It demonstrates Citrix's commitment to maintaining both security and user-friend
 \newpage
 \section{OneLogin}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.45\textwidth]{img/onelogin.png}
-  \caption{OneLogin}
-  \label{fig:onelogin-logo}
-\end{figure}
-
 OneLogin, Inc. is a cloud-based identity and access management (IAM) provider that develops a unified access management (UAM) platform for enterprise-level businesses and organizations. \cite{existing-onelogin}
 
 \subsection{Takeaways}
@@ -425,13 +372,6 @@ Additionally, they analyze IP addresses, network reputations, and threat data to
 
 \newpage
 \section{Delinea}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.45\textwidth]{img/delinea.png}
-  \caption{Delinea}
-  \label{fig:delinea-logo}
-\end{figure}
 
 Delinea provides Privileged Access Management (PAM) solutions for the modern, hybrid enterprise.
 The Delinea Platform seamlessly extends PAM by providing authorization for all identities and controlling access to an organization’s most critical hybrid cloud infrastructure and sensitive data to help reduce risk, ensure compliance, and simplify security.
@@ -452,13 +392,6 @@ By promptly addressing such anomalies, Delinea ensures the integrity of the auth
 % https://delinea.com/blog/what-is-adaptive-authentication
 
 \section{Beyond Identity}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\textwidth]{img/BeyondIdentity-logo.png}
-  \caption{Beyond Identity}
-  \label{fig:beyond-identity-logo}
-\end{figure}
 
 Beyond Identity is a company that specializes in passwordless identity management and authentication solutions. They offer a platform that aims to eliminate the need for passwords and provide more secure and user-friendly authentication methods.
 
@@ -485,13 +418,6 @@ Adaptive authentication uses contextual factors to evaluate access attempts, tri
 
 \chapter{Keycloak}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\textwidth]{img/keycloak.png}
-  \caption{Keycloak}
-  \label{fig:keycloak-logo}
-\end{figure}
-
 \section{Introduction}
 Keycloak is a very popular open-source single sign-on and identity and access management solution for modern applications and services.
 The goal of Keycloak is to simplify security so that it is easy for application developers to secure the apps and services they have deployed in their organization.
@@ -516,15 +442,15 @@ Using SPI, developers can create their own Keycloak extensions and modify functi
 SPI provides developers with the flexibility to adapt Keycloak to diverse environments and business needs.
 This includes enhancing security measures, integrating with different databases, or improving the overall user experience. Essentially, SPI empowers developers to extend Keycloak beyond its original functionalities, making it adaptable and versatile across a range of scenarios.
 
-\section{Authentication flow}
-An Authentication flow is a container for all authentications, screens, and actions that must happen during login, registration, and other Keycloak workflows.
+\section{Authentication Flow}
+An authentication flow is a container for all authentications, screens, and actions that must happen during login, registration, and other Keycloak workflows.
 It is essentially a step-by-step process that users need to go through during authentication.
 For instance, a login flow outlines the necessary credentials a user needs to provide to gain access.
 Similarly, a registration flow dictates the required profile information a user must provide, and whether additional measures like reCAPTCHA are necessary to prevent bot activity.
 Additionally, a credential reset flow specifies the actions a user must take before being able to reset their password. \cite{keycloak-auth-flows}
 
 \newpage
-\section{Authentication execution}
+\section{Authentication Execution}
 Authentication executions are the foundational elements of Authentication flows.
 They empower administrators to craft tailored authentication processes for specific needs.
 These executions allow for the creation of comprehensive authentication flows, providing flexibility and control to address various scenarios effectively.
@@ -534,18 +460,20 @@ The modular nature of authentication executions enables administrators to mix an
 Ultimately, authentication executions serve as the cornerstone for building robust and user-centric authentication experiences within systems.
 
 Authentication executions may play different roles in the context of particular authentication flows and provide the ability to control authentication flows in a more fine-grained way. \cite{keycloak-auth-flows}
+\newline
+\newline
 Every authentication execution has a specified requirement type in its parent flow as follows:
 
 \begin{enumerate}
-    \item \textbf{Required} - all \textit{required} elements in the flow must be successfully sequentially executed. The flow terminates if a \textit{required} element fails
-    \item \textbf{Alternative} - a single element needs to execute successfully for the flow to be considered successful. If a flow includes \textit{required} elements, they alone determine its success, rendering any \textit{alternative} elements within it unnecessary
-    \item \textbf{Disabled} - the element does not count to mark a flow as successful
-    \item \textbf{Conditional} - (only set on sub-flows) if all executions evaluate as \textit{true}, the \textit{conditional} sub-flow acts as \textit{required}, otherwise \textit{disabled}
+    \item \textbf{Required} -- all \textit{required} elements in the flow must be successfully sequentially executed. The flow terminates if a \textit{required} element fails.
+    \item \textbf{Alternative} -- a single element needs to execute successfully for the flow to be considered successful. If a flow includes \textit{required} elements, they alone determine its success, rendering any \textit{alternative} elements within it unnecessary.
+    \item \textbf{Disabled} -- the element does not count to mark a flow as successful.
+    \item \textbf{Conditional} -- (only set on sub-flows) if all executions evaluate as \textit{true}, the \textit{conditional} sub-flow acts as \textit{required}, otherwise \textit{disabled}.
 \end{enumerate}
 
 \newpage
 
-\section{Basic authentication flow}
+\section{Basic Authentication Flow}
 Authentication flows in Keycloak are very flexible and can address the unique needs of organizations.
 To illustrate the relationships between flows, sub-flows, and executions, Keycloak renders a graph with these elements, as shown in the picture below.
 
@@ -562,7 +490,7 @@ Otherwise, a user needs to provide their password and then biometrics via the We
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1.04\textwidth]{img/flow.png}
-  \caption{WebAuthn flow}
+  \caption{WebAuthn Flow}
   \label{fig:basic-auth-flow}
 \end{figure}
 
