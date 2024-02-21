@@ -152,7 +152,11 @@ This dynamic approach allows organizations to strengthen security measures while
 Unlike static authentication methods, which apply the exact authentication requirements to all users and sessions, adaptive authentication systems continuously evaluate risk factors and adjust authentication measures accordingly.
 
 By leveraging real-time data and analytical capabilities, adaptive authentication enhances security while also optimizing the user experience.\cite{intro-logintc}
+
+Adaptive authentication is closely tied to the Identity Thread Detection and Response (ITDR) security discipline.
+Certain aspects of adaptive authentication are fundamental concepts of the ITDR strategies aimed at identifying and responding to identity threats.
 \newpage
+
 \section{Benefits}
 As was stated in the introduction of adaptive authentication, the main benefits behind its usability are mainly the dynamics.
 As in the traditional approaches, the static MFA is very often used when assessing authentication policies with predefined exact rules that the user might comply with or the system's state is in. 
@@ -165,7 +169,7 @@ The summarization of the more exciting benefits might be as follows:
 
 \begin{itemize}
     \item \textbf{Strengthen security} -- when a user is trying to access sensitive or important resources, additional factors might be required.
-    \item \textbf{Context-Aware protection} -- takes into account contextual information, such as device information, location, IP address, and behavioral patterns.
+    \item \textbf{Context--aware protection} -- takes into account contextual information, such as device information, location, IP address, and behavioral patterns.
     \item \textbf{Flexibility and extendability} -- by leveraging more contextual data, the policies and rules might better comply with customers' needs.
     \item \textbf{Better user experience} -- may provide more frictionless authentication as a user is not required to provide too many aspects of their identity.
     \item \textbf{Integration with AI/ML} -- artificial intelligence, or machine learning, might be used for processing contextual data, assessing risk levels, and making more knowledgeable decisions.
@@ -330,16 +334,16 @@ Adaptive MFA supports detection and authentication challenges for riskier situat
 \newpage
 \subsection{Takeaways}
 Okta approach introduces the consideration of external risk contexts, enhancing organizations' understanding of authentication processes by utilizing the ThreatInsight service.
+This service collects information about the origin of sign-in activity directed at Okta endpoints.
+
+ThreatInsight evaluates authentication requests by analyzing data to identify potentially suspicious activity by using machine learning and provides reasonable threat detection. 
+
 This service furnishes critical details encompassing users, devices, locations, and networks, thereby facilitating more informed decision-making regarding access permissions.
 
-By adding risk factors from external sources like third-party services, the range of factors considered in risk assessment expands, making authentication protocols more effective.
-However, relying on remote services may introduce challenges, such as potential latency issues, which could impede the authentication process and lead to user frustration and operational inefficiencies.
+ThreatInsight provides a way to add risk factors from external sources like third-party services. However, relying on remote services may introduce challenges, such as potential latency issues, which could impede the authentication process and lead to user frustration and operational inefficiencies.\cite{existing-okta-lowrisk} \cite{existing-okta-confidence}
 
 Ensuring the safety and trustworthiness of these outside sources is very important.
-Organizations must be careful when choosing third-party services to avoid the risk of data leaks or mistakes that could harm the authentication system.
-
-Dealing with these challenges means finding the right balance between using external risk information to our advantage and handling any risks that come with it.
-Putting strong rules in place for watching and managing how third-party services are used is crucial for keeping the authentication system safe and effective. \cite{existing-okta-lowrisk} \cite{existing-okta-confidence}
+I think leveraging the risk factors from external sources must be carefully considered in order to avoid the risk of data leaks or mistakes that could harm the authentication system.
 
 \newpage
 \section{Citrix}
@@ -348,14 +352,13 @@ Citrix Systems, Inc. is an American multinational cloud computing and virtualiza
 Citrix products were claimed to be used by over 400,000 clients worldwide, including 99\% of the Fortune 100 and 98\% of the Fortune 500.
 
 \subsection{Takeaways}
-I appreciate how Citrix Systems handles the various details of user authentication.
-They carefully consider factors such as user roles, organizational affiliations, and unique user attributes.
+I appreciate how Citrix Systems, Inc. adaptive authentication solution handles various details of user authentication.
+It carefully considers factors such as user roles, organizational affiliations, and unique user attributes.
 These factors are crucial in assessing the level of risk in each authentication attempt.
+The solution does not treat each factor in isolation.\cite{existing-citrix-wiki} \cite{existing-citrix-blog}
 
-What's impressive is that Citrix does not treat each factor in isolation.
-Instead, they integrate all these details to determine the overall security of an authentication attempt.
-By doing so, they ensure that security measures are tailored to suit the specific circumstances of each user's login attempt. This not only enhances overall security but also improves the user experience by making the authentication process smoother.
-It demonstrates Citrix's commitment to maintaining both security and user-friendliness in its authentication approach.\cite{existing-citrix-wiki} \cite{existing-citrix-blog}
+Instead, it integrates all these details to determine the overall security of an authentication attempt.
+This enhances overall security and improves the user experience by making the authentication process smoother by considering the whole context of risk factors. 
 
 % wiki: https://en.wikipedia.org/wiki/Citrix_Systems
 
@@ -365,50 +368,74 @@ It demonstrates Citrix's commitment to maintaining both security and user-friend
 OneLogin, Inc. is a cloud-based identity and access management (IAM) provider that develops a unified access management (UAM) platform for enterprise-level businesses and organizations. \cite{existing-onelogin}
 
 \subsection{Takeaways}
-I like how OneLogin approaches risk-based authentication with the leverage of machine learning. 
-Their tools learn from user behavior over time to create a detailed profile of each user's login habits.
+I like how OneLogin, Inc. describes risk-based authentication with the leverage of machine learning. 
+Such solutions learn from user behavior over time to create a detailed profile of each login habits of the user.
 That includes tracking devices, typical login times, and usual work locations.
-Additionally, they analyze IP addresses, network reputations, and threat data to enhance security further.
+Additional analysis of IP addresses, network reputations, and threat data is used to enhance security further.
+
+Solution SmartFactor, provided by OneLogin, Inc., gathers risk factor values described above, which are used as inputs for their Vigilance AI solution.
+After analyzing these factors via the artificial intelligence engine, the contextual risk score is evaluated.
+The risk score is in the range 0-100.
+Based on the evaluated score, appropriate actions are executed, such as requiring additional authentication steps or denying access.\cite{existing-onelogin} 
 
 \newpage
-\section{Delinea}
-
-Delinea provides Privileged Access Management (PAM) solutions for the modern, hybrid enterprise.
-The Delinea Platform seamlessly extends PAM by providing authorization for all identities and controlling access to an organization’s most critical hybrid cloud infrastructure and sensitive data to help reduce risk, ensure compliance, and simplify security.
-Delinea removes complexity and defines the boundaries of access for thousands of customers worldwide.
+\section{Silverfort}
+Silverfort, Inc. provides several security-related products, such as the Advanced MFA, Identity Threat Detection and Response solution, Risk-based authentication, and others.
+Silverfort, Inc. was founded in 2016 by Hed Kovetz, Yaron Kassner, and Matan Fattal.
+It is headquartered in Tel Aviv and has offices in the US and Singapore, as well as local Sales teams in over 18 countries across EMEA, NA, and APAC.\cite{example_silverfort}
 
 \subsection{Takeaways}
-I like the way Delinea handles the device profile aspect.
-They make sure to thoroughly check each device, verifying if it's a known device or one that the company has given to the user. This attention to detail ensures that only authorized and safe devices are allowed access, providing an additional layer of security to the authentication process.
 
-Their approach to location awareness is also quite effective.
-Instead of simply relying on basic location data, Delinea delves deep into IP addresses to identify any unusual login locations. By doing so, they can detect potential security threats early on and take proactive measures to prevent unauthorized access, thereby safeguarding sensitive data from potential breaches.
+Silverfort, Inc. provides risk-based authentication with the possibility of specifying adaptive policies.
+I like the concept of adaptive policies, as it is possible to create custom authentication policies to meet unique requirements for the authentication process.
 
-Moreover, Delinea also provides an approach for recognizing abnormal user behavior.
-They analyze access patterns, which could indicate suspicious activity or unauthorized access attempts.
-By promptly addressing such anomalies, Delinea ensures the integrity of the authentication process and protects sensitive information from potential risks with the help of this risk factor evaluation. \cite{existing-delinea}
+These policies can leverage risk scoring provided by the Silverfort, Inc. solution and trigger proactive security controls, such as requiring additional authentication steps or denying access. 
+This concept is very flexible and provides the possibility to explicitly set particular risk indicators in order to react to specific attacks that your environment is likely to experience.
 
-% TODO ADD BIB https://www.linkedin.com/company/delinea/?originalSubdomain=cz
-% https://delinea.com/blog/what-is-adaptive-authentication
+You can see an example of configuring the described adaptive policy in figure \ref{fig:silverfort-auth-policy} below.
+This adaptive policy is basically a rule for the authentication process, and when conditions of the adaptive policy are met, a particular action is executed.\cite{example_silverfort}
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/silverfort-auth-policy.png}
+  \caption[Silverfort Adaptive Policy]{Silverfort Adaptive Policy. Source: \cite{example_silverfort}}
+  \label{fig:silverfort-auth-policy}
+\end{figure}
+
+\newpage
 \section{Beyond Identity}
 
-Beyond Identity is a company that specializes in passwordless identity management and authentication solutions. They offer a platform that aims to eliminate the need for passwords and provide more secure and user-friendly authentication methods.
+Beyond Identity, Inc. is a company that specializes in passwordless identity management and authentication solutions. They offer a platform that aims to eliminate the need for passwords and provide more secure and user-friendly authentication methods.
 
 \subsection{Takeaways}
-I like the concept called The Triad of Risk that Beyond Identity provided in relation to Adaptive (risk-based) Authentication.
+I like the concept called the triad of risk that Beyond Identity, Inc. provided in relation to adaptive (risk-based) authentication.
 The triad of risk is a methodology for conceptualizing risk factors when permitting or denying access to applications.
 The triad consists of three factors: \textit{Device risk}, \textit{Application risk}, and \textit{Contextual risk}.
 
-\textit{Device Risk} involves assessing the security of the user's hardware, considering factors like passcodes, authentication methods, operating system updates, presence of firewalls, etc.
+\textit{Device Risk} involves assessing the security of the user hardware, considering factors like passcodes, authentication methods, operating system updates, the presence of firewalls, etc.
 This assessment helps determine the likelihood of the device being compromised.
 
-\textit{Application Risk} focuses on the potential impact an application's access could have on operations if exploited by a malicious actor, rather than the inherent riskiness of the application itself.
+\textit{Application Risk} focuses on the potential impact an application access could have on operations if exploited by a malicious actor rather than the inherent riskiness of the application itself.
 It considers the sensitivity of the data or functions accessible through the application.
 
-\textit{Contextual Risk} takes into account the user's behavior and environment, especially in the context of remote work. Factors such as geographic location, typical access patterns, and time of access are considered to identify abnormal behavior that may indicate fraud or malicious intent.
+\textit{Contextual Risk} takes into account the user behavior and environment, especially in the context of remote work.
+Factors such as geographic location, typical access patterns, and time of access are considered to identify abnormal behavior that may indicate fraud or malicious intent.
 
-Adaptive authentication uses contextual factors to evaluate access attempts, triggering alarms for deviations from established patterns. Certain anomalies, like accessing an app from an unusual location, are given higher risk weighting. \cite{existing-beyond-identity}
+Adaptive authentication uses contextual factors to evaluate access attempts, triggering alarms for deviations from established patterns.
+Certain anomalies, like accessing an application from an unusual location, are given higher risk weighting.
+
+Beyond Identity, Inc. also provides the feature of authentication and device policies.
+As was stated previously, authentication policies may provide the possibility to create custom authentication policies to meet unique requirements for the authentication process.
+Other than that, additional device policies provide an additional security layer as devices, that are trying to access the application, need to meet the requirements specified by these policies.
+
+You can notice, that the user experience around configuring these policies varies as the user interface might have different representations as shown in figure \ref{fig:beyond-identity-auth-policy}. \cite{existing-beyond-identity}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/beyond-auth-policy.png}
+  \caption[Beyond Identity Authentication Policies]{Beyond Identity Authentication Policies. Source: \cite{existing-beyond-identity}}
+  \label{fig:beyond-identity-auth-policy}
+\end{figure}
 
 % https://www.beyondidentity.com/blog/what-risk-based-authentication
 
@@ -443,7 +470,7 @@ SPI provides developers with the flexibility to adapt Keycloak to diverse enviro
 This includes enhancing security measures, integrating with different databases, or improving the overall user experience. Essentially, SPI empowers developers to extend Keycloak beyond its original functionalities, making it adaptable and versatile across a range of scenarios.
 
 \section{Authentication Flow}
-An authentication flow is a container for all authentications, screens, and actions that must happen during login, registration, and other Keycloak workflows.
+Authentication flow is a container for all authentications, screens, and actions that must happen during login, registration, and other Keycloak workflows.
 It is essentially a step-by-step process that users need to go through during authentication.
 For instance, a login flow outlines the necessary credentials a user needs to provide to gain access.
 Similarly, a registration flow dictates the required profile information a user must provide, and whether additional measures like reCAPTCHA are necessary to prevent bot activity.
