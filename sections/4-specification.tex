@@ -1,0 +1,67 @@
+\chapter{Specification}
+
+The goal of this thesis is to enhance authentication processes in Keycloak.
+Adaptive authentication could promote Keycloak to a better place on the market by providing such a feature. 
+The Keycloak community could benefit from it as well, as many other developers might be interested in the feature and be more engaged in the development.
+
+The primary goal of this thesis is not to implement the whole solution and get it merged into the Keycloak repository.
+It is rather focused on providing an analysis of how it could be achieved, how it could work, and in what way it could be implemented.
+The output of individual items could be described as Proof of Concept (PoC).
+
+PoC might be defined as a realization of a certain idea, method, or principle in order to demonstrate its feasibility or viability.
+It could also verify that some concept or theory has practical potential, so it might be very useful in this situation.\cite{spec-poc} 
+\newline
+\newline
+The overall structure of the thesis might be divided into several points and described as follows:
+\begin{enumerate}
+    \item \textbf{Extendability} -- Provide suitable SPIs for the adaptive authentication components.
+    \item \textbf{Basic implementation} -- PoC for a basic implementation of the adaptive authentication solution.
+    \item \textbf{Policy engine} -- PoC for an approach leveraging authentication policies.
+    \item \textbf{Artificial intelligence} -- PoC for an approach leveraging artificial intelligence. 
+    \item \textbf{External integration} -- PoC for an approach leveraging third-party services.
+\end{enumerate}
+
+\newpage
+
+\section{Extendability}
+One of the aims of the thesis is to provide reasonable extendability of the approach.
+Specifically, suitable SPIs should be created for the adaptive authentication components in order to have the ability to tailor them to the unique requirements of a user.
+Keycloak offers a very elegant way to extend components of the application without much hassle.
+
+Users should be able to provide a custom approach for obtaining risk(contextual) factors data in an easy way.
+It means that users can create a new or edit the default risk factor providers via the SPI concept described in section \ref{keycloak-spi}.
+For example, getting the IP address of the device trying to authenticate is supplied from a proxy or load balancer outside of the application.
+
+Additionally, the evaluation of the risk factors should be flexible and customizable.
+Users or organizations extending the approach should be able to provide their own algorithms for the risk score evaluation.
+
+\section{Basic Implementation}
+The other objective pursued in this thesis is to provide PoC for the basic implementation of the adaptive authentication solution.
+The approach should be able to be included in an authentication flow, gathering risk factors data, evaluating them, determining what level of risk the authentication engine is facing, and appropriately reacting to it.
+
+Users should be able to accommodate the solution into the authentication process and see the present outcome.
+The basic implementation should contain an approach on how to assign certain authentication sub-flows, or authentication executions, to the decision branches based on the risk level.
+Users should be able to define multiple risk levels and customize ranges of risk scores associated with the levels.
+
+Users might also be capable of setting certain decision weights to the data supplied by the risk factors mechanisms.
+It means they could decide how much a particular risk factor should affect the overall risk score.
+It is also imperative to have the possibility to disable evaluating the risk score from particular risk factors.
+
+\section{Policy Engine}
+The next goal of the thesis is to create a PoC for authentication policy evaluations.
+Authentication policy should behave in such a manner, that comprehensive creation of conditions should be supported and adequately evaluated.
+Specifically, authentication policy can define the exact flow that would be executed when prior conditions are met.
+
+For example, a particular authentication policy could require MFA when the device is located outside of the US.
+In that case, a user needs to specify the initial conditions as evaluating the location and specifying concrete action that will proceed.
+
+Authentication policy might have the possibility to get risk factors data, and determine the action based on their values.
+The policy could also explicitly use the calculated risk score and decide about the authentication attempt continuity.
+
+The authentication policy engine would gather and execute all the policies in a specific way.
+The engine could support the configuration of its behavior and manage data about the associated policies.
+Users should be able to replace the default authentication policy engine provider with a custom provider based on specific needs and requirements.
+
+\section{Artificial Intelligence}
+
+\section{External Integration}
