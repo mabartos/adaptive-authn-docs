@@ -37,6 +37,7 @@ Besides that, certain other attributes are present, such as name and flag, used 
 A specific implementation of the \textit{ProviderFactory} interface provides the functionality to create instances of the \textit{Provider} classes.
 The \textit{ProviderFactory} follows the Factory design pattern, and only one factory exists for the server.
 It supplies a shared configuration used for the creation of new providers, as it does not have to be evaluated or obtained for every single creation of the particular providers.
+
 Additionally, users are able to change only the behavior for the creation of providers by implementing different provider factories, which brings more freedom to the development.
 
 A specific implementation of the \textit{Provider} interface provides an actual object with the capability of bringing a particular business value to the application.
@@ -115,7 +116,7 @@ Otherwise, a user needs to provide their password and then biometrics via the We
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=1.04\textwidth]{img/flow.png}
+  \includegraphics[width=1\textwidth]{img/flow-new.png}
   \caption{WebAuthn Flow}
   \label{fig:basic-auth-flow}
 \end{figure}
