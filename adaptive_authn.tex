@@ -463,11 +463,55 @@ This community project is currently, in 2024, under the stewardship of the Cloud
 Service Provider Interface (SPI) is an API intended to be implemented or extended by a third party.
 It can be used to enable framework extension and replaceable components.\cite{keycloak-spi}
 
-Service Provider Interface (SPI) is an essential tool for developers to customize different aspects of Keycloak as per their specific requirements.
+SPI is an essential tool for developers to customize different aspects of Keycloak as per their specific requirements.
 Using SPI, developers can create their own Keycloak extensions and modify functionalities such as the login screen appearance, adding new authentication methods, or integrating with different credential stores.
 
-SPI provides developers with the flexibility to adapt Keycloak to diverse environments and business needs.
+SPI allows developers to adapt Keycloak to diverse environments and business needs.
 This includes enhancing security measures, integrating with different databases, or improving the overall user experience. Essentially, SPI empowers developers to extend Keycloak beyond its original functionalities, making it adaptable and versatile across a range of scenarios.
+
+\subsection{Necessary Parts}
+In order to properly implement custom SPI for Keycloak, it is necessary to comply with the approach Keycloak suggests.
+The essential parts of the custom SPI are new classes that implement these interfaces:
+\begin{itemize}
+    \item \textit{Spi}
+    \item \textit{Provider}
+    \item \textit{ProviderFactory}
+\end{itemize}
+
+A specific implementation of the \textit{Spi} interface provides some sort of wrapper for the whole custom SPI representation with the required specification of provider class and provider factory class.
+Besides that, certain other attributes are present, such as name and flag, used to determine whether the SPI is internal or not.
+
+A specific implementation of the \textit{ProviderFactory} interface provides the functionality to create instances of the \textit{Provider} classes.
+The \textit{ProviderFactory} follows the Factory design pattern, and only one factory exists for the server.
+It supplies a shared configuration used for the creation of new providers, as it does not have to be evaluated or obtained for every single creation of the particular providers.
+Additionally, users are able to change only the behavior for the creation of providers by implementing different provider factories, which brings more freedom to the development.
+
+A specific implementation of the \textit{Provider} interface provides an actual object with the capability of bringing a particular business value to the application.
+The new provider object is created for every request made to Keycloak, as its lifespan is limited by the request execution.
+
+Keycloak uses the concept of leveraging \textit{Service Loader} for discovering all implementations of the \textit{Spi}, \textit{Provider}, and \textit{ProviderFactory} interfaces.
+Basically, in order to use the custom providers and factories, they need to be registered in the application.
+It is done through the specification of class names of the providers and factories in files located in the `META-INF/services` folder.
+
+\subsection{Configuration}
+Keycloak nourishes the ability to configure all available SPIs through the dynamically assembled configuration properties.
+In that case, changing the particular value of a specific provider implementation is achievable.
+Enabling and disabling particular providers is also possible.\cite{keycloak-spi-config}
+\newline
+\newline
+Providers can be configured by using a specific configuration format such as follows:
+
+\begin{align}
+    `spi-<spi-id>-<provider-id>-<property>=<value>`
+\end{align}
+\newline
+\newline
+Where the explanation of these items is as follows:
+\begin{itemize}
+    \item \textit{<spi-id>} is the name of the SPI you want to configure.
+    \item \textit{<provider-id>} is the id of the provider you want to configure.
+    \item \textit{<property>} is the actual name of the property you want to set for a given provider.
+\end{itemize}
 
 \section{Authentication Flow}
 Authentication flow is a container for all authentications, screens, and actions that must happen during login, registration, and other Keycloak workflows.
