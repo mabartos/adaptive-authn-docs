@@ -36,7 +36,7 @@ Additionally, the evaluation of the risk factors should be flexible and customiz
 Users or organizations extending the approach should be able to provide their own algorithms for the risk score evaluation.
 
 \section{Basic Implementation}
-The other objective pursued in this thesis is to provide PoC for the basic implementation of the adaptive authentication solution.
+The other objective pursued in this thesis is to provide a PoC for the basic implementation of the adaptive authentication solution.
 The approach should be able to be included in an authentication flow, gathering risk factors data, evaluating them, determining what level of risk the authentication engine is facing, and appropriately reacting to it.
 
 Users should be able to accommodate the solution into the authentication process and see the present outcome.
@@ -62,6 +62,24 @@ The authentication policy engine would gather and execute all the policies in a 
 The engine could support the configuration of its behavior and manage data about the associated policies.
 Users should be able to replace the default authentication policy engine provider with a custom provider based on specific needs and requirements.
 
-\section{Artificial Intelligence}
+\section{Artificial Intelligence}\label{spec-ai}
+The other objective pursued in this thesis is to provide a PoC for leveraging artificial intelligence (AI) in the adaptive authentication approach.
+Nowadays, AI and machine learning are rapidly evolving with promising results, and the range of their applicability is more expansive than before.
+That approach might be very suitable even for adaptive authentication, as it might be used for calculating risk scores based on data from risk factors.
+
+Data from risk factors might be analyzed and processed by AI mechanisms, which might lead to more educated decisions.
+The goal of leveraging artificial intelligence is to suggest an approach to what parts of the solution might benefit from using AI and run some experiments with AI engines.
 
 \section{External Integration}
+The last goal of the thesis is to provide a PoC for integrating third-party services into the current solution.
+Integration with external services, in some cases, might overlap with the previous goal in section \ref{spec-ai} around AI.
+Specifically, AI engines are usually some sort of remote service with predefined API. 
+
+Integration with external services would be very beneficial for obtaining data from risk factors, which might be remote.
+However, one needs to be aware of possible issues with remote services and the overall authentication process execution.
+The credibility of remote sources may differ and needs to be adequately investigated whether it is suitable to include in the risk score evaluation.
+Additionally, the latency for obtaining the data might be very high, and some sort of timeout should be set for gathering the risk factors data.
+
+It leads to the specification of providing a particular risk factor data processing, as the retrieval of these data should be done asynchronously.
+As mentioned above, the timeout for each particular set risk factor should be set and respected during the evaluation.
+It may be configurable what to do in such situations -- either to not include the risk factor in the evaluation or just decrease the weight of the risk factor.
