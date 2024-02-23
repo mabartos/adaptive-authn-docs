@@ -70,20 +70,28 @@ Where the explanation of these items is as follows:
 \section{Authentication Flow}
 Authentication flow is a container for all authentications, screens, and actions that must happen during login, registration, and other Keycloak workflows.
 It is essentially a step-by-step process that users need to go through during authentication.
+\newline
+\newline
+Keycloak consists of several authentication flow types, and part of them are described as follows:
 
-For instance, a login flow outlines the necessary credentials a user needs to provide to gain access.
-Similarly, a registration flow dictates the required profile information a user must provide, and whether additional measures like reCAPTCHA are necessary to prevent bot activity.
+\begin{itemize}
+    \item \textit{Login flow} -- outlines the necessary credentials a user needs to provide to gain access.
+    \item \textit{Registration flow} -- dictates the required profile information a user must provide and whether additional measures like reCAPTCHA are necessary to prevent bot activity.
+    \item \textit{Credential reset flow} -- specifies the actions a user must take before being able to reset their password.
+    \item Many others.
+\end{itemize}
 
-Additionally, a credential reset flow specifies the actions a user must take before being able to reset their password. \cite{keycloak-auth-flows}
+Authentication flow empowers administrators to craft tailored authentication processes for specific needs.
+By orchestrating a series of steps and actions, administrators can ensure secure authentication while accommodating diverse user requirements.\cite{keycloak-auth-flows}
+
+Every authentication flow can have numerous inner sub-flows, which might contain another layer of sub-flows and actual authentication executions described in section \ref{keycloak-auth-exec}.
+The modular nature of authentication flows enables administrators to mix and match components, facilitating adaptability and reusability.
 
 \newpage
-\section{Authentication Execution}
+\section{Authentication Execution}\label{keycloak-auth-exec}
 Authentication executions are the foundational elements of Authentication flows.
-They empower administrators to craft tailored authentication processes for specific needs.
 These executions allow for the creation of comprehensive authentication flows, providing flexibility and control to address various scenarios effectively.
 
-By orchestrating a series of steps and actions, administrators can ensure secure authentication while accommodating diverse user requirements.
-The modular nature of authentication executions enables administrators to mix and match components, facilitating adaptability and reusability.
 Ultimately, authentication executions serve as the cornerstone for building robust and user-centric authentication experiences within systems.
 
 Authentication executions may play different roles in the context of particular authentication flows and provide the ability to control authentication flows in a more fine-grained way. \cite{keycloak-auth-flows}
