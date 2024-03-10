@@ -33,7 +33,7 @@ Adaptive MFA supports detection and authentication challenges for riskier situat
 \end{itemize}
 
 \newpage
-\subsection*{Takeaways}
+\subsection*{ThreatInsight Service}
 Okta approach introduces the consideration of external risk contexts, enhancing organizations' understanding of authentication processes by utilizing the ThreatInsight service.
 This service collects information about the origin of sign-in activity directed at Okta endpoints.
 
@@ -45,6 +45,44 @@ ThreatInsight provides a way to add risk factors from external sources like thir
 
 Ensuring the safety and trustworthiness of these outside sources is very important.
 I think leveraging the risk factors from external sources must be carefully considered in order to avoid the risk of data leaks or mistakes that could harm the authentication system.
+
+\subsection*{System Log Events}
+As the Okta ThreatInsight service is able to collect information about the origin of the sign-in activity, it can identify the threat and follow up with proper actions.
+One of these actions is recording the potentially malicious requests and their origins into a system log.
+
+It can record a variety of events, such as sign-in attempts from suspicious IP addresses or detection of security threats.
+Moreover, it can record information about the continuity of potential cyber-attacks involving the attack duration and aggregation of relevant events.
+
+With the gathered data, an administrator can easily create a blacklist of IP addresses with denied application access.
+The system log events contain information about how the risk level was determined for each authentication attempt.
+It can take into consideration factors like anomalous location, anomalous device, or suspected threat based on Okta ThreatInsight detection.\cite{existing-okta-risk-scoring}\cite{existing-okta-syslog}
+
+In all cases, such comprehensive information about login attempts and their metadata is necessary for followed risk factor evaluation and success of adaptive authentication. 
+
+\subsection*{Authentication Policies}
+Each app specified in Okta comes with its own authentication policy.
+This policy ensures that people trying to log in to the app meet certain conditions and follow specific rules for verification.
+
+While some conditions may be similar between authentication policies and global session policies, they have different jobs. 
+If someone gains access to Okta through the global session policy, it does not mean they automatically have access to all their apps.
+You can make a unique policy for each app or use a few policies for multiple apps.
+There are also preset policies in Okta for apps with standard sign-on requirements.
+
+Every authentication policy has a set of rules specifying the authentication flow behavior during an authentication attempt.
+In every rule, you can define various conditions, and if all are evaluated as true, the authentication settings with proper actions are applied.
+
+The conditions might consist of settings of user role, user group, device state, device platform, and much more.
+When these conditions are met, actions like explicit access denial or step-up authentication are done.
+For the step-up authentication, you can specify what authentication mechanism should be used, such as enforcing MFA with specific attributes of the possession factor.
+
+The specific rule conditions might look like in figure \ref{fig:okta-auth-policy-rule-condition}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/okta-add-rule.png}
+  \caption{Okta Authentication Policy Rule Conditions}
+  \label{fig:okta-auth-policy-rule-condition}
+\end{figure}
 
 \newpage
 \section{Citrix}
@@ -125,9 +163,9 @@ Certain anomalies, like accessing an application from an unusual location, are g
 
 Beyond Identity, Inc. also provides the feature of authentication and device policies.
 As was stated previously, authentication policies may provide the possibility to create custom authentication policies to meet unique requirements for the authentication process.
-Other than that, additional device policies provide an additional security layer as devices, that are trying to access the application, need to meet the requirements specified by these policies.
+Other than that, additional device policies provide an additional security layer, as devices that are trying to access the application need to meet the requirements specified by these policies.
 
-You can notice, that the user experience around configuring these policies varies as the user interface might have different representations as shown in figure \ref{fig:beyond-identity-auth-policy}. \cite{existing-beyond-identity}
+You can notice that the user experience around configuring these policies varies as the user interface might have different representations, as shown in figure \ref{fig:beyond-identity-auth-policy}. \cite{existing-beyond-identity}
 
 \begin{figure}[htbp]
   \centering
