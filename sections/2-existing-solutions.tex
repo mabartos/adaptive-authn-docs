@@ -75,7 +75,7 @@ The conditions might consist of settings of user role, user group, device state,
 When these conditions are met, actions like explicit access denial or step-up authentication are done.
 For the step-up authentication, you can specify what authentication mechanism should be used, such as enforcing MFA with specific attributes of the possession factor.
 
-The specific rule conditions might look like in figure \ref{fig:okta-auth-policy-rule-condition}.
+The specific rule conditions might look like in Figure \ref{fig:okta-auth-policy-rule-condition}.
 
 \begin{figure}[htbp]
   \centering
@@ -149,8 +149,26 @@ I like the concept of adaptive policies, as it is possible to create custom auth
 These policies can leverage risk scoring provided by the Silverfort, Inc. solution and trigger proactive security controls, such as requiring additional authentication steps or denying access. 
 This concept is very flexible and provides the possibility to explicitly set particular risk indicators in order to react to specific attacks that your environment is likely to experience.
 
-You can see an example of configuring the described adaptive policy in figure \ref{fig:silverfort-auth-policy} below.
+You can see an example of configuring the described adaptive policy in Figure \ref{fig:silverfort-auth-policy} below.
 This adaptive policy is basically a rule for the authentication process, and when conditions of the adaptive policy are met, a particular action is executed.\cite{example_silverfort}
+
+The main takeaway from the solution is the understanding of the factors necessary for risk evaluations and their contextual tightness.
+Silverfort, Inc. divides the risk factors into three main categories: access source, user, and authentication mechanism.
+
+In assessing the access source, the security posture of the device is crucial.
+This includes evaluating factors such as the operating system version, the application of security patches, and the presence of antivirus software.
+The managed status of the device by an organization indicates a higher level of control and security measures.
+
+Furthermore, detecting any malware or suspicious software on the device is essential to mitigate potential risks.
+Similarly, assessing the reputation of the network address or IP from which the authentication attempt originates, along with geolocation checks, helps identify any anomalies or potential risks.
+
+User analysis focuses on past authentication attempts to establish a baseline of normal behavior.
+Deviations from this established authentication trail, such as sudden changes in behavior, unusual access patterns, or logins from unfamiliar locations, may indicate potential risks and warrant further investigation.
+Additionally, examining actions like interactive logins with service accounts or admin logins from unfamiliar devices helps identify suspicious behavior that could compromise security.
+
+Lastly, the authentication mechanism involves analyzing abnormalities or vulnerabilities in the underlying authentication process.
+This includes identifying potential threats like pass-the-hash attacks, which could exploit weaknesses in authentication protocols, thereby enhancing overall security measures. \cite{existing-silverfort-risk} \cite{existing-silverfort-analysis}
+
 
 \begin{figure}[htbp]
   \centering
@@ -185,7 +203,7 @@ Beyond Identity, Inc. also provides the feature of authentication and device pol
 As was stated previously, authentication policies may provide the possibility to create custom authentication policies to meet unique requirements for the authentication process.
 Other than that, additional device policies provide an additional security layer, as devices that are trying to access the application need to meet the requirements specified by these policies.
 
-You can notice that the user experience around configuring these policies varies as the user interface might have different representations, as shown in figure \ref{fig:beyond-identity-auth-policy}. \cite{existing-beyond-identity}
+You can notice that the user experience around configuring these policies varies as the user interface might have different representations, as shown in Figure \ref{fig:beyond-identity-auth-policy}. \cite{existing-beyond-identity}
 
 \begin{figure}[htbp]
   \centering

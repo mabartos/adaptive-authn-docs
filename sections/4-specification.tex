@@ -30,7 +30,7 @@ Keycloak offers a very elegant way to extend components of the application witho
 
 Users should be able to provide a custom approach for obtaining risk(contextual) factors data in an easy way.
 It means that users can create a new or edit the default risk factor providers via the SPI concept described in section \ref{keycloak-spi}.
-For example, getting the IP address of the device trying to authenticate is supplied from a proxy or load balancer outside of the application.
+For example, obtaining the IP address of the device trying to authenticate is supplied from a proxy or load balancer outside of the application.
 
 Additionally, the evaluation of the risk factors should be flexible and customizable.
 Users or organizations extending the approach should be able to provide their own algorithms for the risk score evaluation.
@@ -38,8 +38,8 @@ Users or organizations extending the approach should be able to provide their ow
 \section{Basic Implementation}
 The other objective pursued in this thesis is to provide a PoC for the basic implementation of the adaptive authentication solution.
 The approach should be able to be included in an authentication flow, gathering risk factors data, evaluating them, determining what level of risk the authentication engine is facing, and appropriately reacting to it.
-
 Users should be able to accommodate the solution into the authentication process and see the present outcome.
+
 The basic implementation should contain an approach on how to assign certain authentication sub-flows, or authentication executions, to the decision branches based on the risk level.
 Users should be able to define multiple risk levels and customize ranges of risk scores associated with the levels.
 
