@@ -107,7 +107,7 @@ You can specify the version of the operating system, geolocation, network locati
 It is also possible to integrate the device posture with third-party services as the evaluation can be shifted there.
 
 The device posture can be used for the individual authentication policies, but even also for the risk factors evaluation.
-We can assess the risk evaluation mechanism to properly reflect particular cases of device posture and contribute to the overall risk evaluation of the adaptive authentication.
+We can assess the risk evaluation mechanism to properly reflect particular cases of device posture and contribute to the overall risk evaluation of the adaptive authentication.\cite{existing-citrix-device-posture}
 
 \newpage
 \section{OneLogin}
@@ -124,6 +124,16 @@ Solution SmartFactor, provided by OneLogin, Inc., gathers risk factor values des
 After analyzing these factors via the artificial intelligence engine, the contextual risk score is evaluated.
 The risk score is in the range 0-100.
 Based on the evaluated score, appropriate actions are executed, such as requiring additional authentication steps or denying access.\cite{existing-onelogin} 
+
+Vigilance AI also provides training API, where the AI models are trained, and the contextual risk score evaluation can be continuously improved.
+As the complex contextual data is sent to the Vigilance AI service, the response contains additional information about triggers, which are indicators of some of the key items that influenced the risk score.
+It brings a better overview and addressability of the risk score evaluation in a human-readable format.
+Vigilance AI supplies an API for the creation of a custom rule to gain more control over the risk scoring of events.
+Administrators are able to create rules based on the allow/deny list of IP addresses or current country locations. \cite{existing-onelogin-vigilance}
+
+An exciting thing is furthermore the gathering of risk score evaluation statistics, as administrators can obtain the count of sign-in events grouped by their risk score bucket.
+Vigilance AI divides the risk score bucket, previously called risk levels, into five categories: \textit{minimal}, \textit{low}, \textit{medium}, \textit{high}, and \textit{very high}.
+To be more specific, the statistics contain the number of sign-in events for each particular risk level, which might be beneficial for following data analysis. \cite{existing-onelogin-score-insights} \cite{existing-onelogin-score}
 
 \newpage
 \section{Silverfort}
