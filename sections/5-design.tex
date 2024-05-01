@@ -1,5 +1,25 @@
 \chapter{Design}
 
+\section{User Context}
+During the authentication process, the crucial part to successfully authenticate user is to get information about multiple authentication factors, as described in the section \ref{authentication-factors}.
+It is an essential part of the security strengthening as more information we get from the authentication attempt, the more we can react on it and evaluate it.
+
+User context is a concept that represents a piece of information about the authentication attempt, such as a current device attributes, information about the user, location, or behavior we detected.
+Even though, the information about the device does not seem reflect the term user context, it should be considered like it.
+User context represents the information about the user of the application, even when it is service account, for instance.
+
+Always during the authentication process, user contexts are collected and grouped into a more comprehensive knowledge base.
+The proper user contexts management is a crucial part for the authentication, especially for the risk-based authentication mechanism.
+
+The abstraction around fetching user contexts provide the ability to easily extend and process possible user context information and give the freedom to obtain various types of contexts, even from the remote locations.
+
+The main advantage of using user contexts is to get required information, regardless the source of the information.
+It means, that it does not really matter which approach was used for obtaining the information, but that the information is available.
+It implies that administrators need to be aware of present user context providers/implementations in order to prevent any inaccuracies.
+
+// TODO add examples
+
+
 \section{Authentication Policies}
 Design of the Authentication policies, or as described in the specification as a Policy engine, provides the ability to comply with requirements specified by the administrator.
 When users are trying to access the application, they need to meet certain conditions in order to achieve a successful login.
