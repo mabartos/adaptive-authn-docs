@@ -2,25 +2,69 @@
 
 \section{User Context}
 During the authentication process, the crucial part to successfully authenticate user is to get information about multiple authentication factors, as described in the section \ref{authentication-factors}.
-It is an essential part of the security strengthening as more information we get from the authentication attempt, the more we can react on it and evaluate it.
+It is an essential part of security strengthening as the more information we get from the authentication attempt, the more we can react to it and evaluate it.
 
-User context is a concept that represents a piece of information about the authentication attempt, such as a current device attributes, information about the user, location, or behavior we detected.
-Even though, the information about the device does not seem reflect the term user context, it should be considered like it.
-User context represents the information about the user of the application, even when it is service account, for instance.
+User context is a concept that represents a piece of information about the authentication attempt, such as current device attributes, information about the user, location, or behavior we detected.
+Even though the information about the device does not seem to reflect the term user context, it should be considered like it.
+User context represents the information about the user of the application, even when it is a service account, for instance.
 
-Always during the authentication process, user contexts are collected and grouped into a more comprehensive knowledge base.
-The proper user contexts management is a crucial part for the authentication, especially for the risk-based authentication mechanism.
+During the authentication process, user contexts are always collected and grouped into a more comprehensive knowledge base.
+The proper user context management is a crucial part of the authentication, especially for the risk-based authentication mechanism.
 
-The abstraction around fetching user contexts provide the ability to easily extend and process possible user context information and give the freedom to obtain various types of contexts, even from the remote locations.
+The abstraction around fetching user contexts provides the ability to easily extend and process possible user context information and gives the freedom to obtain various types of contexts, even from remote locations.
 
-The main advantage of using user contexts is to get required information, regardless the source of the information.
-It means, that it does not really matter which approach was used for obtaining the information, but that the information is available.
+The main advantage of using user contexts is to get the required information, regardless of the source of the information.
+It means that it does not really matter which approach was used for obtaining the information, but that the information is available.
 It implies that administrators need to be aware of present user context providers/implementations in order to prevent any inaccuracies.
 
-// TODO add examples
+\subsection{Specific User Context}
+An excellent example of leveraging user context is the implementation of an IP address context.
+It provides the ability to obtain the IP address of the device in multiple ways.
+The IP address can be obtained either from the user agent attributes or from the HTTP headers 'Forwarded' and 'X-Forwarded-For' when a proxy is used.
+// TODO add diagrams
 
+\subsection{User Context Condition}
+Improvement to the user context management is to have a general concept for evaluating certain conditions with regard to the user context.
+It means that we can leverage user context conditions in conditional authentication flows or in authentication policies, as described in \ref{authentication-policies}.
 
-\section{Authentication Policies}
+There might be several possible operations on the user context entities, and the developer of the additional user context should not reinvent the wheel around attributes of conditions.
+The additional conditions can be created very easily, as the general concept for evaluating them has already been assessed.
+
+\subsubsection{Operations}
+User context conditions take into account a list of operations that can be proceeded on the user context entity.
+The operation consists of several attributes, such as follows:
+
+\begin{itemize}
+    \item \textbf{Symbol} (\textit{string}) -- unique operation identifier used for identification of the operation when serialized data are received from remote locations. It must be unique per the user context condition.
+    \item \textbf{Text} (\textit{string}) -- name of the operation shown to the end user.
+    It can contain a localization key, which can then be mapped to a different language or directly the text in the specific language. 
+    \item \textbf{Predicate} (\textit{predicate}) -- predicate that is applied to the specific user context. When the evaluation of the predicate is met, the operation is considered successful.
+\end{itemize}
+
+When all the predicates of specified operations are met, the whole condition is considered successful, and the authentication flow can proceed with the processing.
+
+\subsubsection{Example}
+
+A suitable example of the user context condition might be a newly introduced condition for the IP address user context entity.
+During the evaluation of the condition, the first step is obtaining the IP address context, which contains the current IP address of the device that is trying to authenticate.
+Some specified operations that can be made on top of the IP address context are `is equal`, `is not equal` or `is in range`.
+
+The predicate of the \textit{equal} operation is to directly match the IP address provided by the administrator.
+The opposite \textit{not equal} operation just negatively matches the IP address, as it represents the state when the IP address is not the specified one.
+Administrators can also specify the `in range` operation, which provides the ability to check whether the IP address of the device is in the specified IP address range.
+
+For instance, an administrator can specify that IP addresses from the range `222.0.0.0-224.0.0.0` are not allowed to be authenticated, as shown in Figure \ref{fig:design-user-context-ip-addr-condition}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/sections/5-design/ip-address-condition.png}
+  \label{fig:design-user-context-ip-addr-condition}
+  \caption{IP address context condition}
+\end{figure}
+
+// TODO add diagrams with operations
+
+\section{Authentication Policies} \label{authentication-policies}
 Design of the Authentication policies, or as described in the specification as a Policy engine, provides the ability to comply with requirements specified by the administrator.
 When users are trying to access the application, they need to meet certain conditions in order to achieve a successful login.
 There may be some company or federal restrictions to particular services that need to be conformed to.
@@ -52,7 +96,7 @@ Conditional flows provide the majority of the required functionality to meet req
 It means that specific conditions are evaluated, and if all pass, specific actions are executed.
 
 One of the major issues around authentication policies is manageability.
-Administrators should not add a higher number of conditional flows to their existing authentication flows as these concepts should be separated in this manner.
+Administrators should not add a higher number of conditional flows to their existing authentication flows, as these concepts should be separated in this manner.
 
 Authentication policies extend the capabilities around the authentication flow process as they can be defined for the whole realm, not even for a specific flow.
 To be more specific, it gives the possibility to share policies across different flows, which is the main difference between conditional flows and authentication policies.
@@ -86,9 +130,6 @@ Otherwise, when the action is not terminal, the other policies are evaluated as 
 \subsection{Administrator Console}
 // TODO add screenshots of admin pages and elaborate on them
 
-\subsection{User Context condition}
-// TODO explain user context in prior parent section and extend it here
-
 \subsection{Policy Evaluation Example}
 For a better representation of the authentication policy evaluation, a simple example with the described configuration might be considered.
 The specification of a particular authentication policy is done through the administrator console in the Authentication section and Authentication Policies tab.
@@ -119,8 +160,13 @@ For a better visualization of the condition evaluation flow, consider this diagr
 The condition configuration attributes differ based on the used condition provider/implementation.
 Every condition provider specifies a set of configuration properties for condition settings.
 
-The browser condition, shown in Figure \ref{fig:design-policy-browser-flow-condition}, includes \textit{Alias}, \textit{Operation}, and \textit{Browser} properties.
-The \textit{Alias} is just a name for the condition, \textit{Operation} provides the possibility to choose one option from a list of operations, and \textit{Browser} is the direct value for the evaluations.
+The browser condition, shown in Figure \ref{fig:design-policy-browser-flow-condition}, includes properties:
+
+\begin{itemize}
+    \item \textbf{Alias} -- name of the condition.
+    \item \textbf{Operation} -- list of possible operations.
+    \item \textbf{Browser} -- multi valued list of browsers. 
+\end{itemize}
 
 In this case, the condition is met only when the browser vendor is Firefox:
 
