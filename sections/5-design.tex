@@ -190,11 +190,34 @@ It represents an error message that is shown to the user when the access is deni
 
 \newpage
 \section{Risk-based Authentication}
-\subsection{Concept}
-\subsection{User Context}
-\subsection{Risk Evaluators}
-\subsection{Risk Engine}
-\subsection{Risk Levels}
+The crucial part of adaptive authentication is focused on risk-based authentication.
+Risk-based authentication is a concept that assesses a risk level and then adjusts authentication requirements accordingly.
+The risk in the risk-based authentication represents a probability that the authentication attempt is fraudulent.
+\newline
+\newline
+The concept is based on this core sequence:
+\begin{enumerate}
+    \item \textbf{User Context Collection} -- Gather all available user contexts for the following processing. 
+    \item \textbf{Risk scoring} -- Assess the risk score for all the user contexts. 
+    \item \textbf{Adaptive adjustment} -- Adaptively adjust authentication flow based on the overall risk score.
+\end{enumerate}
+
+The collection of user contexts is an essential part of the whole risk-based authentication concept - as more information is present, the more informed decisions can be made.
+There is a defined timeout for obtaining the user context, as it may take a vast majority of time, and administrators are able to adjust it to their needs.
+
+Obtaining user context from remote locations or services may be time-consuming, and the overall user experience around the authentication process would be worse.
+When the timeout is exceeded, the user context is not taken into account for the risk evaluation.
+
+When the user context collection is successful, the risk is evaluated for every user context.
+The exact approach and how it is achieved is described in \ref{risk-evaluators}.
+
+When all these evaluations are done, the overall risk for the authentication attempt is calculated with the usage of various algorithms described in \ref{risk-engine}.
+
+After calculating the overall risk, the risk level is determined based on the risk score, described in \ref{risk-levels}.
+
+\subsection{Risk Evaluators} \label{risk-evaluators}
+\subsection{Risk Engine} \label{risk-engine}
+\subsection{Risk Levels} \label{risk-levels}
 \subsection{Risk Level conditions}
 
 
