@@ -198,8 +198,8 @@ The risk in the risk-based authentication represents a probability that the auth
 The concept is based on this core sequence:
 \begin{enumerate}
     \item \textbf{User Context Collection} -- Gather all available user contexts for the following processing. 
-    \item \textbf{Risk scoring} -- Assess the risk score for all the user contexts. 
-    \item \textbf{Adaptive adjustment} -- Adaptively adjust authentication flow based on the overall risk score.
+    \item \textbf{Risk Scoring} -- Assess the risk score for all the user contexts. 
+    \item \textbf{Adaptive Adjustment} -- Adaptively adjust authentication flow based on the overall risk score.
 \end{enumerate}
 
 The collection of user contexts is an essential part of the whole risk-based authentication concept - as more information is present, the more informed decisions can be made.
@@ -215,7 +215,74 @@ When all these evaluations are done, the overall risk for the authentication att
 
 After calculating the overall risk, the risk level is determined based on the risk score, described in \ref{risk-levels}.
 
+\newpage
 \subsection{Risk Evaluators} \label{risk-evaluators}
+Risk evaluators play a crucial role in risk-based authentication, as their primary purpose is evaluating risk for specific user contexts in a fine-grained, modularized way.
+
+The evaluation itself might be a challenging area to handle, as there are no guidelines on how exactly it should be done.
+It requires specific expertise and multiple agreements on how exactly the risk should be calculated for each individual user context.
+
+\subsubsection{Attributes}
+The main risk evaluator attributes:
+
+\begin{itemize}
+    \item \textit{risk} -- evaluated risk.
+    \item \textit{weight} -- weight of the evaluated risk.
+    \item \textit{requiresUser} -- flag determining whether the evaluation needs information about the user trying to authenticate. 
+    \item \textit{enabled} -- flag determining whether the evaluator risk should be calculated and taken into consideration for the overall risk scoring system. 
+\end{itemize}
+
+Attributes \textit{risk} and \textit{weight} contribute to the overall risk scoring system in a magnificent way.
+The purpose of the \textit{weight} attribute is to handle every risk evaluation with different weights.
+To be more specific, some of these evaluators can contribute more to the overall risk score than others.
+It provides the ability to rely on evaluators where the evaluation confidence is higher, and it should influence the overall risk more than evaluators with lower confidence in their evaluations.
+
+Attribute \textit{requiresUser} is a boolean flag used to determine the accurate phase of the evaluation.
+Some evaluators need to be already aware of the attempting user, as they need the necessary information about the user.
+This means that risk evaluation itself needs to be done after obtaining the essential user information.
+
+Attribute \textit{enabled} is a boolean flag used to check dynamically whether
+the evaluator should be turned on.
+Administrators can decide which evaluators are taken into account for the processing.
+
+\subsubsection{Scope}
+The main risk evaluator characteristic is related to the scope of the user contexts used for these evaluations.
+\newline
+\newline
+Risk evaluators can be determined as:
+
+\begin{itemize}
+    \item \textbf{Basic} -- operates only on one user context.
+    \item \textbf{Contextual} -- operates on more user context and considers the whole context around obtained specific user contexts.
+\end{itemize}
+
+The implementation of a particular risk evaluator should be focused only on one information unit.
+It means that in order to provide the fine-grained manageable risk evaluations, the resulting risk should be related only to one user context or component.
+In that case, the most suitable approach is to use basic risk evaluators, but sometimes, to properly assess the risk score, a broader context is necessary.
+
+For instance, the risk evaluator handling the calculation of risk for the IP address should be related only to the IP addresses and nothing else.
+It may be a contextual risk evaluator, as it needs to obtain device user context, IP address context, or potentially information about proxy usage.
+It should not take into consideration a wider context out of its scope as that is not the intentional usage of the component.
+
+For evaluating the overall risk score and considering the wider context, the risk engine component is provided and described in \ref{risk-engine}.
+
+\subsubsection{Configuration}
+The key concept around risk evaluators is their configuration for better manageability and user experience.
+Administrators have the ability assess the main attributes of evaluators to their needs, such as tweaking the \textit{weight} or \textit{enabled} attribute without the necessity to change the risk evaluators implementation.
+
+In the \textit{Risk-based policies} section of the administrator console, properties for value amendment are automatically generated.
+When a developer creates another risk evaluator, the configuration for the basic configurable attributes is generated in the administrator console.
+
+As shown in the figure \ref{fig:risk-based-evaluator-config}, the risk evaluators configuration contains multiple similar configuration fields grouped together, and noted via the colored rectangles. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\textwidth]{img/sections/5-design/risk-evaluators-config.png}
+  \label{fig:risk-based-evaluator-config}
+  \caption{Risk Evaluators Configuration}
+\end{figure}
+
+\newpage
 \subsection{Risk Engine} \label{risk-engine}
 \subsection{Risk Levels} \label{risk-levels}
 \subsection{Risk Level conditions}
