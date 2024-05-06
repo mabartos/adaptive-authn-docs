@@ -226,8 +226,8 @@ It requires specific expertise and multiple agreements on how exactly the risk s
 The main risk evaluator attributes:
 
 \begin{itemize}
-    \item \textit{risk} -- evaluated risk.
-    \item \textit{weight} -- weight of the evaluated risk.
+    \item \textit{risk} -- evaluated risk in range (0,1>.
+    \item \textit{weight} -- weight of the evaluated risk in range (0,1> (default 0.5).
     \item \textit{requiresUser} -- flag determining whether the evaluation needs information about the user trying to authenticate. 
     \item \textit{enabled} -- flag determining whether the evaluator risk should be calculated and taken into consideration for the overall risk scoring system. 
 \end{itemize}
@@ -284,6 +284,93 @@ As shown in the figure \ref{fig:risk-based-evaluator-config}, the risk evaluator
 
 \newpage
 \subsection{Risk Engine} \label{risk-engine}
+The risk engine takes care of evaluating the overall risk score based on scores obtained from the risk evaluators.
+One of the primary purposes of the risk engine is to manage the underlying evaluators, such as processing their lifecycle phases and contextually evaluate the overall score.
+
+Each implementation can provide its own approach to send signal to evaluators to start evaluating risk scores or specify a different algorithm for the overall risk score.
+
+The default risk engine provides a retry mechanism when the risk evaluator does not return any result.
+Failure may occur when obtaining the user context or evaluating the risk score.
+It is usually a problem of leveraging remote services, as the process is more comprehensive and includes several additional potential points of failure.
+When the processing fails, the risk engine requests to retry the evaluation again.
+
+The default risk engine also introduces a timeout mechanism as the delivery time is guaranteed and upper bounded.
+Expressly, it is guaranteed that processing the risk for individual evaluators does not exceed the defined timeout and does not allocate the processor timeout with the following application unresponsiveness.
+
+The overall risk score is evaluated continuously based on the phase of authentication.
+During the authentication flow, the risk may be evaluated multiple times, as the requirements for the risk evaluators and risk engine context may differ.
+The fundamental phases of risk engine evaluation are \textit{NO\_USER} and \textit{REQUIRES\_USER}. 
+
+The \textit{NO\_USER} phase represents the phase before determining who is trying to access the application.
+It means only information about the application stack is present, such as information about the device and network.
+
+The \textit{REQUIRES\_USER} phase represents the phase when the user is already known during the authentication process.
+
+\subsubsection{Default Algorithm}
+The default algorithm for calculating the overall risk score is weighted arithmetic mean, which provides the necessary characteristic for the risk evaluation.
+
+The weighted arithmetic mean shares similarities with the standard arithmetic mean, the typical average calculation method.
+However, unlike the arithmetic mean, where each data point holds equal weight in determining the final average, the weighted arithmetic mean assigns varying weights to different data points.
+
+This is an exact concept suitable for leveraging risk evaluators and aggregating their results.
+When all weights are uniform, the weighted mean converges to the arithmetic mean.
+\newline
+\newline
+Formula for the weighted arithmetic mean:
+\begin{equation}
+\bar{x} = \frac{\sum_{i=1}^{n} w_i \cdot x_i}{\sum_{i=1}^{n} w_i}
+\end{equation}
+
+The \( \bar{x} \) represents the overall risk score, \( x_i \) represents the individual risk evaluator score, and \( w_i \) represents the corresponding weight for each risk evaluator.
+
+The overall risk of the whole authentication process is evaluated as an arithmetic average of risk scores for each individual phase.
+It means when the overall score for phase \textit{NO\_USER} is \textit{0.7}, and the score for phase \textit{REQUIRES\_USER} is \textit{0.6}, the overall risk score for the whole process is \textit{0.65}. 
+
+\subsubsection{Configuration}
+It is essential for administrators to have the capability to set reasonable values for the timeout and number of retries for the risk engine.
+Besides configuring the overall state of risk-based functionality, it may be done through the administrator console, as shown in figure \ref{}.
+The default number of retries is \textit{3}.
+The default timeout for processing the risk score is \textit{1500ms}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.4\textwidth]{img/sections/5-design/risk-based-engine-config.png}
+  \label{fig:risk-based-enging-config}
+  \caption{Risk Engine Configuration}
+\end{figure}
+
+\subsubsection{Stored Risk Provider}
+As the overall risk score is evaluated in several phases, the results for every phase need to be available in some manner. 
+The most reasonable approach would be storing the data in a particular place for later processing.
+
+The lifespan of these data should not exceed the lifespan of the authentication request.
+However, when some action is required from the user, such as providing a password, the HTTP and authentication requests are different.
+
+The start for the authentication request might be considered at the beginning of processing the authentication flow when the Keycloak authentication session is created.
+Therefore, leveraging authentication session notes seems to be the most reasonable way to store the risk.
+
+However, these data might be stored in different stores, such as databases or cache, and the developer should have the ability to extend the functionality.
+Thus, the SPI for the stored risk is introduced. 
+
+//TODO add stored risk details
+
+\subsubsection{Risk Engine Authenticator}
+The primary purpose of the risk engine authenticator is to explicitly trigger the risk engine evaluations for specific risk processing phases.
+It is the standard Keycloak authenticator so that it can be included in a specific place in an authentication flow.
+The intention behind introducing the authenticator is to have better control over the risk processing lifecycle without the need to touch the Keycloak codebase out of the Keycloak extension.
+
+It might be possible to hide the authenticator for administrators, as it would be evaluated once the risk processing phase met some specific condition that checks the ability to process it.
+\newline
+\newline
+The authenticator configuration looks like this:
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/sections/5-design/risk-evaluator-authenticator-config.png}
+  \label{fig:risk-evaluator-authenticator-config}
+  \caption{Risk Engine Authenticator Configuration}
+\end{figure}
+
 \subsection{Risk Levels} \label{risk-levels}
 \subsection{Risk Level conditions}
 
