@@ -17,20 +17,62 @@ The main advantage of using user contexts is to get the required information, re
 It means that it does not really matter which approach was used for obtaining the information, but that the information is available.
 It implies that administrators need to be aware of present user context providers/implementations in order to prevent any inaccuracies.
 
+\newpage
+
+As shown in Figure \ref{fig:user-context-diagram}, user context is represented as interface \textit{UserContext}, where the generic is used.
+It means that every implementation of the \textit{UserContext} interface can retrieve different type of data.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.4\textwidth]{img/sections/5-design/userContext.png}
+  \label{fig:user-context-diagram}
+  \caption{User Context Diagram}
+\end{figure}
+
+Methods of the \textit{UserContext} interface:
+\begin{itemize}
+    \item \textit{requiresUser()} -- a boolean flag to determine whether the data can be obtained without the information about the authentication user.
+    \item \textit{initData()} -- method that initiates retrieving the data.
+    \item \textit{getData()} -- obtain the retrieved data. 
+    \item \textit{isInitialized()} -- a boolean flag to determine whether the data is already initialized. 
+\end{itemize}
+
+\newpage
+
 \subsection{Specific User Context}
 An excellent example of leveraging user context is the implementation of an IP address context.
 It provides the ability to obtain the IP address of the device in multiple ways.
 The IP address can be obtained either from the user agent attributes or from the HTTP headers 'Forwarded' and 'X-Forwarded-For' when a proxy is used.
-// TODO add diagrams
+
+As you can see in Figure \ref{fig:user-context-ip-address-context}, the \textit{IpAddressContext} interface extends the \textit{UserContext} interface and specify that the retrieved data will be of type \textit{IPAddress}, which is a structure describing the IP address attributes.
+
+The \textit{DeviceIpAddressContext} class is an implementation of the \textit{IpAddressContext} interface and obtains the IP address from the user agent attributes.
+The \textit{HeaderIpAddressContext} class is also an implementation of the \textit{IpAddressContext} interface and obtains the IP address from the HTTP headers, when a proxy is used.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/sections/5-design/ipAddressContext.png}
+  \label{fig:user-context-ip-address-context}
+  \caption{IP Address User Context Diagram}
+\end{figure}
 
 \subsection{User Context Condition}
 Improvement to the user context management is to have a general concept for evaluating certain conditions with regard to the user context.
 It means that we can leverage user context conditions in conditional authentication flows or in authentication policies, as described in \ref{authentication-policies}.
 
-There might be several possible operations on the user context entities, and the developer of the additional user context should not reinvent the wheel around attributes of conditions.
+There might be several possible operations make on the user context entities, and the developer of the additional user context should not reinvent the wheel around attributes of conditions.
 The additional conditions can be created very easily, as the general concept for evaluating them has already been assessed.
 
-\subsubsection{Operations}
+The abstract \textit{UserContextConditionFactory} class implements the \textit{VerifiableUserContextFactory} interface, that manages the \textit{Operation} class described in the section \ref{user-context-condition-operations}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/5-design/UserContextCondition.png}
+  \label{fig:user-context-condition}
+  \caption{User Context Condition Diagram}
+\end{figure}
+
+\subsubsection{Operations} \label{user-context-condition-operations}
 User context conditions take into account a list of operations that can be proceeded on the user context entity.
 The operation consists of several attributes, such as follows:
 
@@ -61,8 +103,6 @@ For instance, an administrator can specify that IP addresses from the range `222
   \label{fig:design-user-context-ip-addr-condition}
   \caption{IP address context condition}
 \end{figure}
-
-// TODO add diagrams with operations
 
 \section{Authentication Policies} \label{authentication-policies}
 Design of the Authentication policies, or as described in the specification as a Policy engine, provides the ability to comply with requirements specified by the administrator.
@@ -222,6 +262,13 @@ Risk evaluators play a crucial role in risk-based authentication, as their prima
 The evaluation itself might be a challenging area to handle, as there are no guidelines on how exactly it should be done.
 It requires specific expertise and multiple agreements on how exactly the risk should be calculated for each individual user context.
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.4\textwidth]{img/sections/5-design/riskEvaluator.png}
+  \label{fig:design-user-evaluator-diagram}
+  \caption{Risk Evaluator Diagram}
+\end{figure}
+
 \subsubsection{Attributes}
 The main risk evaluator attributes:
 
@@ -326,6 +373,28 @@ The \( \bar{x} \) represents the overall risk score, \( x_i \) represents the in
 The overall risk of the whole authentication process is evaluated as an arithmetic average of risk scores for each individual phase.
 It means when the overall score for phase \textit{NO\_USER} is \textit{0.7}, and the score for phase \textit{REQUIRES\_USER} is \textit{0.6}, the overall risk score for the whole process is \textit{0.65}. 
 
+\subsubsection{Design}
+The risk engine is presented as \textit{RiskEngine} interface with several methods shown in Figure \ref{fig:design-user-engine-diagram}.
+The interface extends \textit{ConfigurableRequirements} interface for achieving dynamic check whether the authentication user is required during the risk engine processing.
+There is also a weak relationship between \textit{RiskEngine} and \textit{RiskEvaluator} interface, as \textit{RiskEngine} contains collection of the risk evaluators.
+Therefore the aggregation relationship is used in this case. 
+\newline
+\newline
+Risk engine methods:
+
+\begin{itemize}
+    \item \textit{evaluateRisk()} -- method that initiates the evaluation of the collected risk.
+    \item \textit{getRisk()} -- retrieve the evaluated risk.
+    \item \textit{getRiskEvaluators()} -- retrieve all risk evaluators that contribute to the risk calculations.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/5-design/risk-engine.png}
+  \label{fig:design-user-engine-diagram}
+  \caption{Risk Engine Diagram}
+\end{figure}
+
 \subsubsection{Configuration}
 It is essential for administrators to have the capability to set reasonable values for the timeout and number of retries for the risk engine.
 Besides configuring the overall state of risk-based functionality, it may be done through the administrator console, as shown in figure \ref{fig:risk-based-enging-config}.
@@ -350,9 +419,25 @@ The start for the authentication request might be considered at the beginning of
 Therefore, leveraging authentication session notes seems to be the most reasonable way to store the risk.
 
 However, these data might be stored in different stores, such as databases or cache, and the developer should have the ability to extend the functionality.
-Thus, the SPI for the stored risk is introduced. 
+Thus, the \textit{SPI} for the stored risk is introduced.
+The provider for storing the risk is represented by \textit{StoredRiskProvider}, shown in Figure \ref{fig:design-stored-risk-diagram}.
 
-//TODO add stored risk details
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/5-design/stored-risk-provider.png}
+  \label{fig:design-stored-risk-diagram}
+  \caption{Stored Risk Provider Diagram}
+\end{figure}
+
+Stored risk provider methods:
+\begin{itemize}
+    \item \textit{getStoredRisk()} -- retrieve the overall stored risk score.
+    \item \textit{getStoredRisk(phase)} -- retrieve the risk score for specific risk phase.
+    \item \textit{storeRisk(risk)} -- store overall risk score.
+    \item \textit{storeRisk(risk, phase)} -- store risk score for specific risk phase.
+\end{itemize}
+
+Risk phase values representing the phase of the evaluated risk score are detailed described in the general subsection of \ref{risk-engine}.
 
 \subsubsection{Risk Engine Authenticator}
 The primary purpose of the risk engine authenticator is to explicitly trigger the risk engine evaluations for specific risk processing phases.
@@ -374,12 +459,27 @@ The authenticator configuration looks like this:
 \subsection{Risk Levels} \label{risk-levels}
 When the risk engine calculates the overall risk score for the authentication request, the application needs to react to it in some manner.
 The primary purpose of the risk levels is to divide risk score ranges into specific levels.
-The risk level is basically an entity with a specified lower and upper bound of risk score.
+The risk level is basically an entity with a specified lower and upper bound of risk score shown in Figure \ref{fig:risk-level-diagram}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.45\textwidth]{img/sections/5-design/risk-level.png}
+  \label{fig:risk-level-diagram}
+  \caption{Risk Level Diagram}
+\end{figure}
+
+Risk level methods:
+\begin{itemize}
+    \item \textit{getName()} -- retrieve the name of the level.
+    \item \textit{matchesRisk(risk)} -- check whether a specific risk is associated to a risk level.
+    \item \textit{getLowestRiskValue()} -- retrieve the lower risk bound.
+    \item \textit{getHighestRiskValue()} -- retrieve the upper risk bound.
+\end{itemize}
 
 As the risk score might consider dynamic evaluations, which can provide slightly different fluctuating results, relying on specific risk score values is impossible.
 That means a reasonable granularity needs to be assessed to manage the overall risk score -- several levels.
 There are two default distinct risk level categories providing different granularity of risk levels -- \textit{simple} and \textit{advanced}.
-Developers can provide their custom risk level category by implementing the \textit{RiskLevelsSpi}. 
+Developers can provide their custom risk level category by implementing the \textit{RiskLevelsSpi}.
 \newline
 \newline
 The \textit{simple} risk level category consists of three risk levels:
