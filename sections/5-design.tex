@@ -328,7 +328,7 @@ It means when the overall score for phase \textit{NO\_USER} is \textit{0.7}, and
 
 \subsubsection{Configuration}
 It is essential for administrators to have the capability to set reasonable values for the timeout and number of retries for the risk engine.
-Besides configuring the overall state of risk-based functionality, it may be done through the administrator console, as shown in figure \ref{}.
+Besides configuring the overall state of risk-based functionality, it may be done through the administrator console, as shown in figure \ref{fig:risk-based-enging-config}.
 The default number of retries is \textit{3}.
 The default timeout for processing the risk score is \textit{1500ms}.
 
@@ -372,10 +372,90 @@ The authenticator configuration looks like this:
 \end{figure}
 
 \subsection{Risk Levels} \label{risk-levels}
-\subsection{Risk Level conditions}
+When the risk engine calculates the overall risk score for the authentication request, the application needs to react to it in some manner.
+The primary purpose of the risk levels is to divide risk score ranges into specific levels.
+The risk level is basically an entity with a specified lower and upper bound of risk score.
+
+As the risk score might consider dynamic evaluations, which can provide slightly different fluctuating results, relying on specific risk score values is impossible.
+That means a reasonable granularity needs to be assessed to manage the overall risk score -- several levels.
+There are two default distinct risk level categories providing different granularity of risk levels -- \textit{simple} and \textit{advanced}.
+Developers can provide their custom risk level category by implementing the \textit{RiskLevelsSpi}. 
+\newline
+\newline
+The \textit{simple} risk level category consists of three risk levels:
+\begin{itemize}
+    \item \textbf{Low} -- Risk score in range (0, 0.33>.
+    \item \textbf{Medium} -- Risk score in range (0.33, 0.66>.
+    \item \textbf{High} -- Risk score in range (0.66, 1>.
+\end{itemize}
+\newline
+\newline
+The \textit{advanced} risk level category consists of five risk levels:
+\begin{itemize}
+    \item \textbf{Low} -- Risk score in range (0, 0.2>.
+    \item \textbf{Mild} -- Risk score in range (0.2, 0.4>.
+    \item \textbf{Medium} -- Risk score in range (0.4, 0.6>.
+    \item \textbf{Moderate} -- Risk score in range (0.6, 0.8>.
+    \item \textbf{High} -- Risk score in range (0.8, 1>.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/5-design/risk-levels.png}
+  \label{fig:risk-levels}
+  \caption{Default Risk Levels}
+\end{figure}
+
+\subsubsection{Risk Level Conditions}
+In order to accommodate the risk levels mechanism into the authentication flow, expressly conditional flows or authentication policies, the risk level condition is introduced.
+The primary purpose of the condition is to process conditional flow or authentication policy when its predicate is evaluated as \textit{true}.
+
+In this case, the predicate obtains the stored risk from the risk engine and, based on the specified risk level category, determines whether the risk is included in the risk level category.
+If the evaluated risk score is in the range of the specified category, the condition is evaluated as \textit{true}, and the underlying flow is processed.
+\newline
+\newline
+The list showed to administrators when adding a condition to the conditional flow or authentication policies:
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/sections/5-design/risk-level-condition-list.png}
+  \label{fig:risk-levels-condition}
+  \caption{Default Risk Levels Condition}
+\end{figure}
+
+The risk level condition contains a configuration list box with values defined for the particular risk level provider, as shown here:
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/sections/5-design/risk-level-simple-config.png}
+  \label{fig:risk-levels-simple-config}
+  \caption{Simple Risk Level Configuration}
+\end{figure}
+
+\subsubsection{Risk Level Flow Example}
+
+A proper example of leveraging the risk levels in the conditional flows or authentication policies might be seen in Figure \ref{fig:risk-levels-example} below.
+The risk level flow is a sequence of conditional flows consisting of risk level conditions and actions that should be executed.
+For better visibility, the conditional flows are marked by different colors.
+\newline
+\newline
+In the case shown in Figure \ref{fig:risk-levels-example}, consider the \textit{simple} risk level category. When the evaluated risk is:
+\begin{itemize}
+    \item \textbf{Low} -- the access to the application is granted without any other action.
+    \item \textbf{Medium} -- the second factor is required -- using OTP.
+    \item \textbf{High} -- the access is denied.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\textwidth]{img/sections/5-design/simple-risk-level-flow.png}
+  \label{fig:risk-levels-example}
+  \caption{Simple Risk Level Flow}
+\end{figure}
 
 
+\newpage
 \section{Artificial Intelligence}
 
-
+\newpage
 \section{External Integration}
