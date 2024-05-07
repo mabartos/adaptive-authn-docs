@@ -42,7 +42,7 @@ Methods of the \textit{UserContext} interface:
 \subsection{Specific User Context}
 An excellent example of leveraging user context is the implementation of an IP address context.
 It provides the ability to obtain the IP address of the device in multiple ways.
-The IP address can be obtained either from the user agent attributes or from the HTTP headers 'Forwarded' and 'X-Forwarded-For' when a proxy is used.
+The IP address can be obtained either from the user agent attributes or from the HTTP headers \textit{Forwarded} and \textit{X-Forwarded-For} when a proxy is used.
 
 As seen in Figure \ref{fig:user-context-ip-address-context}, the \textit{IpAddressContext} interface extends the \textit{UserContext} interface and specifies that the retrieved data will be of type \textit{IPAddress}, which is a structure describing the IP address attributes.
 
@@ -55,6 +55,8 @@ The \textit{HeaderIpAddressContext} class is also an implementation of the \text
   \label{fig:user-context-ip-address-context}
   \caption{IP Address User Context Diagram}
 \end{figure}
+
+\newpage
 
 \subsection{User Context Condition}
 Improvement to the user context management is to have a general concept for evaluating certain conditions with regard to the user context.
@@ -72,30 +74,41 @@ The abstract \textit{UserContextConditionFactory} class implements the \textit{V
   \caption{User Context Condition Diagram}
 \end{figure}
 
+\newpage
+
 \subsubsection{Operations} \label{user-context-condition-operations}
 User context conditions take into account a list of operations that can be proceeded on the user context entity.
-The operation consists of several attributes, such as follows:
+The operation consists of several attributes, shown in Figure \ref{fig:operation-diagram}, such as follows:
 
 \begin{itemize}
     \item \textbf{Symbol} (\textit{string}) -- unique operation identifier used for identification of the operation when serialized data are received from remote locations. It must be unique per the user context condition.
     \item \textbf{Text} (\textit{string}) -- name of the operation shown to the end user.
     It can contain a localization key, which can then be mapped to a different language or directly the text in the specific language. 
-    \item \textbf{Predicate} (\textit{predicate}) -- predicate that is applied to the specific user context. When the evaluation of the predicate is met, the operation is considered successful.
+    \item \textbf{Condition} (\textit{predicate}) -- predicate that is applied to the specific user context. When the evaluation of the predicate is met, the operation is considered successful.
 \end{itemize}
 
 When all the predicates of specified operations are met, the whole condition is considered successful, and the authentication flow can proceed with the processing.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/sections/5-design/operation-diagram.png}
+  \label{fig:operation-diagram}
+  \caption{Operation Diagram}
+\end{figure}
+
+\newpage
 
 \subsubsection{Example}
 
 A suitable example of the user context condition might be a newly introduced condition for the IP address user context entity.
 During the evaluation of the condition, the first step is obtaining the IP address context, which contains the current IP address of the device that is trying to authenticate.
-Some specified operations that can be made on top of the IP address context are `is equal`, `is not equal` or `is in range`.
+Some specified operations that can be made on top of the IP address context are \textit{is equal}, \textit{is not equal} or \textit{is in range}.
 
 The predicate of the \textit{equal} operation is to directly match the IP address provided by the administrator.
 The opposite \textit{not equal} operation just negatively matches the IP address, as it represents the state when the IP address is not the specified one.
-Administrators can also specify the `in range` operation, which provides the ability to check whether the IP address of the device is in the specified IP address range.
+Administrators can also specify the \textit{in range} operation, which provides the ability to check whether the IP address of the device is in the specified IP address range.
 
-For instance, an administrator can specify that IP addresses from the range `222.0.0.0-224.0.0.0` are not allowed to be authenticated, as shown in Figure \ref{fig:design-user-context-ip-addr-condition}.
+For instance, an administrator can specify that IP addresses from the range \textit{222.0.0.0-224.0.0.0} are not allowed to be authenticated, as shown in Figure \ref{fig:design-user-context-ip-addr-condition}.
 
 \begin{figure}[htbp]
   \centering
@@ -103,6 +116,8 @@ For instance, an administrator can specify that IP addresses from the range `222
   \label{fig:design-user-context-ip-addr-condition}
   \caption{IP address context condition}
 \end{figure}
+
+\newpage
 
 \section{Authentication Policies} \label{authentication-policies}
 Design of the Authentication policies, or as described in the specification as a Policy engine, provides the ability to comply with requirements specified by the administrator.
@@ -122,10 +137,12 @@ Every authentication policy consists of several conditions and actions.
 All conditions must be met in order to execute specific actions.
 If some of these conditions are not evaluated to be true, the whole authentication policy is skipped, and the following policy in the hierarchy structure is evaluated.
 
-Authentication policies can be specified interactively via the administrator console or HTTP REST API.
+Authentication policies can be specified interactively via the administrator console or \textit{HTTP REST API}.
 All of them are stored in persistent storage, so every change of the structure is visible even after the re-initialization of the application. 
 Specific operations can be executed on the policy entities, such as obtaining a specific authentication policy, creating a new one, or updating or removing the existing one.
 Moreover, the priority to achieve the required hierarchy structure can be defined as well.
+
+\newpage
 
 \subsection{Authentication Flow}
 
@@ -142,6 +159,8 @@ Authentication policies extend the capabilities around the authentication flow p
 To be more specific, it gives the possibility to share policies across different flows, which is the main difference between conditional flows and authentication policies.
 
 It provides more fine-grained authentication policy management and a better authentication settings approach.
+
+\newpage
 
 \subsection{Authentication Policy Authenticator}
 In order to properly evaluate all authentication policies specified for the realm without the need to comprehensively expand the authentication flows, a specific authenticator was introduced.
@@ -167,14 +186,13 @@ The same applies to the case when the action explicitly denies access to the use
 
 Otherwise, when the action is not terminal, the other policies are evaluated as usual.
 
-\subsection{Administrator Console}
-// TODO add screenshots of admin pages and elaborate on them
+\newpage
 
 \subsection{Policy Evaluation Example}
 For a better representation of the authentication policy evaluation, a simple example with the described configuration might be considered.
 The specification of a particular authentication policy is done through the administrator console in the Authentication section and Authentication Policies tab.
 
-The following simple example of the authentication policy, in figure \ref{fig:design-policy-browser-flow}, has one condition and one action.
+The following simple example of the authentication policy, in Figure \ref{fig:design-policy-browser-flow}, has one condition and one action.
 If the first condition is met, the underlying action is executed.
 
 The policy contains a condition based on the current browser properties, which does not allow a specific browser vendor - Mozilla Firefox, in this case.
@@ -185,21 +203,15 @@ This means that authentication requests can only be made via a browser other tha
   \centering
   \includegraphics[width=1\textwidth]{img/sections/5-design/policy-browser-flow.png}
   \label{fig:design-policy-browser-flow}
-  \caption{Authentication policy browser restriction}
+  \caption{Authentication Policy Browser Restriction}
 \end{figure}
 
-For a better visualization of the condition evaluation flow, consider this diagram:
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\textwidth]{img/sections/5-design/policy-browser-flow-graph.png}
-  \label{fig:design-policy-browser-flow-graph}
-  \caption{Authentication policy browser restriction graph}
-\end{figure}
+\newpage
 
 The condition configuration attributes differ based on the used condition provider/implementation.
 Every condition provider specifies a set of configuration properties for condition settings.
-
+\newline
+\newline
 The browser condition, shown in Figure \ref{fig:design-policy-browser-flow-condition}, includes properties:
 
 \begin{itemize}
@@ -207,25 +219,28 @@ The browser condition, shown in Figure \ref{fig:design-policy-browser-flow-condi
     \item \textbf{Operation} -- list of possible operations.
     \item \textbf{Browser} -- multi valued list of browsers. 
 \end{itemize}
-
+\newline
+\newline
 In this case, the condition is met only when the browser vendor is Firefox:
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.8\textwidth]{img/sections/5-design/policy-browser-condition.png}
   \label{fig:design-policy-browser-flow-condition}
-  \caption{Browser restriction condition}
+  \caption{Browser Restriction Condition}
 \end{figure}
 
 The action configuration also differs based on the provider of the action.
 For the Deny access provider, visible in Figure \ref{fig:design-policy-browser-flow-deny}, the only additional property is \textit{Error Message}.
 It represents an error message that is shown to the user when the access is denied.
 
+\newpage
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.8\textwidth]{img/sections/5-design/policy-browser-deny.png}
   \label{fig:design-policy-browser-flow-deny}
-  \caption{Browser restriction deny access}
+  \caption{Browser Restriction Deny Access}
 \end{figure}
 
 \newpage
@@ -313,6 +328,8 @@ It should not take into consideration a wider context out of its scope as that i
 
 For evaluating the overall risk score and considering the wider context, the risk engine component is provided and described in \ref{risk-engine}.
 
+\newpage
+
 \subsubsection{Configuration}
 The key concept around risk evaluators is their configuration for better manageability and user experience.
 Administrators have the ability assess the main attributes of evaluators to their needs, such as tweaking the \textit{weight} or \textit{enabled} attribute without the necessity to change the risk evaluators implementation.
@@ -353,6 +370,8 @@ It means only information about the application stack is present, such as inform
 
 The \textit{REQUIRES\_USER} phase represents the phase when the user is already known during the authentication process.
 
+\newpage
+
 \subsubsection{Default Algorithm}
 The default algorithm for calculating the overall risk score is weighted arithmetic mean, which provides the necessary characteristic for the risk evaluation.
 
@@ -372,6 +391,8 @@ The \( \bar{x} \) represents the overall risk score, \( x_i \) represents the in
 
 The overall risk of the whole authentication process is evaluated as an arithmetic average of risk scores for each individual phase.
 It means when the overall score for phase \textit{NO\_USER} is \textit{0.7}, and the score for phase \textit{REQUIRES\_USER} is \textit{0.6}, the overall risk score for the whole process is \textit{0.65}. 
+
+\newpage
 
 \subsubsection{Design}
 The risk engine is presented as \textit{RiskEngine} interface with several methods shown in Figure \ref{fig:design-user-engine-diagram}.
@@ -394,6 +415,8 @@ Risk engine methods:
   \label{fig:design-user-engine-diagram}
   \caption{Risk Engine Diagram}
 \end{figure}
+
+\newpage
 
 \subsubsection{Configuration}
 It is essential for administrators to have the capability to set reasonable values for the timeout and number of retries for the risk engine.
@@ -439,6 +462,8 @@ Stored risk provider methods:
 
 Risk phase values representing the phase of the evaluated risk score are described in detail in the general subsection of \ref{risk-engine}.
 
+\newpage
+
 \subsubsection{Risk Engine Authenticator}
 The primary purpose of the risk engine authenticator is to explicitly trigger the risk engine evaluations for specific risk processing phases.
 It is the standard Keycloak authenticator so that it can be included in a specific place in an authentication flow.
@@ -456,8 +481,11 @@ The authenticator configuration looks like this:
   \caption{Risk Engine Authenticator Configuration}
 \end{figure}
 
+\newpage
+
 \subsection{Risk Levels} \label{risk-levels}
 When the risk engine calculates the overall risk score for the authentication request, the application needs to react to it in some manner.
+
 The primary purpose of the risk levels is to divide risk score ranges into specific levels.
 The risk level is basically an entity with a specified lower and upper bound of risk score shown in Figure \ref{fig:risk-level-diagram}.
 
@@ -478,18 +506,19 @@ Risk level methods:
 
 As the risk score might consider dynamic evaluations, which can provide slightly different fluctuating results, relying on specific risk score values is impossible.
 That means a reasonable granularity needs to be assessed to manage the overall risk score -- several levels.
+
 There are two default distinct risk level categories providing different granularity of risk levels -- \textit{simple} and \textit{advanced}.
 Developers can provide their custom risk level category by implementing the \textit{RiskLevelsSpi}.
-\newline
-\newline
+
+\newpage
+
 The \textit{simple} risk level category consists of three risk levels:
 \begin{itemize}
     \item \textbf{Low} -- Risk score in range (0, 0.33>.
     \item \textbf{Medium} -- Risk score in range (0.33, 0.66>.
     \item \textbf{High} -- Risk score in range (0.66, 1>.
 \end{itemize}
-\newline
-\newline
+
 The \textit{advanced} risk level category consists of five risk levels:
 \begin{itemize}
     \item \textbf{Low} -- Risk score in range (0, 0.2>.
@@ -506,6 +535,8 @@ The \textit{advanced} risk level category consists of five risk levels:
   \caption{Default Risk Levels}
 \end{figure}
 
+\newpage
+
 \subsubsection{Risk Level Conditions}
 In order to accommodate the risk levels mechanism into the authentication flow, expressly conditional flows or authentication policies, the risk level condition is introduced.
 The primary purpose of the condition is to process conditional flow or authentication policy when its predicate is evaluated as \textit{true}.
@@ -514,15 +545,6 @@ In this case, the predicate obtains the stored risk from the risk engine and, ba
 If the evaluated risk score is in the range of the specified category, the condition is evaluated as \textit{true}, and the underlying flow is processed.
 \newline
 \newline
-The list showed to administrators when adding a condition to the conditional flow or authentication policies:
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.7\textwidth]{img/sections/5-design/risk-level-condition-list.png}
-  \label{fig:risk-levels-condition}
-  \caption{Default Risk Levels Condition}
-\end{figure}
-
 The risk level condition contains a configuration list box with values defined for the particular risk level provider, as shown here:
 
 \begin{figure}[htbp]
@@ -531,7 +553,7 @@ The risk level condition contains a configuration list box with values defined f
   \label{fig:risk-levels-simple-config}
   \caption{Simple Risk Level Configuration}
 \end{figure}
-
+\newpage
 \subsubsection{Risk Level Flow Example}
 
 A proper example of leveraging the risk levels in the conditional flows or authentication policies might be seen in Figure \ref{fig:risk-levels-example} below.
