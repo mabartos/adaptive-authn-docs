@@ -20,7 +20,7 @@ It implies that administrators need to be aware of present user context provider
 \newpage
 
 As shown in Figure \ref{fig:user-context-diagram}, user context is represented as interface \textit{UserContext}, where the generic is used.
-It means that every implementation of the \textit{UserContext} interface can retrieve different type of data.
+This means that every implementation of the \textit{UserContext} interface can retrieve different types of data.
 
 \begin{figure}[htbp]
   \centering
@@ -32,9 +32,9 @@ It means that every implementation of the \textit{UserContext} interface can ret
 Methods of the \textit{UserContext} interface:
 \begin{itemize}
     \item \textit{requiresUser()} -- a boolean flag to determine whether the data can be obtained without the information about the authentication user.
-    \item \textit{initData()} -- method that initiates retrieving the data.
+    \item \textit{initData()} -- a method that initiates retrieving the data.
     \item \textit{getData()} -- obtain the retrieved data. 
-    \item \textit{isInitialized()} -- a boolean flag to determine whether the data is already initialized. 
+    \item \textit{isInitialized()} -- a boolean flag to determine whether the data has already been initialized. 
 \end{itemize}
 
 \newpage
@@ -44,7 +44,7 @@ An excellent example of leveraging user context is the implementation of an IP a
 It provides the ability to obtain the IP address of the device in multiple ways.
 The IP address can be obtained either from the user agent attributes or from the HTTP headers 'Forwarded' and 'X-Forwarded-For' when a proxy is used.
 
-As you can see in Figure \ref{fig:user-context-ip-address-context}, the \textit{IpAddressContext} interface extends the \textit{UserContext} interface and specify that the retrieved data will be of type \textit{IPAddress}, which is a structure describing the IP address attributes.
+As seen in Figure \ref{fig:user-context-ip-address-context}, the \textit{IpAddressContext} interface extends the \textit{UserContext} interface and specifies that the retrieved data will be of type \textit{IPAddress}, which is a structure describing the IP address attributes.
 
 The \textit{DeviceIpAddressContext} class is an implementation of the \textit{IpAddressContext} interface and obtains the IP address from the user agent attributes.
 The \textit{HeaderIpAddressContext} class is also an implementation of the \textit{IpAddressContext} interface and obtains the IP address from the HTTP headers, when a proxy is used.
@@ -60,10 +60,10 @@ The \textit{HeaderIpAddressContext} class is also an implementation of the \text
 Improvement to the user context management is to have a general concept for evaluating certain conditions with regard to the user context.
 It means that we can leverage user context conditions in conditional authentication flows or in authentication policies, as described in \ref{authentication-policies}.
 
-There might be several possible operations make on the user context entities, and the developer of the additional user context should not reinvent the wheel around attributes of conditions.
+There might be several possible operations made on the user context entities, and the developer of the additional user context should not reinvent the wheel around attributes of conditions.
 The additional conditions can be created very easily, as the general concept for evaluating them has already been assessed.
 
-The abstract \textit{UserContextConditionFactory} class implements the \textit{VerifiableUserContextFactory} interface, that manages the \textit{Operation} class described in the section \ref{user-context-condition-operations}.
+The abstract \textit{UserContextConditionFactory} class implements the \textit{VerifiableUserContextFactory} interface, which manages the \textit{Operation} class described in the section \ref{user-context-condition-operations}.
 
 \begin{figure}[htbp]
   \centering
@@ -376,8 +376,8 @@ It means when the overall score for phase \textit{NO\_USER} is \textit{0.7}, and
 \subsubsection{Design}
 The risk engine is presented as \textit{RiskEngine} interface with several methods shown in Figure \ref{fig:design-user-engine-diagram}.
 The interface extends \textit{ConfigurableRequirements} interface for achieving dynamic check whether the authentication user is required during the risk engine processing.
-There is also a weak relationship between \textit{RiskEngine} and \textit{RiskEvaluator} interface, as \textit{RiskEngine} contains collection of the risk evaluators.
-Therefore the aggregation relationship is used in this case. 
+There is also a weak relationship between \textit{RiskEngine} and \textit{RiskEvaluator} interface, as \textit{RiskEngine} contains a collection of the risk evaluators.
+Therefore, the aggregation relationship is used in this case. 
 \newline
 \newline
 Risk engine methods:
@@ -432,12 +432,12 @@ The provider for storing the risk is represented by \textit{StoredRiskProvider},
 Stored risk provider methods:
 \begin{itemize}
     \item \textit{getStoredRisk()} -- retrieve the overall stored risk score.
-    \item \textit{getStoredRisk(phase)} -- retrieve the risk score for specific risk phase.
+    \item \textit{getStoredRisk(phase)} -- retrieve the risk score for a specific risk phase.
     \item \textit{storeRisk(risk)} -- store overall risk score.
-    \item \textit{storeRisk(risk, phase)} -- store risk score for specific risk phase.
+    \item \textit{storeRisk(risk, phase)} -- store risk score for a specific risk phase.
 \end{itemize}
 
-Risk phase values representing the phase of the evaluated risk score are detailed described in the general subsection of \ref{risk-engine}.
+Risk phase values representing the phase of the evaluated risk score are described in detail in the general subsection of \ref{risk-engine}.
 
 \subsubsection{Risk Engine Authenticator}
 The primary purpose of the risk engine authenticator is to explicitly trigger the risk engine evaluations for specific risk processing phases.
