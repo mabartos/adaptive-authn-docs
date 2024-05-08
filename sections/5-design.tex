@@ -578,6 +578,54 @@ In the case shown in Figure \ref{fig:risk-levels-example}, consider the \textit{
 
 \newpage
 \section{Artificial Intelligence}
+\textit{Artificial intelligence} (AI) and \textit{machine learning} (ML) are rapidly evolving with promising results, and the range of their applicability is more expansive than before.
+As mentioned previously, evaluating risk scores for user contexts is a complex discipline with many boundaries and required assessments.
+
+With the help of AI, the problem can be simplified as it could potentially evaluate the risk score more accurately based on the overall context.
+However, the evaluation of the risk by AI might bring its own risk of unpredictability when the machine learning model is not mature in a higher measure.
+
+The model needs to determine a fraudulent request with a higher probability and gain knowledge from the ongoing traffic to the application.
+Modeling a custom AI model is a challenging topic and out of the scope of this thesis due to its complexity.
+
+The design for integrating AI services provides extendable API for leveraging multiple AI engines and being vendor-agnostic as much as possible.
+The most suitable place for leveraging AI is evaluating risk scores for user contexts. 
+Due to the unpredictability and non-deterministic behavior of AI evaluations, the design takes care only of specific risk evaluations.
+
+To be more specific, the design does not suggest implementing a risk engine based on AI but rather creating a hybrid solution with static evaluations in contribution to the dynamic AI evaluations.
+
+The design leverages \textit{Natural Language Processing} (NLP) systems, as the request on the service contains commands queried in a natural human language.
+This means the system needs to understand the task, the context, and the specific user message.  
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/sections/5-design/ai-engine.png}
+  \label{fig:ai-engine-diagram}
+  \caption{AI NLP Engine Diagram}
+\end{figure}
+
+\newpage
+For the integration of the NLP systems, the \textit{AiNlpEngine} interface has been introduced as it provides a unified API for AI NLP engines.
+Every implementation of the engine needs to implement these methods:
+
+\begin{itemize}
+    \item \textit{getResult(message, class)} -- retrieve serialized data of type \textit{class} with the user \textit{message} and the default \textit{context}.
+    \item \textit{getResult(context, message, class)} -- retrieve serialized data of type \textit{class} with the user \textit{message} and a specific \textit{context}.
+\end{itemize}
+
+Specific risk evaluators leveraging AI use for communication with the AI service a specific \textit{AiNlpEngine} implementation in order to obtain the required risk score evaluated by the service, as shown in Figure \ref{fig:ai-engine-remote-diagram}. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/5-design/ai-engine-remote.png}
+  \label{fig:ai-engine-remote-diagram}
+  \caption{Risk Evaluator and AI NLP Engine Diagram}
+\end{figure}
+
+\newpage
+
+\subsubsection{Queries}
+
+
 
 \newpage
 \section{External Integration}
