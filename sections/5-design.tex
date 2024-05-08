@@ -577,9 +577,10 @@ In the case shown in Figure \ref{fig:risk-levels-example}, consider the \textit{
 
 
 \newpage
-\section{Artificial Intelligence}
+\section{Artificial Intelligence} \label{design-ai}
 \textit{Artificial intelligence} (AI) and \textit{machine learning} (ML) are rapidly evolving with promising results, and the range of their applicability is more expansive than before.
 As mentioned previously, evaluating risk scores for user contexts is a complex discipline with many boundaries and required assessments.
+For more details and specific requirements for the AI approach, see the chapter \ref{spec-ai}.
 
 With the help of AI, the problem can be simplified as it could potentially evaluate the risk score more accurately based on the overall context.
 However, the evaluation of the risk by AI might bring its own risk of unpredictability when the machine learning model is not mature in a higher measure.
@@ -624,3 +625,21 @@ Specific risk evaluators leveraging AI use for communication with the AI service
 \newpage
 
 \section{External Integration}
+External integration with third-party services can be smoothly adjusted due to the design of the components for adaptive authentication.
+For more details and specific requirements for the external integration, see the Chapter \ref{spec-external-integration}.
+
+External integration is also related to the previous Chapter \ref{design-ai}, as the AI services can be queried due to the external integration capabilities.
+It is possible to attach a remote service to the adaptive authentication process managed by the risk engine, as described in Chapter \ref{risk-engine}.
+
+The design of the remote user context is shown on the Diagram \ref{fig:design-external-integration}, where the information about device location is fetched from the remote third-party service. 
+The \textit{LocationContext} specifies the format of data it works with, and the custom implementation needs to provide it.
+Therefore, the application still seamlessly works with the location data despite the implementation of retrieving the location information.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/sections/5-design/location-diagram.png}
+  \label{fig:design-external-integration}
+  \caption{Remote Location Context}
+\end{figure}
+
+\newpage
