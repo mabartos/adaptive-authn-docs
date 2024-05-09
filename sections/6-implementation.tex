@@ -180,13 +180,54 @@ When there is valid data, the boolean flag \textit{isInitialized} is set to \tex
 \end{figure}
 
 \newpage
+\section{Risk Evaluator}
+A suitable example for the risk evaluator implementation is the specific \textit{LoginFailuresRiskEvaluator}, which statically evaluates the risk based on login failures shown in Figure \ref{fig:impl-risk-evaluator-login-failures}.
+For further evaluation, the current IP address is required, so it is obtained from the \textit{IpAddressContext}.
 
-\section{User Context Condition}
-\subsection{Operations Builder}
+The evaluated risk is returned as \textit{Optional}, as the risk might not be evaluated in time or at all. 
+It helps to avoid working with \textit{null} values.
+This evaluator requires to have information about the authentication user, so the method \textit{requiresUser()} is amended based on it.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/loginFailures.png}
+  \caption{Login Failures Risk Evaluator}
+  \label{fig:impl-risk-evaluator-login-failures}
+\end{figure}
+
+The evaluation of the risk itself is done in the \textit{evaluateRisk()} method, which contains a few checks of login failures, as shown in Figure \ref{fig:impl-risk-evaluator-login-failures-evaluations}.
+As was mentioned before, the evaluation of the risk itself might be challenging and requires specific agreements on the evaluations, as there is no explicit correct approach to achieving it.
+
+In the example, the risk is increasing based on the count of login failures, which might represent a brute-force attack.
+The higher the count of login failures, the higher the risk.
 
 \newpage
-\section{User Evaluator}
+The last check verifies the current IP address and the IP address of the last login failure, as requesting resources from different IP addresses should indicate a higher risk.
+There might be a situation where the risk for a legitimate user trying to access the application will be higher, as some fraudulent activity has been executed based on their account. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/sections/6-implementation/loginFailuresEvals.png}
+  \caption{Login Failures Risk Evaluator Evaluations}
+  \label{fig:impl-risk-evaluator-login-failures-evaluations}
+\end{figure}
+
+\newpage
 \subsection{Configuration}
+By default, for every risk evaluator, attributes \textit{isEnabled} and \textit{weight} can be configured by the administrator, as described in Section \ref{design-risk-eval-config}.
+The permanent storing of the configuration of risk evaluators is done via realm attributes, which are represented by a key-value map structure.
+Every configurable attribute of the risk evaluator has a unique key that is used to reference it in the map structure.
+
+As shown in Figure \ref{fig:impl-risk-evaluator-login-failures-config}, the attributes are obtained from a different location -- from the realm attributes.
+In this case, if the \textit{weight} attribute is not stored yet or not configured by the administrator, the default value \textit{Weight.IMPORTANT} (weight 0.8) is applied.
+When the \textit{isEnabled} attribute is not stored or configured, it is turned on by default.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.6\textwidth]{img/sections/6-implementation/loginFailuresConfig.png}
+  \caption{Login Failures Risk Evaluator Configuration}
+  \label{fig:impl-risk-evaluator-login-failures-config}
+\end{figure}
 
 \newpage
 \section{User Engine}
