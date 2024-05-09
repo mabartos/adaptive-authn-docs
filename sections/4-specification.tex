@@ -44,8 +44,8 @@ The basic implementation should contain an approach on how to assign certain aut
 Users should be able to define multiple risk levels and customize ranges of risk scores associated with the levels.
 
 Users might also be capable of setting certain decision weights to the data supplied by the risk factors mechanisms.
-It means they could decide how much a particular risk factor should affect the overall risk score.
-It is also imperative to have the possibility to disable evaluating the risk score from particular risk factors.
+This means that they can decide how much a particular risk factor should affect the overall risk score.
+It is also imperative to have the possibility to disable the evaluation of the risk score from particular risk factors.
 
 \section{Policy Engine}
 The next goal of the thesis is to create a PoC for authentication policy evaluations.
@@ -55,8 +55,8 @@ Specifically, authentication policy can define the exact flow that would be exec
 For example, a particular authentication policy could require MFA when the device is located outside of the US.
 In that case, a user needs to specify the initial conditions as evaluating the location and specifying concrete action that will proceed.
 
-Authentication policy might have the possibility to get risk factors data, and determine the action based on their values.
-The policy could also explicitly use the calculated risk score and decide about the authentication attempt continuity.
+The authentication policy might have the possibility of getting risk factors data and determining the action based on their values.
+The policy could also explicitly use the calculated risk score to decide the authentication attempt's continuity.
 
 The authentication policy engine would gather and execute all the policies in a specific way.
 The engine could support the configuration of its behavior and manage data about the associated policies.

@@ -16,8 +16,8 @@ More details about the administrator console interface are in Section \ref{impl-
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.5\textwidth]{img/sections/6-implementation/auth-policies-parent.png}
-  \label{fig:impl-authn-policies-parent}
   \caption{Authentication Policies Parent}
+  \label{fig:impl-authn-policies-parent}
 \end{figure}
 
 \newpage
@@ -33,8 +33,8 @@ The signature of operations for the authentication policy DAO is declared via th
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/authn-policy-provider-diagram.png}
-  \label{fig:impl-authn-policies-provider-diagram}
   \caption{Authentication Policy Provider}
+  \label{fig:impl-authn-policies-provider-diagram}
 \end{figure}
 
 \newpage
@@ -63,8 +63,8 @@ That method is responsible for creating a new authentication policy based on the
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1.05\textwidth]{img/sections/6-implementation/authnPolicyAddPolicy.png}
-  \label{fig:impl-authn-policies-add-policy-diagram}
   \caption{Add Policy Method}
+  \label{fig:impl-authn-policies-add-policy-diagram}
 \end{figure}
 
 First of all, the alias must not be empty.
@@ -77,23 +77,34 @@ The newly created authentication policy is returned.
 
 \subsubsection{Retrieve Authentication Policies}
 
+Another method worth mentioning is the \textit{getAllStream(requiresUser)}, shown in Figure \ref{fig:impl-authn-policies-get-all}.
+The method returns all authentication policies that match the \textit{requiresUser} boolean attribute.
+Specifically, it iterates over all policies, and if there is some requirement to require a user, it automatically includes it in the final stream.
+It does not consider several layers of authentication policies hierarchy.
+If the execution authenticator implements the \textit{ConfigurableRequirements} interface, the condition of whether it requires a user is evaluated dynamically.
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/authnPolicyGetAllStream.png}
-  \label{fig:impl-authn-policies-get-all}
   \caption{Get All Authentication Policies}
+  \label{fig:impl-authn-policies-get-all}
 \end{figure}
+
+The helper method \textit{getAllAuthenticationExecutionsStream} shown in Figure \ref{fig:impl-authn-policies-get-all-execs} returns all executions included in the authentication policy with the usage of recursion.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=1\textwidth]{img/sections/6-implementation/authnPolicyGetAllExecutions.png}
-  \label{fig:impl-authn-policies-get-all-execs}
+  \includegraphics[width=0.95\textwidth]{img/sections/6-implementation/authnPolicyGetAllExecutions.png}
   \caption{Get All Authentication Executions}
+  \label{fig:impl-authn-policies-get-all-execs}
 \end{figure}
-
 
 \newpage
 \subsection{REST API} \label{impl-authn-policies-rest}
+A REST API (also known as RESTful API) is an API that conforms to the constraints of REST architectural style and allows for interaction with RESTful web services.
+REST stands for \textit{REpresentational State Transfer}.\cite{impl-rest} 
+
+
 \subsection{Administrator Console} \label{impl-authn-policies-admin}
 
 \section{User Context}
