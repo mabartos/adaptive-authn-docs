@@ -23,7 +23,7 @@ More details about the administrator console interface are in Section \ref{impl-
 \newpage
 
 \subsection{Data Access Object} \label{impl-authn-policies-dao}
-A Data Access Object (DAO) pattern in software engineering abstracts database operations, shielding application logic from database sophistication and adhering to the single responsibility principle. //TODO Wikipedia
+A Data Access Object (DAO) pattern in software engineering abstracts database operations, shielding application logic from database sophistication and adhering to the single responsibility principle.\cite{impl-dao}
 
 It is used to manage authentication policies as part of the separation from the authentication flows.
 It provides necessary validation above the database layer and provides the functionality to properly mark conditional flow as an authentication policy.
@@ -104,24 +104,100 @@ The helper method \textit{getAllAuthenticationExecutionsStream} shown in Figure 
 A REST API (also known as RESTful API) is an API that conforms to the constraints of REST architectural style and allows for interaction with RESTful web services.
 REST stands for \textit{REpresentational State Transfer}.\cite{impl-rest} 
 
+A client accessing the REST API through the parent endpoint \textit{/authn-policies} defined for the \textit{AuthnPoliciesResource} request handler class.
+When an HTTP request is sent to the endpoint, it is handled by the class, which directs it to the appropriate method based on the HTTP method of the request, shown in Figure \ref{fig:impl-authn-policies-rest}.
+
+The request handler classes work explicitly with the authentication policy DAO, described in Section \ref{impl-authn-policies-dao}.
+It provides the isolation of storage operations and user interaction and complies with the Single-responsibility principle.\cite{impl-single-responsibility}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{img/sections/6-implementation/rest.png}
+  \caption{Authentication Policies REST API}
+  \label{fig:impl-authn-policies-rest}
+\end{figure}
+
+Possible operations on the \textit{AuthnPoliciesResource} request handler class with the additional redirection:
+\begin{itemize}
+    \item \textit{GET /authn-policies} -- retrieve all authentication policies in JSON format. 
+    \item \textit{POST /authn-policies} -- create a new authentication policy with attributes defined as JSON in the request body.  
+    \item \textit{/authn-policies/{policyId}} -- Redirects requests to the \textit{AuthnPolicyResource} request handler class.
+\end{itemize}
+
+Possible operations on the \textit{AuthnPolicyResource} request handler class:
+
+\begin{itemize}
+    \item \textit{GET /authn-policies/\{policyId\}} -- retrieve an authentication policy with ID \textit{policyId} in JSON format.
+    \item \textit{PUT /authn-policies/\{policyId\}} -- update an existing authentication policy with ID \textit{policyId} with attributes defined as JSON in the request body.
+    \item \textit{DELETE /authn-policies/\{policyId\}} -- delete an existing authentication policy with ID \textit{policyId}.
+\end{itemize}
+
+The exact implementation of a specific part of the \textit{AuthnPoliciesResource} class is shown in Figure \ref{fig:impl-authn-policies-rest-impl}.
+In the constructor, all necessary initializations are done, and the authentication policy DAO is injected.
+When the HTTP request with the \textit{GET} request method is sent to the endpoint, the \textit{getPolicies()} method returns the set of policies in a serialized JSON format.
+The abstract model representation is converted to the \textit{Data Transfer Object} (DTO) and returned to the client.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/authn-policy-rest-example.png}
+  \caption{Authentication Policies REST API Implementation}
+  \label{fig:impl-authn-policies-rest-impl}
+\end{figure}
+
+\newpage
 
 \subsection{Administrator Console} \label{impl-authn-policies-admin}
 
+\newpage
 \section{User Context}
+The first step for implementing the \textit{UserContext<T>} interface is to bind the generic type to the required one, either through extending the interface or directly in the implementation of the context.
+
+For demonstration purposes, consider a specific user context \textit{IpProxyContext}, which handles all IP addresses present in the HTTP \textit{Forwarded}, and \textit{X-Forwarded-For} headers used when a proxy is part of the deployment.
+
+The specific \textit{IpProxyContext} was created, shown in Figure \ref{fig:impl-user-ctx-ifc}, in order to bind the type of the user context with a possible extension of it.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/proxyIpAddressContextInterface.png}
+  \caption{Extend \textit{UserContext} Interface}
+  \label{fig:impl-user-ctx-ifc}
+\end{figure}
+
+The implementation of the \textit{IpProxyContext}, shown in Figure \ref{fig:impl-user-ctx-ip}, consists of several attributes to fulfill the requirements of the interface by returning particular data in methods.
+
+In the constructor, the \textit{initData()} method is called, which initializes data when the context is needed.
+With the help of the \textit{KeycloakSession}, the data for a particular context is processed only once per request, so when different risk evaluators need the context, it is not evaluated multiple times.
+
+During the initialization of the data, the HTTP headers of the current request are parsed.
+IP addresses included in the headers \textit{Forwarded} and \textit{X-Forwarded-For} are concatenated together.
+When there is valid data, the boolean flag \textit{isInitialized} is set to \textit{true}, which notes the initialization is done correctly and data is available. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/proxyIpAddress-full.png}
+  \caption{Implementation of the \textit{IpProxyContext}}
+  \label{fig:impl-user-ctx-ip}
+\end{figure}
+
+\newpage
 
 \section{User Context Condition}
 \subsection{Operations Builder}
 
+\newpage
 \section{User Evaluator}
 \subsection{Configuration}
 
+\newpage
 \section{User Engine}
 \subsection{Asynchronous processing}
 \subsection{Evaluation}
 \subsection{Store Risk Score}
 
+\newpage
 \section{Artificial Intelligence}
 
+\newpage
 \section{External Integration}
 
 \shorthandoff{-}
