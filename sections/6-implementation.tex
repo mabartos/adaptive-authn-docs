@@ -230,26 +230,120 @@ When the \textit{isEnabled} attribute is not stored or configured, it is turned 
 \end{figure}
 
 \newpage
-\section{User Engine}
-\subsection{Asynchronous processing}
+\section{Risk Engine}
 
+The implementation of the risk engine relies on leveraging \textit{SmallRye Mutiny}
+\footnote{https://smallrye.io/smallrye-mutiny/latest/} library to comply with the requirements and design introduced in Section \ref{risk-engine}.
+Quarkus officially provides support for the library, and all mentions of the \textit{SmallRye Mutiny} will be primarily focused on the Quarkus Mutiny extension.
+
+The risk engine gathers all risk evaluators, sends a signal to evaluators to start evaluating, retrieves individual scores, and calculates the overall risk score for the authentication process.
+
+In order to improve performance around risk evaluations, an asynchronous approach for the processing has been introduced, as it has minimal impact on the user experience.
+For more details, see the Section \ref{impl-engine-async}.
+
+The implementation of the overall risk evaluation is described more in detail in Section \ref{impl-engine-evaluation}, the retry and timeout mechanism in Section \ref{impl-engine-retry} and Section \ref{impl-engine-timeout}.
+
+\subsection{Asynchronous processing} \label{impl-engine-async}
+For the risk engine, the more risk evaluators are considered, the more information about the authentication context can be evaluated.
+However, there might be a high number of evaluators, and their processing of them might be resource and time-consuming.
+Even the remote evaluators and remote user contexts are considered, so the latency is high, and the current thread is blocked.
+Asynchronous processing mitigates these problems.
+
+Asynchronous processing of risk evaluators is provided via the \textit{SmallRye Mutiny} library, in which the main concepts are based on asynchronous message passing and non-blocking \textit{I/O}.
+
+Asynchronous message passing and non-blocking \textit{I/O} are fundamental elements in building responsive, resilient, and efficient distributed systems.
+In reactive systems, components communicate asynchronously through message passing, promoting loose coupling in both space and time.
+
+This approach allows systems to handle failures gracefully and adapt to changing conditions.
+Quarkus utilizes non-blocking \textit{I/O} to efficiently manage input/output operations, such as database interactions and remote service calls. \cite{quarkus-reactive}
+
+The individual risk evaluations are processed on \textit{I/O} threads, which provides the possibility of using non-blocking \textit{I/O}.
+When a remote service is called, the thread is not blocked.
+During that case, the \textit{I/O} continuation is scheduled, a continuation is passed, and the thread is released in order to process different tasks.
+The continuation is basically a code, which will be executed once the \textit{I/O} is complete.\cite{quarkus-reactive}
+
+As shown in Figure \ref{fig:impl-risk-engine-io-threads}, the evaluator \textit{x} initiates the risk evaluation, and once it starts executing \textit{I/O} operations, the \textit{I/O} continuation is scheduled.
+During that, as the thread is released, the evaluator \textit{y} started the risk evaluation.
+Once the \textit{I/O} is completed for the evaluator \textit{x}, the continuation is executed.
+It utilizes CPU resources as much as possible.
+In order to guarantee an upper bound time, the timeout is set so evaluations do not spend more time on evaluations than the specified timeout.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/async.png}
-  \caption{I/O Threads}
-  \label{fig:impl-risk-evaluator-login-failures-config}
+  \caption{\textit{I/O} Threads}
+  \label{fig:impl-risk-engine-io-threads}
 \end{figure}
+
+\newpage
+
+\subsubsection{Authentication Flow}
+As described in Section \ref{risk-engine}, two categories of risk evaluators are present for the overall risk evaluations based on the user requirements -- ones that require an authentication user and ones that do not.
+Consider a simple authentication flow with username and password forms and a risk engine authenticator for the additional authentication executions, as shown in Figure \ref{fig:impl-risk-engine-flow}.
+
+In order to not block the main thread with the risk evaluations that do not require a user, a separate thread is used.
+The risk is not needed at that time at all, so it does not have to slow down the authentication process and get a worse user experience.
+The dedicated \textit{risk-engine} thread executes tasks for these risk evaluators, leverages the asynchronous processing, and stores the computed overall risk for the particular phase.
+
+The approach for later evaluations of risk evaluators that do require a user is slightly different.
+The asynchronous approach is used as well, but the risk engine execution needs to be done on the main thread in a blocking manner.
+The reason behind this is the risk engine needs to have valid, correct results for the overall risk evaluation and, based on the used risk level determination, assess the authentication flow.
+Therefore, after providing the password, the risk engine authenticator executes risk evaluations, waits for the results, and the authentication flow can proceed.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=1\textwidth]{img/sections/6-implementation/async-flow-final.png}
+  \includegraphics[width=0.95\textwidth]{img/sections/6-implementation/async-flow-final.png}
   \caption{Asynchronous Processing Flow}
-  \label{fig:impl-risk-evaluator-login-failures-config}
+  \label{fig:impl-risk-engine-flow}
 \end{figure}
 
-\subsection{Evaluation}
-\subsection{Store Risk Score}
+\newpage
+
+\subsection{Retry Evaluations} \label{impl-engine-retry}
+It is possible that risk evaluations are not properly completed due to occurring failures, mainly for remote services, as certain network issues can be seen.
+In that case, the best-effort approach is leveraged, and the retry mechanism sends a signal to retry the evaluation for the specific risk evaluator.
+The evaluation can be retried at most \textit{n} times, where \textit{n} is the specified \textit{retry} parameter described in Section \ref{risk-engine-config}.
+The visual representation of the case is in Figure \ref{fig:impl-risk-engine-retry}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/async-retry.png}
+  \caption{Risk Evaluators Retry Mechanism}
+  \label{fig:impl-risk-engine-retry}
+\end{figure}
+
+\subsection{Evaluations Timeout} \label{impl-engine-timeout}
+In order to guarantee specific time boundaries, the timeout for the risk evaluators has been introduced.
+It provides the ability to stop evaluating risk after exceeding a specific configurable timeout for a particular risk evaluator.
+This means that after exceeding the time limit, the risk evaluator is not taken into consideration for the overall risk score calculations.
+For more information about the configuration, see Section \ref{risk-engine-config}.
+The visual representation of the case is in Figure \ref{fig:impl-risk-engine-timeout}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/async-timeout.png}
+  \caption{Risk Evalutors Timeout}
+  \label{fig:impl-risk-engine-timeout}
+\end{figure}
+
+\newpage
+
+\subsection{Evaluation} \label{impl-engine-evaluation}
+The overall risk score evaluation made by the risk engine leverages the weighted arithmetic mean algorithm, which is the default one, as described in Section \ref{risk-engine-algo}.
+When all risk evaluators complete the evaluation, results are collected, and the algorithm is applied, as seen in code snippet \ref{fig:impl-risk-engine-evaluation}.
+
+First of all, for every risk evaluator, the weighted risk score is calculated as \( risk * weight \).
+All of these results contribute to the overall weighted risk score summation, which represents the numerator of the algorithm equation.
+To obtain a denominator of the algorithm equation, all risk evaluator weights are aggregated and summed together.
+
+After retrieving these two parts of the fraction, the overall risk is calculated and stored for the risk level determination. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/risk-engine-evaluation.png}
+  \caption{Risk Engine Evaluation}
+  \label{fig:impl-risk-engine-evaluation}
+\end{figure}
 
 \newpage
 \section{Artificial Intelligence}
