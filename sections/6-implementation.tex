@@ -418,8 +418,25 @@ The other example is related to evaluating login failures with the user \textit{
   \label{fig:impl-ai-login-message}
 \end{figure}
 
-
 \newpage
 \section{External Integration}
+To demonstrate the external integration with third-party services, the external location user context has been introduced.
+As described in Section \ref{design-external-integration}, it is possible to obtain remote user context of arbitrary type.
+Obtaining more comprehensive information about the location of the authentication device might be challenging and requires the incorporation of services concentrated on it.
+Therefore, retrieving location information from the remote service is suitable for demonstrating external integration with services. 
+
+For this purpose, the \textit{ipapi}\footnote{https://ipapi.com/} service is used as it provides a simple API for location information based on the provided IP address.
+Remote calls on the service are executed during the initialization of the \textit{IpApiLocationContext} when the IP address from the \textit{IpAddressContext} is returned and substituted to the request.
+The approach for the request assembly is straightforward and uses only path parameters of the URL\footnote{Uniform Resource Locator} as follows:
+\textit{https://ipapi.co/<ip-address>/json}.
+The data in the format specified in \textit{IpApiLocationData} class is returned.
+The simplified architecture of the \textit{IpApiLocationContext} context is shown in Figure \ref{fig:impl-external-ipapi}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.76\textwidth]{img/sections/6-implementation/location-diagram-ipapi.png}
+  \caption{External Service \textit{ipapi}}
+  \label{fig:impl-external-ipapi}
+\end{figure}
 
 \shorthandoff{-}
