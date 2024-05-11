@@ -609,6 +609,8 @@ For the integration of the NLP systems, the \textit{AiNlpEngine} interface has b
 Every implementation of the engine needs to implement these methods:
 
 \begin{itemize}
+    \item \textit{getRisk(message)} -- retrieve evaluated risk score queried by user \textit{message}. 
+    \item \textit{getRisk(context, message)} -- retrieve evaluated risk score queried by user \textit{message} and a specific \textit{context}. 
     \item \textit{getResult(message, class)} -- retrieve serialized data of type \textit{class} with the user \textit{message} and the default \textit{context}.
     \item \textit{getResult(context, message, class)} -- retrieve serialized data of type \textit{class} with the user \textit{message} and a specific \textit{context}.
 \end{itemize}
@@ -617,7 +619,7 @@ Specific risk evaluators leveraging AI use for communication with the AI service
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=1\textwidth]{img/sections/5-design/ai-engine-remote-new.png}
+  \includegraphics[width=0.92\textwidth]{img/sections/5-design/ai-engine-remote.png}
   \caption{Risk Evaluator and AI NLP Engine Diagram}
   \label{fig:ai-engine-remote-diagram}
 \end{figure}
