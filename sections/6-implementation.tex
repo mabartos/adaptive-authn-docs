@@ -347,6 +347,77 @@ After retrieving these two parts of the fraction, the overall risk is calculated
 
 \newpage
 \section{Artificial Intelligence}
+The implementation of AI relies on the NLP\footnote{Natural Language Processing} engine, as described in Section \ref{design-ai}.
+The main purpose of integrating AI into risk-based authentication is for individual risk evaluations.
+
+The default NLP engine is ChatGPT, developed by OpenAI as its popularity rapidly grows and meets all requirements of this thesis.
+OpenAI provides a REST API for communication with the ChatGPT service, so the integration is seamless.
+\newline
+\newline
+As described in Section \ref{design-ai}, the most important properties of the AI NLP engine are:
+
+\begin{itemize}
+    \item \textit{context} -- general context for the AI NLP engine to understand the overall meaning and defining role and scope.
+    \item \textit{message} -- specific description of the task.  
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.97\textwidth]{img/sections/6-implementation/ai-engine-openai.png}
+  \caption{OpenAI Integration}
+  \label{fig:impl-ai-openai-integration}
+\end{figure}
+
+\newpage
+
+As seen in Figure \ref{fig:impl-ai-openai-integration}, the \textit{OpenAiEngine} implements the \textit{AiNlpEngine} interface and manages the request and response data.
+ChatGPT API requires specific data to be provided in order to comply with the API.
+\textit{OpenAiEngine} creates the \textit{OpenAiDataRequest} object, which represents request data sent to the API.
+
+The \textit{context} and \textit{message} properties are passed to the request data as \textit{Message} objects.
+The \textit{context} property is represented as \textit{Message} object with role \textit{system} and content \textit{context}.
+The \textit{message} property is represented as \textit{Message} object with a role \textit{user}, and content \textit{message}.
+The data for evaluating risk score are represented as a JSON object with properties \textit{risk} and \textit{reason}, as explained in Figure \ref{fig:impl-ai-context-message}.
+\newline
+\newline
+The default context for evaluating risk score with all necessary information about tasks, boundaries, and format of the result might be as in Figure \ref{fig:impl-ai-context-message}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/aiContextMessage.png}
+  \caption{AI NLP Context Message}
+  \label{fig:impl-ai-context-message}
+\end{figure}
+
+\newpage
+
+Specific tasks for AI-based risk evaluators contain a dynamically created message with all necessary information for a device representation, as seen in Figure \ref{fig:impl-ai-device-message}. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/aiDeviceUserMessage.png}
+  \caption{AI NLP Device Query}
+  \label{fig:impl-ai-device-message}
+\end{figure}
+
+The response from the ChatGPT contains the required data with the specific risk score and the explanation of the reason why it was evaluated like that, as seen in Figure \ref{fig:impl-ai-device-message-response}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/aiDeviceResponse.png}
+  \caption{ChatGPT Device Response}
+  \label{fig:impl-ai-device-message-response}
+\end{figure}
+
+The other example is related to evaluating login failures with the user \textit{message}, as seen in Figure \ref{fig:impl-ai-login-message}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{img/sections/6-implementation/aiLoginFailureMessage.png}
+  \caption{AI NLP Login Failures Query}
+  \label{fig:impl-ai-login-message}
+\end{figure}
+
 
 \newpage
 \section{External Integration}
