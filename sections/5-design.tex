@@ -125,7 +125,6 @@ When users are trying to access the application, they need to meet certain condi
 There may be some company or federal restrictions to particular services that need to be conformed to.
 
 For instance, there might be some requirements to deny users access to the application from a specific country or specific types of devices.
-
 It needs to be determined in which authentication process phases these policies should be evaluated.
 Policies might be required to comply with some preconditions in order to be able to evaluate them.
 It means that the environment context needs to be aligned with the policy requirement, such as gathering information about the user attempting to log in.
@@ -157,7 +156,6 @@ Administrators should not add a higher number of conditional flows to their exis
 
 Authentication policies extend the capabilities around the authentication flow process as they can be defined for the whole realm, not even for a specific flow.
 To be more specific, it gives the possibility to share policies across different flows, which is the main difference between conditional flows and authentication policies.
-
 It provides more fine-grained authentication policy management and a better authentication settings approach.
 
 \newpage
@@ -628,10 +626,10 @@ Specific risk evaluators leveraging AI use for communication with the AI service
 
 \section{External Integration} \label{design-external-integration}
 External integration with third-party services can be smoothly adjusted due to the design of the components for adaptive authentication.
-For more details and specific requirements for the external integration, see Chapter \ref{spec-external-integration}.
+For more details and specific requirements for the external integration, see Section \ref{spec-external-integration}.
 
-External integration is also related to the previous Chapter \ref{design-ai}, as the AI services can be queried due to the external integration capabilities.
-It is possible to attach a remote service to the adaptive authentication process managed by the risk engine, as described in Chapter \ref{risk-engine}.
+External integration is also related to the previous Section \ref{design-ai}, as the AI services can be queried due to the external integration capabilities.
+It is possible to attach a remote service to the adaptive authentication process managed by the risk engine, as described in Section \ref{risk-engine}.
 
 The design of the remote user context is shown on the Diagram \ref{fig:design-external-integration}, where the information about device location is fetched from the remote third-party service. 
 The \textit{LocationContext} specifies the format of data it works with and the custom implementation needs to provide it.

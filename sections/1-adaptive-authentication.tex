@@ -94,9 +94,9 @@ Authentication occurs when the provided password or PIN verifies the associated 
 \subsection{Possession Factor (Something you have)}
 Possession factors require users to possess a specific physical object before gaining access to the system.
 Typically, possession factors are managed through a device known to belong to the correct user.
-A typical process flow for possession-based authentication might look like described in the following lines.
+A typical process flow for possession-based authentication might look like the one described in the following lines.
 
-The user registers an account with a password and their phone number recorded at the time of registration.
+The user registers an account with a password, and their phone number is recorded at the time of registration.
 The user logs in to their account with the username and password.
 When the user requests access to the system, a one-time password is generated and sent to the mobile phone number of the user.
 The user enters the newly generated one-time password and gains access to the system.
@@ -122,9 +122,9 @@ Consider a multinational corporation with offices in various cities worldwide.
 In this scenario, a security analyst might identify a user attempting to access the network from an IP address originating from a country different from their assigned office.
 
 Geolocation security ensures access is restricted to users within a specified geographic area.
-While IP addresses offer insight into network traffic origin, hackers can avoid detection by using VPNs to mask their location.
+While IP addresses offer insight into network traffic origin, hackers can avoid detection by using VPNs\footnote{Virtual Private Network} to mask their location.
 
-Alternatively, MAC addresses, unique to each computing device, can serve as a location-based authentication factor, allowing system access only from authorized devices within a defined range.
+Alternatively, MAC\footnote{Medium Access Control} addresses, unique to each computing device, can serve as a location-based authentication factor, allowing system access only from authorized devices within a defined range.
 
 \newpage
 \subsection{Behavior Factor (Something you do)}
@@ -148,5 +148,3 @@ In these cases, the system may prompt for additional verification, such as a one
 In these cases, the system may require stricter authentication measures, such as biometric verification or challenge questions.
 
 \shorthandon{-}
-
-\Blindtext

@@ -29,9 +29,8 @@ Specifically, suitable SPIs should be created for the adaptive authentication co
 Keycloak offers a very elegant way to extend components of the application without much hassle.
 
 Users should be able to provide a custom approach for obtaining risk(contextual) factors data in an easy way.
-It means that users can create a new or edit the default risk factor providers via the SPI concept described in section \ref{keycloak-spi}.
+It means that users can create new or edit the default risk factor providers via the SPI concept described in Section \ref{keycloak-spi}.
 For example, obtaining the IP address of the device trying to authenticate is supplied from a proxy or load balancer outside of the application.
-
 Additionally, the evaluation of the risk factors should be flexible and customizable.
 Users or organizations extending the approach should be able to provide their own algorithms for the risk score evaluation.
 
@@ -72,12 +71,12 @@ The goal of leveraging artificial intelligence is to suggest an approach to what
 
 \section{External Integration} \label{spec-external-integration}
 The last goal of the thesis is to provide a PoC for integrating third-party services into the current solution.
-Integration with external services, in some cases, might overlap with the previous goal in section \ref{spec-ai} around AI.
+Integration with external services, in some cases, might overlap with the previous goal in Section \ref{spec-ai} related to AI.
 Specifically, AI engines are usually some sort of remote service with predefined API. 
 
 Integration with external services would be very beneficial for obtaining data from risk factors, which might be remote.
 However, one needs to be aware of possible issues with remote services and the overall authentication process execution.
-The credibility of remote sources may differ and needs to be adequately investigated whether it is suitable to include in the risk score evaluation.
+The credibility of remote sources may differ and needs to be adequately investigated to determine whether it is suitable to include in the risk score evaluation.
 Additionally, the latency for obtaining the data might be very high, and some sort of timeout should be set for gathering the risk factors data.
 
 It leads to the specification of providing a particular risk factor data processing, as the retrieval of these data should be done asynchronously.

@@ -6,7 +6,7 @@ The goal of Keycloak is to simplify security so that it is easy for application 
 Security features that developers normally have to write for themselves are provided out of the box and are easily tailorable to the individual requirements of your organization.
 
 Keycloak provides customizable user interfaces for login, registration, administration, and account management.
-You can also use Keycloak as an integration platform to hook it into existing LDAP and Active Directory servers.
+You can also use Keycloak as an integration platform to hook it into existing LDAP\footnote{Lightweight Directory Access Protocol} and Active Directory servers.
 You can also delegate authentication to third-party identity providers like Facebook and Google.
 
 This community project is currently, in 2024, under the stewardship of the Cloud Native Computing Foundation (CNCF).\cite{keycloak-web}
@@ -45,7 +45,7 @@ The new provider object is created for every request made to Keycloak, as its li
 
 Keycloak uses the concept of leveraging \textit{Service Loader} for discovering all implementations of the \textit{Spi}, \textit{Provider}, and \textit{ProviderFactory} interfaces.
 Basically, in order to use the custom providers and factories, they need to be registered in the application.
-It is done through the specification of class names of the providers and factories in files located in the `META-INF/services` folder.
+It is done through the specification of class names of the providers and factories in files located in the \textit{META-INF/services} folder.
 
 \subsection{Configuration}
 Keycloak nourishes the ability to configure all available SPIs through the dynamically assembled configuration properties.
@@ -128,5 +128,3 @@ Otherwise, a user needs to provide their password and then biometrics via the We
   \caption{WebAuthn Flow}
   \label{fig:basic-auth-flow}
 \end{figure}
-
-\Blindtext
