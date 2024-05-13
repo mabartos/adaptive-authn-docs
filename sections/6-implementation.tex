@@ -16,14 +16,14 @@ More details about the administrator console interface are in Section \ref{impl-
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.5\textwidth]{img/sections/6-implementation/auth-policies-parent.png}
-  \caption{Authentication Policies Parent}
+  \caption{Authentication Policies Parent.}
   \label{fig:impl-authn-policies-parent}
 \end{figure}
 
 \newpage
 
 \subsection{Data Access Object} \label{impl-authn-policies-dao}
-A Data Access Object (DAO) pattern in software engineering abstracts database operations, shielding application logic from database sophistication and adhering to the single responsibility principle.\cite{impl-dao}
+Data Access Object (DAO) pattern in software engineering abstracts database operations, shielding application logic from database sophistication and adhering to the single responsibility principle.\cite{impl-dao}
 
 It is used to manage authentication policies as part of the separation from the authentication flows.
 It provides necessary validation above the database layer and provides the functionality to properly mark conditional flow as an authentication policy.
@@ -33,13 +33,13 @@ The signature of operations for the authentication policy DAO is declared via th
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/authn-policy-provider-diagram.png}
-  \caption{Authentication Policy Provider}
+  \caption{Authentication Policy Provider.}
   \label{fig:impl-authn-policies-provider-diagram}
 \end{figure}
 
 \newpage
 
-The interface \textit{AuthnPolicyProvider} consists of the basic CRUD operations that can be made on authentication policies, such as:
+The interface \textit{AuthnPolicyProvider} consists of the basic CRUD\footnote{Create-Read-Update-Delete} operations that can be made on authentication policies, such as:
 
 \begin{itemize}
     \item \textit{getParentPolicy()} -- retrieve the parent \textit{Authentication policies - PARENT} flow.
@@ -56,6 +56,7 @@ The interface \textit{AuthnPolicyProvider} consists of the basic CRUD operations
 \end{itemize}
 
 \newpage
+
 \subsubsection{Add Authentication Policy}
 One of the most interesting examples of implementing methods of the \textit{AuthnPolicyProvider} interface is the \textit{addPolicy()} method shown in Figure \ref{fig:impl-authn-policies-add-policy-diagram}.
 That method is responsible for creating a new authentication policy based on the parameters.
@@ -63,7 +64,7 @@ That method is responsible for creating a new authentication policy based on the
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1.05\textwidth]{img/sections/6-implementation/authnPolicyAddPolicy.png}
-  \caption{Add Policy Method}
+  \caption{Add Policy Method.}
   \label{fig:impl-authn-policies-add-policy-diagram}
 \end{figure}
 
@@ -78,7 +79,7 @@ The newly created authentication policy is returned.
 \subsubsection{Retrieve Authentication Policies}
 
 Another method worth mentioning is the \textit{getAllStream(requiresUser)}, shown in Figure \ref{fig:impl-authn-policies-get-all}.
-The method returns all authentication policies that match the \textit{requiresUser} boolean attribute.
+The method returns all authentication policies that match the \textit{requiresUser} Boolean attribute.
 Specifically, it iterates over all policies, and if there is some requirement to require a user, it automatically includes it in the final stream.
 It does not consider several layers of authentication policies hierarchy.
 If the execution authenticator implements the \textit{ConfigurableRequirements} interface, the condition of whether it requires a user is evaluated dynamically.
@@ -86,7 +87,7 @@ If the execution authenticator implements the \textit{ConfigurableRequirements} 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/authnPolicyGetAllStream.png}
-  \caption{Get All Authentication Policies}
+  \caption{Get All Authentication Policies.}
   \label{fig:impl-authn-policies-get-all}
 \end{figure}
 
@@ -95,7 +96,7 @@ The helper method \textit{getAllAuthenticationExecutionsStream} shown in Figure 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{img/sections/6-implementation/authnPolicyGetAllExecutions.png}
-  \caption{Get All Authentication Executions}
+  \caption{Get All Authentication Executions.}
   \label{fig:impl-authn-policies-get-all-execs}
 \end{figure}
 
@@ -113,13 +114,13 @@ It provides the isolation of storage operations and user interaction and complie
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\textwidth]{img/sections/6-implementation/rest.png}
-  \caption{Authentication Policies REST API}
+  \caption{Authentication Policies REST API.}
   \label{fig:impl-authn-policies-rest}
 \end{figure}
 
 Possible operations on the \textit{AuthnPoliciesResource} request handler class with the additional redirection:
 \begin{itemize}
-    \item \textit{GET /authn-policies} -- retrieve all authentication policies in JSON format. 
+    \item \textit{GET /authn-policies} -- retrieve all authentication policies in JSON\footnote{JavaScript Object Notation} format. 
     \item \textit{POST /authn-policies} -- create a new authentication policy with attributes defined as JSON in the request body.  
     \item \textit{/authn-policies/{policyId}} -- Redirects requests to the \textit{AuthnPolicyResource} request handler class.
 \end{itemize}
@@ -140,13 +141,9 @@ The abstract model representation is converted to the \textit{Data Transfer Obje
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/authn-policy-rest-example.png}
-  \caption{Authentication Policies REST API Implementation}
+  \caption{Authentication Policies REST API Implementation.}
   \label{fig:impl-authn-policies-rest-impl}
 \end{figure}
-
-\newpage
-
-\subsection{Administrator Console} \label{impl-authn-policies-admin}
 
 \newpage
 \section{User Context}
@@ -159,7 +156,7 @@ The specific \textit{IpProxyContext} was created, shown in Figure \ref{fig:impl-
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/proxyIpAddressContextInterface.png}
-  \caption{Extend \textit{UserContext} Interface}
+  \caption{Extend \textit{UserContext} Interface.}
   \label{fig:impl-user-ctx-ifc}
 \end{figure}
 
@@ -170,12 +167,12 @@ With the help of the \textit{KeycloakSession}, the data for a particular context
 
 During the initialization of the data, the HTTP headers of the current request are parsed.
 IP addresses included in the headers \textit{Forwarded} and \textit{X-Forwarded-For} are concatenated together.
-When there is valid data, the boolean flag \textit{isInitialized} is set to \textit{true}, which notes the initialization is done correctly and data is available. 
+When there is valid data, the Boolean flag \textit{isInitialized} is set to \textit{true}, which notes the initialization is done correctly and data is available. 
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/proxyIpAddress-full.png}
-  \caption{Implementation of the \textit{IpProxyContext}}
+  \caption{Implementation of the \textit{IpProxyContext}.}
   \label{fig:impl-user-ctx-ip}
 \end{figure}
 
@@ -191,7 +188,7 @@ This evaluator requires to have information about the authentication user, so th
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/loginFailures.png}
-  \caption{Login Failures Risk Evaluator}
+  \caption{Login Failures Risk Evaluator.}
   \label{fig:impl-risk-evaluator-login-failures}
 \end{figure}
 
@@ -201,18 +198,16 @@ As was mentioned before, the evaluation of the risk itself might be challenging 
 In the example, the risk is increasing based on the count of login failures, which might represent a brute-force attack.
 The higher the count of login failures, the higher the risk.
 
-\newpage
 The last check verifies the current IP address and the IP address of the last login failure, as requesting resources from different IP addresses should indicate a higher risk.
 There might be a situation where the risk for a legitimate user trying to access the application will be higher, as some fraudulent activity has been executed based on their account. 
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\textwidth]{img/sections/6-implementation/loginFailuresEvals.png}
-  \caption{Login Failures Risk Evaluator Evaluations}
+  \caption{Login Failures Risk Evaluator Evaluations.}
   \label{fig:impl-risk-evaluator-login-failures-evaluations}
 \end{figure}
 
-\newpage
 \subsection{Configuration}
 By default, for every risk evaluator, attributes \textit{isEnabled} and \textit{weight} can be configured by the administrator, as described in Section \ref{design-risk-eval-config}.
 The permanent storing of the configuration of risk evaluators is done via realm attributes, which are represented by a key-value map structure.
@@ -225,7 +220,7 @@ When the \textit{isEnabled} attribute is not stored or configured, it is turned 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.6\textwidth]{img/sections/6-implementation/loginFailuresConfig.png}
-  \caption{Login Failures Risk Evaluator Configuration}
+  \caption{Login Failures Risk Evaluator Configuration.}
   \label{fig:impl-risk-evaluator-login-failures-config}
 \end{figure}
 
@@ -243,7 +238,7 @@ For more details, see the Section \ref{impl-engine-async}.
 
 The implementation of the overall risk evaluation is described more in detail in Section \ref{impl-engine-evaluation}, the retry and timeout mechanism in Section \ref{impl-engine-retry} and Section \ref{impl-engine-timeout}.
 
-\subsection{Asynchronous processing} \label{impl-engine-async}
+\subsection{Asynchronous Processing} \label{impl-engine-async}
 For the risk engine, the more risk evaluators are considered, the more information about the authentication context can be evaluated.
 However, there might be a high number of evaluators, and their processing of them might be resource and time-consuming.
 Even the remote evaluators and remote user contexts are considered, so the latency is high, and the current thread is blocked.
@@ -271,7 +266,7 @@ In order to guarantee an upper bound time, the timeout is set so evaluations do 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/async.png}
-  \caption{\textit{I/O} Threads}
+  \caption{\textit{I/O} Threads.}
   \label{fig:impl-risk-engine-io-threads}
 \end{figure}
 
@@ -293,7 +288,7 @@ Therefore, after providing the password, the risk engine authenticator executes 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{img/sections/6-implementation/async-flow-final.png}
-  \caption{Asynchronous Processing Flow}
+  \caption{Asynchronous Processing Flow.}
   \label{fig:impl-risk-engine-flow}
 \end{figure}
 
@@ -308,9 +303,11 @@ The visual representation of the case is in Figure \ref{fig:impl-risk-engine-ret
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/async-retry.png}
-  \caption{Risk Evaluators Retry Mechanism}
+  \caption{Risk Evaluators Retry Mechanism.}
   \label{fig:impl-risk-engine-retry}
 \end{figure}
+
+\newpage
 
 \subsection{Evaluations Timeout} \label{impl-engine-timeout}
 In order to guarantee specific time boundaries, the timeout for the risk evaluators has been introduced.
@@ -322,11 +319,9 @@ The visual representation of the case is in Figure \ref{fig:impl-risk-engine-tim
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/async-timeout.png}
-  \caption{Risk Evalutors Timeout}
+  \caption{Risk Evalutors Timeout.}
   \label{fig:impl-risk-engine-timeout}
 \end{figure}
-
-\newpage
 
 \subsection{Evaluation} \label{impl-engine-evaluation}
 The overall risk score evaluation made by the risk engine leverages the weighted arithmetic mean algorithm, which is the default one, as described in Section \ref{risk-engine-algo}.
@@ -341,7 +336,7 @@ After retrieving these two parts of the fraction, the overall risk is calculated
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/risk-engine-evaluation.png}
-  \caption{Risk Engine Evaluation}
+  \caption{Risk Engine Evaluation.}
   \label{fig:impl-risk-engine-evaluation}
 \end{figure}
 
@@ -364,7 +359,7 @@ As described in Section \ref{design-ai}, the most important properties of the AI
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.85\textwidth]{img/sections/6-implementation/ai-engine-openai.png}
-  \caption{OpenAI Integration}
+  \caption{OpenAI Integration.}
   \label{fig:impl-ai-openai-integration}
 \end{figure}
 
@@ -378,34 +373,35 @@ The \textit{context} and \textit{message} properties are passed to the request d
 The \textit{context} property is represented as \textit{Message} object with role \textit{system} and content \textit{context}.
 The \textit{message} property is represented as \textit{Message} object with a role \textit{user}, and content \textit{message}.
 The data for evaluating risk score are represented as a JSON object with properties \textit{risk} and \textit{reason}, as explained in Figure \ref{fig:impl-ai-context-message}.
-\newline
-\newline
+
+\newpage
+
 The default context for evaluating risk score with all necessary information about tasks, boundaries, and format of the result might be as in Figure \ref{fig:impl-ai-context-message}.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/aiContextMessage.png}
-  \caption{AI NLP Context Message}
+  \caption{AI NLP Context Message.}
   \label{fig:impl-ai-context-message}
 \end{figure}
-
-\newpage
 
 Specific tasks for AI-based risk evaluators contain a dynamically created message with all necessary information for a device representation, as seen in Figure \ref{fig:impl-ai-device-message}. 
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/aiDeviceUserMessage.png}
-  \caption{AI NLP Device Query}
+  \caption{AI NLP Device Query.}
   \label{fig:impl-ai-device-message}
 \end{figure}
+
+\newpage
 
 The response from the ChatGPT contains the required data with the specific risk score and the explanation of the reason why it was evaluated like that, as seen in Figure \ref{fig:impl-ai-device-message-response}.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/aiDeviceResponse.png}
-  \caption{ChatGPT Device Response}
+  \caption{ChatGPT Device Response.}
   \label{fig:impl-ai-device-message-response}
 \end{figure}
 
@@ -414,19 +410,21 @@ The other example is related to evaluating login failures with the user \textit{
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/6-implementation/aiLoginFailureMessage.png}
-  \caption{AI NLP Login Failures Query}
+  \caption{AI NLP Login Failures Query.}
   \label{fig:impl-ai-login-message}
 \end{figure}
 
-\newpage
 \section{External Integration}
 To demonstrate the external integration with third-party services, the external location user context has been introduced.
 As described in Section \ref{design-external-integration}, it is possible to obtain remote user context of arbitrary type.
 Obtaining more comprehensive information about the location of the authentication device might be challenging and requires the incorporation of services concentrated on it.
 Therefore, retrieving location information from the remote service is suitable for demonstrating external integration with services. 
 
+\newpage
+
 For this purpose, the \textit{ipapi}\footnote{https://ipapi.com/} service is used as it provides a simple API for location information based on the provided IP address.
 Remote calls on the service are executed during the initialization of the \textit{IpApiLocationContext} when the IP address from the \textit{IpAddressContext} is returned and substituted to the request.
+
 The approach for the request assembly is straightforward and uses only path parameters of the URL\footnote{Uniform Resource Locator} as follows:
 \textit{https://ipapi.co/<ip-address>/json}.
 The data in the format specified in \textit{IpApiLocationData} class is returned.
@@ -435,7 +433,7 @@ The simplified architecture of the \textit{IpApiLocationContext} context is show
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.76\textwidth]{img/sections/6-implementation/location-diagram-ipapi.png}
-  \caption{External Service \textit{ipapi}}
+  \caption{External Service \textit{ipapi}.}
   \label{fig:impl-external-ipapi}
 \end{figure}
 

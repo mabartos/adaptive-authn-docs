@@ -11,7 +11,6 @@ You can also delegate authentication to third-party identity providers like Face
 
 This community project is currently, in 2024, under the stewardship of the Cloud Native Computing Foundation (CNCF).\cite{keycloak-web}
 
-\newpage
 \section{Service Provider Interface}\label{keycloak-spi}
 Service Provider Interface (SPI) is an API intended to be implemented or extended by a third party.
 It can be used to enable framework extension and replaceable components.\cite{keycloak-spi}
@@ -26,9 +25,9 @@ This includes enhancing security measures, integrating with different databases,
 In order to properly implement custom SPI for Keycloak, it is necessary to comply with the approach Keycloak suggests.
 The essential parts of the custom SPI are new classes that implement these interfaces:
 \begin{itemize}
-    \item \textit{Spi}
-    \item \textit{Provider}
-    \item \textit{ProviderFactory}
+    \item \textit{Spi.}
+    \item \textit{Provider.}
+    \item \textit{ProviderFactory.}
 \end{itemize}
 
 A specific implementation of the \textit{Spi} interface provides some sort of wrapper for the whole custom SPI representation with the required specification of provider class and provider factory class.
@@ -47,6 +46,8 @@ Keycloak uses the concept of leveraging \textit{Service Loader} for discovering 
 Basically, in order to use the custom providers and factories, they need to be registered in the application.
 It is done through the specification of class names of the providers and factories in files located in the \textit{META-INF/services} folder.
 
+\newpage
+
 \subsection{Configuration}
 Keycloak nourishes the ability to configure all available SPIs through the dynamically assembled configuration properties.
 In that case, changing the particular value of a specific provider implementation is achievable.
@@ -56,14 +57,14 @@ Enabling and disabling particular providers is also possible.\cite{keycloak-spi-
 Providers can be configured by using a specific configuration format such as follows:
 
 \begin{align}
-    $spi-<spi-id>-<provider-id>-<property>=<value>$
+    \textit{spi-<spi-id>-<provider-id>-<property>=<value>}
 \end{align}
 \newline
 \newline
 Where the explanation of these items is as follows:
 \begin{itemize}
     \item \textit{<spi-id>} is the name of the SPI you want to configure.
-    \item \textit{<provider-id>} is the id of the provider you want to configure.
+    \item \textit{<provider-id>} is the identifier of the provider you want to configure.
     \item \textit{<property>} is the actual name of the property you want to set for a given provider.
 \end{itemize}
 
@@ -78,7 +79,6 @@ Keycloak consists of several authentication flow types, and part of them are des
     \item \textit{Login flow} -- outlines the necessary credentials a user needs to provide to gain access.
     \item \textit{Registration flow} -- dictates the required profile information a user must provide and whether additional measures like reCAPTCHA are necessary to prevent bot activity.
     \item \textit{Credential reset flow} -- specifies the actions a user must take before being able to reset their password.
-    \item Many others.
 \end{itemize}
 
 Authentication flow empowers administrators to craft tailored authentication processes for specific needs.
@@ -87,16 +87,14 @@ By orchestrating a series of steps and actions, administrators can ensure secure
 Every authentication flow can have numerous inner sub-flows, which might contain another layer of sub-flows and actual authentication executions described in section \ref{keycloak-auth-exec}.
 The modular nature of authentication flows enables administrators to mix and match components, facilitating adaptability and reusability.
 
-\newpage
 \section{Authentication Execution}\label{keycloak-auth-exec}
-Authentication executions are the foundational elements of Authentication flows.
+Authentication executions are the foundational elements of authentication flows.
 These executions allow for the creation of comprehensive authentication flows, providing flexibility and control to address various scenarios effectively.
 
 Ultimately, authentication executions serve as the cornerstone for building robust and user-centric authentication experiences within systems.
 
 Authentication executions may play different roles in the context of particular authentication flows and provide the ability to control authentication flows in a more fine-grained way. \cite{keycloak-auth-flows}
-\newline
-\newline
+\newpage
 Every authentication execution has a specified requirement type in its parent flow as follows:
 
 \begin{enumerate}
@@ -106,11 +104,9 @@ Every authentication execution has a specified requirement type in its parent fl
     \item \textbf{Conditional} -- (only set on sub-flows) if all executions evaluate as \textit{true}, the \textit{conditional} sub-flow acts as \textit{required}, otherwise \textit{disabled}.
 \end{enumerate}
 
-\newpage
-
 \section{Basic Authentication Flow}
 Authentication flows in Keycloak are very flexible and can address the unique needs of organizations.
-To illustrate the relationships between flows, sub-flows, and executions, Keycloak renders a graph with these elements, as shown in the picture below.
+To illustrate the relationships between flows, sub-flows, and executions, Keycloak renders a graph with these elements, as shown in Figure \ref{fig:basic-auth-flow}.
 
 The authentication flow contains several authentication flows and authentication executions.
 In the graph, every sub-flow is noted by a circle with the inner text \textit{Start <auth-flow-name>}, and the end of the sub-flow by a circle with the inner text \textit{End <auth-flow-name>}.
@@ -121,10 +117,13 @@ When the \textit{Cookie} and \textit{Kerberos} executions are not fulfilled, the
 
 When a user provides their credentials via the Passwordless WebAuthn authenticator, the authentication is successful.
 Otherwise, a user needs to provide their password and then biometrics via the WebAuthn authenticator.
+\newpage
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/flow-new.png}
-  \caption{WebAuthn Flow}
+  \caption{WebAuthn Flow.}
   \label{fig:basic-auth-flow}
 \end{figure}
+
+\newpage

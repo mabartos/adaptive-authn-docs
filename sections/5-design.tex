@@ -1,7 +1,7 @@
 \chapter{Design}
 
 \section{User Context}
-During the authentication process, the crucial part to successfully authenticate a user is to get information about multiple authentication factors, as described in the section \ref{authentication-factors}.
+During the authentication process, the crucial part of a user successful authentication is to get information about multiple authentication factors, as described in Section \ref{authentication-factors}.
 It is an essential part of security strengthening as the more information we get from the authentication attempt, the more we can react to it and evaluate it.
 
 User context is a concept that represents a piece of information about the authentication attempt, such as current device attributes, information about the user, location, or behavior we detected.
@@ -17,27 +17,25 @@ The main advantage of using user contexts is to get the required information, re
 It means that it does not really matter which approach was used for obtaining the information but that the information is available.
 It implies that administrators need to be aware of present user context providers/implementations in order to prevent any inaccuracies.
 
-\newpage
-
 As shown in Figure \ref{fig:user-context-diagram}, user context is represented as interface \textit{UserContext}, where the generic is used.
 This means that every implementation of the \textit{UserContext} interface can retrieve different types of data.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.4\textwidth]{img/sections/5-design/userContext.png}
-  \caption{User Context Diagram}
+  \caption{User Context Diagram.}
   \label{fig:user-context-diagram}
 \end{figure}
 
+\newpage
+
 Methods of the \textit{UserContext} interface:
 \begin{itemize}
-    \item \textit{requiresUser()} -- a boolean flag to determine whether the data can be obtained without the information about the authentication user.
+    \item \textit{requiresUser()} -- a Boolean flag to determine whether the data can be obtained without the information about the authentication user.
     \item \textit{initData()} -- a method that initiates retrieving the data.
     \item \textit{getData()} -- obtain the retrieved data. 
-    \item \textit{isInitialized()} -- a boolean flag to determine whether the data has already been initialized. 
+    \item \textit{isInitialized()} -- a Boolean flag to determine whether the data has already been initialized. 
 \end{itemize}
-
-\newpage
 
 \subsection{Specific User Context}
 An excellent example of leveraging user context is the implementation of an IP address context.
@@ -52,7 +50,7 @@ The \textit{HeaderIpAddressContext} class is also an implementation of the \text
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.8\textwidth]{img/sections/5-design/ipAddressContext.png}
-  \caption{IP Address User Context Diagram}
+  \caption{IP Address User Context Diagram.}
   \label{fig:user-context-ip-address-context}
 \end{figure}
 
@@ -65,12 +63,12 @@ It means that we can leverage user context conditions in conditional authenticat
 There might be several possible operations made on the user context entities, and the developer of the additional user context should not reinvent the wheel around attributes of conditions.
 The additional conditions can be created very easily, as the general concept for evaluating them has already been assessed.
 
-The abstract \textit{UserContextConditionFactory} class implements the \textit{VerifiableUserContextFactory} interface, which manages the \textit{Operation} class described in the section \ref{user-context-condition-operations}.
+The abstract \textit{UserContextConditionFactory} class implements the \textit{VerifiableUserContextFactory} interface, which manages the \textit{Operation} class described in Section \ref{user-context-condition-operations}.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/5-design/UserContextCondition.png}
-  \caption{User Context Condition Diagram}
+  \caption{User Context Condition Diagram.}
   \label{fig:user-context-condition}
 \end{figure}
 
@@ -92,7 +90,7 @@ When all the predicates of specified operations are met, the whole condition is 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\textwidth]{img/sections/5-design/operation-diagram.png}
-  \caption{Operation Diagram}
+  \caption{Operation Diagram.}
   \label{fig:operation-diagram}
 \end{figure}
 
@@ -113,14 +111,14 @@ For instance, an administrator can specify that IP addresses from the range \tex
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.8\textwidth]{img/sections/5-design/ip-address-condition.png}
-  \caption{IP address context condition}
+  \caption{IP Address Context Condition.}
   \label{fig:design-user-context-ip-addr-condition}
 \end{figure}
 
 \newpage
 
 \section{Authentication Policies} \label{authentication-policies}
-Design of the Authentication policies, or as described in the specification as a Policy engine, provides the ability to comply with requirements specified by the administrator.
+Design of the authentication policies, or as described in the specification as a Policy engine, provides the ability to comply with requirements specified by the administrator.
 When users are trying to access the application, they need to meet certain conditions in order to achieve a successful login.
 There may be some company or federal restrictions to particular services that need to be conformed to.
 
@@ -141,12 +139,10 @@ All of them are stored in persistent storage, so every change of the structure i
 Specific operations can be executed on the policy entities, such as obtaining a specific authentication policy, creating a new one, or updating or removing the existing one.
 Moreover, the priority to achieve the required hierarchy structure can be defined as well.
 
-\newpage
-
 \subsection{Authentication Flow}
 
-Authentication policies are tightly coupled to the authentication flows described in the section \ref{keycloak-authentication-flows}.
-Authentication policies are a specific subset of authentication flows as these policies are basically just conditional authentication flows.
+Authentication policies are tightly coupled to the authentication flows described in Section \ref{keycloak-authentication-flows}.
+Authentication policies are a specific subset of authentication flows, as these policies are basically just conditional authentication flows.
 
 Conditional flows provide the majority of the required functionality to meet requirements for authentication policies or the policy engine.
 It means that specific conditions are evaluated, and if all pass, specific actions are executed.
@@ -167,7 +163,7 @@ It provides the ability to have a more fine-grained approach for these evaluatio
 The authenticator works as a configurable placeholder for these policies, as it can contain multiple configuration properties to asses the overall policies processing.
 It might be possible to hide the authenticator from the flows completely, but the explicit settings provide a more deterministic approach.
 
-The default authenticator configuration contains only a boolean flag to determine whether the user information is required for the evaluations or not.
+The default authenticator configuration contains only a Boolean flag to determine whether the user information is required for the evaluations or not.
 
 When the authentication flow processing is in the phase of evaluating the authenticator, multiple steps are executed:
 
@@ -193,18 +189,16 @@ The specification of a particular authentication policy is done through the admi
 The following simple example of the authentication policy, in Figure \ref{fig:design-policy-browser-flow}, has one condition and one action.
 If the first condition is met, the underlying action is executed.
 
-The policy contains a condition based on the current browser properties, which does not allow a specific browser vendor - Mozilla Firefox, in this case.
+The policy contains a condition based on the current browser properties, which does not allow a specific browser vendor -- Mozilla Firefox, in this case.
 When the condition is met, access to the application is denied to the user.
 This means that authentication requests can only be made via a browser other than Mozilla Firefox.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/5-design/policy-browser-flow.png}
-  \caption{Authentication Policy Browser Restriction}
+  \caption{Authentication Policy Browser Restriction.}
   \label{fig:design-policy-browser-flow}
 \end{figure}
-
-\newpage
 
 The condition configuration attributes differ based on the used condition provider/implementation.
 Every condition provider specifies a set of configuration properties for condition settings.
@@ -217,14 +211,12 @@ The browser condition, shown in Figure \ref{fig:design-policy-browser-flow-condi
     \item \textbf{Operation} -- list of possible operations.
     \item \textbf{Browser} -- multi valued list of browsers. 
 \end{itemize}
-\newline
-\newline
 In this case, the condition is met only when the browser vendor is Firefox:
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{img/sections/5-design/policy-browser-condition.png}
-  \caption{Browser Restriction Condition}
+  \includegraphics[width=0.67\textwidth]{img/sections/5-design/policy-browser-condition.png}
+  \caption{Browser Restriction Condition.}
   \label{fig:design-policy-browser-flow-condition}
 \end{figure}
 
@@ -232,12 +224,10 @@ The action configuration also differs based on the provider of the action.
 For the Deny access provider, visible in Figure \ref{fig:design-policy-browser-flow-deny}, the only additional property is \textit{Error Message}.
 It represents an error message that is shown to the user when the access is denied.
 
-\newpage
-
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{img/sections/5-design/policy-browser-deny.png}
-  \caption{Browser Restriction Deny Access}
+  \includegraphics[width=0.67\textwidth]{img/sections/5-design/policy-browser-deny.png}
+  \caption{Browser Restriction Deny Access.}
   \label{fig:design-policy-browser-flow-deny}
 \end{figure}
 
@@ -255,7 +245,7 @@ The concept is based on this core sequence:
     \item \textbf{Adaptive Adjustment} -- Adaptively adjust authentication flow based on the overall risk score.
 \end{enumerate}
 
-The collection of user contexts is an essential part of the whole risk-based authentication concept - as more information is present, the more informed decisions can be made.
+The collection of user contexts is an essential part of the whole risk-based authentication concept -- as more information is present, the more informed decisions can be made.
 There is a defined timeout for obtaining the user context, as it may take a vast majority of time, and administrators are able to adjust it to their needs.
 
 Obtaining user context from remote locations or services may be time-consuming, and the overall user experience around the authentication process would be worse.
@@ -278,7 +268,7 @@ It requires specific expertise and multiple agreements on how exactly the risk s
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.4\textwidth]{img/sections/5-design/riskEvaluator.png}
-  \caption{Risk Evaluator Diagram}
+  \caption{Risk Evaluator Diagram.}
   \label{fig:design-user-evaluator-diagram}
 \end{figure}
 
@@ -295,13 +285,13 @@ The main risk evaluator attributes:
 Attributes \textit{risk} and \textit{weight} contribute to the overall risk scoring system in a magnificent way.
 The purpose of the \textit{weight} attribute is to handle every risk evaluation with different weights.
 To be more specific, some of these evaluators can contribute more to the overall risk score than others.
-It provides the ability to rely on evaluators where the evaluation confidence is higher, and it should influence the overall risk more than evaluators with lower confidence in their evaluations.
+It provides the option to rely on evaluators where the evaluation confidence is higher, and it should influence the overall risk more than evaluators with lower confidence in their evaluations.
 
-Attribute \textit{requiresUser} is a boolean flag used to determine the accurate phase of the evaluation.
+Attribute \textit{requiresUser} is a Boolean flag used to determine the accurate phase of the evaluation.
 Some evaluators need to be already aware of the attempting user, as they need the necessary information about the user.
 This means that risk evaluation itself needs to be done after obtaining the essential user information.
 
-Attribute \textit{enabled} is a boolean flag used to check dynamically whether
+Attribute \textit{enabled} is a Boolean flag used to check dynamically whether
 the evaluator should be turned on.
 Administrators can decide which evaluators are taken into account for the processing.
 
@@ -335,12 +325,12 @@ Administrators have the ability to assess the main attributes of evaluators to t
 In the \textit{Risk-based policies} section of the administrator console, properties for value amendment are automatically generated.
 When a developer creates another risk evaluator, the configuration for the basic configurable attributes is generated in the administrator console.
 
-As shown in the figure \ref{fig:risk-based-evaluator-config}, the risk evaluators configuration contains multiple similar configuration fields grouped together and noted via the colored rectangles. 
+As shown in Figure \ref{fig:risk-based-evaluator-config}, the risk evaluators configuration contains multiple similar configuration fields grouped together and noted via the colored rectangles. 
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.5\textwidth]{img/sections/5-design/risk-evaluators-config.png}
-  \caption{Risk Evaluators Configuration}
+  \caption{Risk Evaluators Configuration.}
   \label{fig:risk-based-evaluator-config}
 \end{figure}
 
@@ -390,15 +380,14 @@ The \( \bar{x} \) represents the overall risk score, \( x_i \) represents the in
 The overall risk of the whole authentication process is evaluated as an arithmetic average of risk scores for each individual phase.
 It means when the overall score for phase \textit{NO\_USER} is \textit{0.7}, and the score for phase \textit{REQUIRES\_USER} is \textit{0.6}, the overall risk score for the whole process is \textit{0.65}. 
 
-\newpage
-
 \subsubsection{Design}
 The risk engine is presented as \textit{RiskEngine} interface with several methods shown in Figure \ref{fig:design-user-engine-diagram}.
 The interface extends \textit{ConfigurableRequirements} interface for achieving dynamic check whether the authentication user is required during the risk engine processing.
 There is also a weak relationship between \textit{RiskEngine} and \textit{RiskEvaluator} interface, as \textit{RiskEngine} contains a collection of the risk evaluators.
 Therefore, the aggregation relationship is used in this case. 
-\newline
-\newline
+
+\newpage
+
 Risk engine methods:
 
 \begin{itemize}
@@ -410,22 +399,20 @@ Risk engine methods:
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/5-design/risk-engine.png}
-  \caption{Risk Engine Diagram}
+  \caption{Risk Engine Diagram.}
   \label{fig:design-user-engine-diagram}
 \end{figure}
 
-\newpage
-
 \subsubsection{Configuration} \label{risk-engine-config}
 It is essential for administrators to have the capability to set reasonable values for the timeout and number of retries for the risk engine.
-Besides configuring the overall state of risk-based functionality, it may be done through the administrator console, as shown in figure \ref{fig:risk-based-enging-config}.
+Besides configuring the overall state of risk-based functionality, it may be done through the administrator console, as shown in Figure \ref{fig:risk-based-enging-config}.
 The default number of retries is \textit{3}.
-The default timeout for processing the risk score is \textit{1500ms}.
+The default timeout for processing the risk score is \textit{1500 ms}.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.4\textwidth]{img/sections/5-design/risk-based-engine-config.png}
-  \caption{Risk Engine Configuration}
+  \includegraphics[width=0.35\textwidth]{img/sections/5-design/risk-based-engine-config.png}
+  \caption{Risk Engine Configuration.}
   \label{fig:risk-based-enging-config}
 \end{figure}
 
@@ -446,9 +433,11 @@ The provider for storing the risk is represented by \textit{StoredRiskProvider},
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/sections/5-design/stored-risk-provider.png}
-  \caption{Stored Risk Provider Diagram}
+  \caption{Stored Risk Provider Diagram.}
   \label{fig:design-stored-risk-diagram}
 \end{figure}
+
+\newpage
 
 Stored risk provider methods:
 \begin{itemize}
@@ -460,22 +449,18 @@ Stored risk provider methods:
 
 Risk phase values representing the phase of the evaluated risk score are described in detail in the general subsection of \ref{risk-engine}.
 
-\newpage
-
 \subsubsection{Risk Engine Authenticator}
 The primary purpose of the risk engine authenticator is to explicitly trigger the risk engine evaluations for specific risk processing phases.
 It is the standard Keycloak authenticator so that it can be included in a specific place in an authentication flow.
 The intention behind introducing the authenticator is to have better control over the risk processing lifecycle without the need to touch the Keycloak codebase out of the Keycloak extension.
 
 It might be possible to hide the authenticator for administrators, as it would be evaluated once the risk processing phase met some specific condition that checks the ability to process it.
-\newline
-\newline
-The authenticator configuration looks like this:
+The authenticator configuration might be seen in Figure \ref{fig:risk-evaluator-authenticator-config}.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{img/sections/5-design/risk-evaluator-authenticator-config.png}
-  \caption{Risk Engine Authenticator Configuration}
+  \includegraphics[width=0.65\textwidth]{img/sections/5-design/risk-evaluator-authenticator-config.png}
+  \caption{Risk Engine Authenticator Configuration.}
   \label{fig:risk-evaluator-authenticator-config}
 \end{figure}
 
@@ -490,7 +475,7 @@ The risk level is basically an entity with a specified lower and upper bound of 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{img/sections/5-design/risk-level.png}
-  \caption{Risk Level Diagram}
+  \caption{Risk Level Diagram.}
   \label{fig:risk-level-diagram}
 \end{figure}
 
@@ -530,7 +515,7 @@ The \textit{advanced} risk level category consists of five risk levels:
   \centering
   \includegraphics[width=1\textwidth]{img/sections/5-design/risk-levels.png}
   \label{fig:risk-levels}
-  \caption{Default Risk Levels}
+  \caption{Default Risk Levels.}
 \end{figure}
 
 \newpage
@@ -543,22 +528,21 @@ In this case, the predicate obtains the stored risk from the risk engine and, ba
 If the evaluated risk score is in the range of the specified category, the condition is evaluated as \textit{true}, and the underlying flow is processed.
 \newline
 \newline
-The risk level condition contains a configuration list box with values defined for the particular risk level provider, as shown here:
+The risk level condition contains a configuration list box with values defined for the particular risk level provider, as shown in Figure \ref{fig:risk-levels-simple-config}.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{img/sections/5-design/risk-level-simple-config.png}
-  \caption{Simple Risk Level Configuration}
+  \includegraphics[width=0.65\textwidth]{img/sections/5-design/risk-level-simple-config.png}
+  \caption{Simple Risk Level Configuration.}
   \label{fig:risk-levels-simple-config}
 \end{figure}
-\newpage
+
 \subsubsection{Risk Level Flow Example}
 
 A proper example of leveraging the risk levels in the conditional flows or authentication policies might be seen in Figure \ref{fig:risk-levels-example} below.
 The risk level flow is a sequence of conditional flows consisting of risk level conditions and actions that should be executed.
+
 For better visibility, the conditional flows are marked by different colors.
-\newline
-\newline
 In the case shown in Figure \ref{fig:risk-levels-example}, consider the \textit{simple} risk level category. When the evaluated risk is:
 \begin{itemize}
     \item \textbf{Low} -- the access to the application is granted without any other action.
@@ -568,8 +552,8 @@ In the case shown in Figure \ref{fig:risk-levels-example}, consider the \textit{
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.5\textwidth]{img/sections/5-design/simple-risk-level-flow.png}
-  \caption{Simple Risk Level Flow}
+  \includegraphics[width=0.43\textwidth]{img/sections/5-design/simple-risk-level-flow.png}
+  \caption{Simple Risk Level Flow.}
   \label{fig:risk-levels-example}
 \end{figure}
 
@@ -578,7 +562,7 @@ In the case shown in Figure \ref{fig:risk-levels-example}, consider the \textit{
 \section{Artificial Intelligence} \label{design-ai}
 \textit{Artificial intelligence} (AI) and \textit{machine learning} (ML) are rapidly evolving with promising results, and the range of their applicability is more expansive than before.
 As mentioned previously, evaluating risk scores for user contexts is a complex discipline with many boundaries and required assessments.
-For more details and specific requirements for the AI approach, see the chapter \ref{spec-ai}.
+For more details and specific requirements for the AI approach, see Section \ref{spec-ai}.
 
 With the help of AI, the problem can be simplified as it could potentially evaluate the risk score more accurately based on the overall context.
 However, the evaluation of the risk by AI might bring its own risk of unpredictability when the machine learning model is not mature in a higher measure.
@@ -598,7 +582,7 @@ This means the system needs to understand the task, the context, and the specifi
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\textwidth]{img/sections/5-design/ai-engine.png}
-  \caption{AI NLP Engine Diagram}
+  \caption{AI NLP Engine Diagram.}
   \label{fig:ai-engine-diagram}
 \end{figure}
 
@@ -618,7 +602,7 @@ Specific risk evaluators leveraging AI use for communication with the AI service
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.92\textwidth]{img/sections/5-design/ai-engine-remote.png}
-  \caption{Risk Evaluator and AI NLP Engine Diagram}
+  \caption{Risk Evaluator and AI NLP Engine Diagram.}
   \label{fig:ai-engine-remote-diagram}
 \end{figure}
 
@@ -638,7 +622,7 @@ Therefore, the application still seamlessly works with the location data despite
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.8\textwidth]{img/sections/5-design/location-diagram.png}
-  \caption{Remote Location Context}
+  \caption{Remote Location Context.}
   \label{fig:design-external-integration}
 \end{figure}
 

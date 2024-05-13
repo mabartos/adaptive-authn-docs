@@ -3,13 +3,13 @@
 
 Authentication incorporates two primary domains: user authentication and data authentication. 
 
-User authentication is the process of verifying the identity of an individual to grant access to a system or service.
+User authentication assures the identity verification of an individual to grant access to a system or service.
 It ensures that individuals are who they claim to be before allowing them access to resources.
 
-Data authentication, on the other hand, verifies data integrity and origin, ensuring it remains unaltered during transmission or storage, focusing solely on data content.
+Data authentication, on the other hand, assures data integrity and origin, ensuring it remains unaltered during transmission or storage, focusing solely on data content.
 
 Adaptive authentication extends user authentication, as it is an advanced security mechanism designed to dynamically adjust the level of authentication based on various factors such as user behavior, context, and risk levels.
-Unlike traditional authentication methods that rely on static credentials or fixed multi-factor authentication (MFA) processes, adaptive authentication continuously evaluates the risk associated with each authentication attempt and adapts the authentication requirements accordingly.
+Unlike traditional authentication methods that rely on static credentials or fixed Multi-Factor Authentication (MFA) processes, adaptive authentication continuously evaluates the risk associated with each authentication attempt and adapts the authentication requirements accordingly.
 
 At its core, adaptive authentication usually leverages real-time data analysis and contextual insights to make informed decisions about the appropriate level of authentication needed to verify a user's identity.
 This dynamic approach allows organizations to strengthen security measures while minimizing disruption to user workflows.
@@ -50,8 +50,8 @@ The summarization of the biggest challenges might be as follows:
 
 \begin{itemize}
     \item \textbf{Complexity} -- the implementation of the processing user behavior and evaluation of contextual data might be very complex and time-consuming.  
-    \item \textbf{Accuracy of risk assessment} -- as the contextual data might not be reliable and correct in a particular context, the risk evaluation needs to be properly executed - we need to prevent the count of false positives and false negatives. 
-    \item \textbf{Privacy and data protection} -- as the contextual data might help to strengthen security, these data need to be collected and processed - compliance with data protection regulations and users' preferences need to be assessed.
+    \item \textbf{Accuracy of risk assessment} -- as the contextual data might not be reliable and correct in a particular context, the risk evaluation needs to be properly executed -- we need to prevent the count of false positives and false negatives. 
+    \item \textbf{Privacy and data protection} -- as the contextual data might help to strengthen security, these data need to be collected and processed -- compliance with data protection regulations and users' preferences need to be assessed.
     \item \textbf{Potentially non-deterministic} -- the benefit of integration of AI/ML might also bring some challenges as we can achieve non-deterministic behavior in processing contextual data and assessing risk levels -- it might be challenging to predict possible outcomes, which also makes testing harder.\cite{intro-logintc}\cite{intro-silverfort}\cite{intro-descope}
     
 \end{itemize}
@@ -134,7 +134,6 @@ Consider keystroke dynamics and mouse movement patterns as examples of behavior-
 Keystroke dynamics can study the unique way a user types on a keyboard.
 Mouse movement patterns can analyze the way a user moves the mouse while interacting with a system. \cite{auth-factors-aratek} \cite{auth-factors-sumologic} \cite{auth-factors-globalknowledge} 
 
-\newpage
 \section{Risk Levels}
 Risk levels in adaptive authentication typically refer to the likelihood that a particular access attempt is fraudulent or unauthorized.
 These risk levels are often categorized into low, medium, and high, though the specific criteria for each level can vary depending on the implementation.
@@ -145,6 +144,6 @@ These risk levels are often categorized into low, medium, and high, though the s
 In these cases, the system may prompt for additional verification, such as a one-time password sent via email or SMS.
 
 \textbf{High-risk access} attempts might involve highly suspicious behavior, such as multiple failed login attempts, login from a known compromised device, or access from a location far from the user's usual ones.
-In these cases, the system may require stricter authentication measures, such as biometric verification or challenge questions.
+In these cases, the system may require stricter authentication measures.
 
 \shorthandon{-}

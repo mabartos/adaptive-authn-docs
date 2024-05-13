@@ -9,7 +9,6 @@ In order to create an optimal solution for adaptive authentication, it is advant
 In the following sections, there are some brief descriptions of products provided by the mentioned vendors.
 The list of existing solutions and their ordering is not sorted by any particular keys but rather gathered as the most promising and exciting solutions.
 
-\newpage
 \section{Okta}
 
 Okta is an identity management company that provides cloud-based solutions for businesses to connect people and technology securely.
@@ -19,8 +18,8 @@ Okta describes its adaptive and risk-based capabilities as follows:
 
 ``User and risk levels are always changing; your security should be able to keep up.
 Okta Adaptive MFA allows for dynamic policy changes and step-up authentication in response to changes in user and device behavior, location, or other contexts.''\cite{existing-okta}
-\newline
-\newline
+
+\newpage
 Adaptive MFA supports detection and authentication challenges for riskier situations like:
 
 \begin{itemize}
@@ -32,7 +31,6 @@ Adaptive MFA supports detection and authentication challenges for riskier situat
     \item Indications of anomalous behavior. 
 \end{itemize}
 
-\newpage
 \subsection*{ThreatInsight Service}
 Okta approach introduces the consideration of external risk contexts, enhancing organizations' understanding of authentication processes by utilizing the ThreatInsight service.
 This service collects information about the origin of sign-in activity directed at Okta endpoints.
@@ -45,6 +43,8 @@ ThreatInsight provides a way to add risk factors from external sources like thir
 
 Ensuring the safety and trustworthiness of these outside sources is very important.
 I think leveraging the risk factors from external sources must be carefully considered in order to avoid the risk of data leaks or mistakes that could harm the authentication system.
+
+\newpage
 
 \subsection*{System Log Events}
 As the Okta ThreatInsight service is able to collect information about the origin of the sign-in activity, it can identify the threat and follow up with proper actions.
@@ -60,16 +60,18 @@ It can take into consideration factors like anomalous location, anomalous device
 In all cases, such comprehensive information about login attempts and their metadata is necessary for followed risk factor evaluation and success of adaptive authentication. 
 
 \subsection*{Authentication Policies}
-Each app specified in Okta comes with its own authentication policy.
-This policy ensures that people trying to log in to the app meet certain conditions and follow specific rules for verification.
+Each application specified in Okta comes with its own authentication policy.
+This policy ensures that people trying to log in to the application meet certain conditions and follow specific rules for verification.
 
 While some conditions may be similar between authentication policies and global session policies, they have different jobs. 
 If someone gains access to Okta through the global session policy, it does not mean they automatically have access to all their apps.
-You can make a unique policy for each app or use a few policies for multiple apps.
+You can make a unique policy for each application or use a few policies for multiple apps.
 There are also preset policies in Okta for apps with standard sign-on requirements.
 
 Every authentication policy has a set of rules specifying the authentication flow behavior during an authentication attempt.
 In every rule, you can define various conditions, and if all are evaluated as true, the authentication settings with proper actions are applied.
+
+\newpage
 
 The conditions might consist of the setting of user role, user group, device state, device platform, and much more.
 When these conditions are met, actions like explicit access denial or step-up authentication are done.
@@ -80,7 +82,7 @@ The specific rule conditions might look like in Figure \ref{fig:okta-auth-policy
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/okta-add-rule.png}
-  \caption{Okta Authentication Policy Rule Conditions}
+  \caption{Okta Authentication Policy Rule Conditions.}
   \label{fig:okta-auth-policy-rule-condition}
 \end{figure}
 
@@ -91,7 +93,7 @@ Citrix Systems, Inc. is an American multinational cloud computing and virtualiza
 Citrix products were claimed to be used by over 400,000 clients worldwide, including 99\% of the Fortune 100 and 98\% of the Fortune 500.
 
 \subsection*{Takeaways}
-I appreciate how Citrix Systems, Inc. adaptive authentication solution handles various details of user authentication.
+I appreciate how the Citrix adaptive authentication solution handles various details of user authentication.
 It carefully considers factors such as user roles, organizational affiliations, and unique user attributes.
 These factors are crucial in assessing the level of risk in each authentication attempt.
 The solution does not treat each factor in isolation.\cite{existing-citrix-wiki} \cite{existing-citrix-blog}
@@ -99,7 +101,7 @@ The solution does not treat each factor in isolation.\cite{existing-citrix-wiki}
 Instead, it integrates all these details to determine the overall security of an authentication attempt.
 This enhances overall security and improves the user experience by making the authentication process smoother by considering the whole context of risk factors.
 
-The other valuable feature that Citrix Systems, Inc. provides is called Device Posture, as it allows to specify requirements for devices that are accessing the application. 
+The other valuable feature that Citrix provides is called Device Posture, as it allows to specify requirements for devices that are accessing the application. 
 It enhances authentication policies in such a manner that authentication rules can be comprehended about the device attributes.
 
 Authentication policies are necessary parts of the adaptive authentication initiative as they provide the capability to adapt to the surrounding environment.
@@ -115,45 +117,44 @@ We can assess the risk evaluation mechanism to properly reflect particular cases
 OneLogin, Inc. is a cloud-based identity and access management (IAM) provider that develops a unified access management (UAM) platform for enterprise-level businesses and organizations. \cite{existing-onelogin}
 
 \subsection*{Takeaways}
-I like how OneLogin, Inc. describes risk-based authentication with the leverage of machine learning. 
-Such solutions learn from user behavior over time to create a detailed profile of each login habits of the user.
+I like how OneLogin describes risk-based authentication with the leverage of machine learning. 
+Such solutions learn from user behavior over time to create a detailed profile of each login habit of the user.
 That includes tracking devices, typical login times, and usual work locations.
 Additional analysis of IP addresses, network reputations, and threat data is used to enhance security further.
 
-Solution SmartFactor, provided by OneLogin, Inc., gathers risk factor values described above, which are used as inputs for their Vigilance AI™ solution.
+Solution SmartFactor, provided by OneLogin, gathers risk factor values described above, which are used as inputs for their Vigilance AI solution.
 After analyzing these factors via the artificial intelligence engine, the contextual risk score is evaluated.
 The risk score is in the range 0-100.
 Based on the evaluated score, appropriate actions are executed, such as requiring additional authentication steps or denying access.\cite{existing-onelogin} 
 
-\subsection*{Vigilance AI™}
+\subsection*{Vigilance AI}
 
-Vigilance AI™ also provides training API, where the AI models are trained, and the contextual risk score evaluation can be continuously improved.
-As the complex contextual data is sent to the Vigilance AI™ service, the response contains additional information about triggers, which are indicators of some of the key items that influenced the risk score.
+Vigilance AI also provides training API, where the AI models are trained, and the contextual risk score evaluation can be continuously improved.
+As the complex contextual data is sent to the Vigilance AI service, the response contains additional information about triggers, which are indicators of some of the key items that influenced the risk score.
 It brings a better overview and addressability of the risk score evaluation in a human-readable format.
 
-Vigilance AI™ supplies an API for the creation of a custom rule to gain more control over the risk scoring of events.
+Vigilance AI supplies an API for the creation of a custom rule to gain more control over the risk scoring of events.
 Administrators are able to create rules based on the allow/deny list of IP addresses or current country locations. \cite{existing-onelogin-vigilance}
 
 \newpage
 \subsection*{Statistics}
 
 An exciting thing is furthermore the gathering of risk score evaluation statistics, as administrators can obtain the count of sign-in events grouped by their risk score bucket.
-Vigilance AI™ divides the risk score bucket, previously called risk levels, into five categories: \textit{minimal}, \textit{low}, \textit{medium}, \textit{high}, and \textit{very high}.
+Vigilance AI divides the risk score bucket, previously called risk levels, into five categories: \textit{minimal}, \textit{low}, \textit{medium}, \textit{high}, and \textit{very high}.
 
 To be more specific, the statistics contain the number of sign-in events for each particular risk level, which might be beneficial for following data analysis. \cite{existing-onelogin-score-insights} \cite{existing-onelogin-score}
 
-\newpage
 \section{Silverfort}
 Silverfort, Inc. provides several security-related products, such as the Advanced MFA, Identity Threat Detection and Response solution, Risk-based authentication, and others.
-Silverfort, Inc. was founded in 2016 by Hed Kovetz, Yaron Kassner, and Matan Fattal.
+Silverfort was founded in 2016 by Hed Kovetz, Yaron Kassner, and Matan Fattal.
 It is headquartered in Tel Aviv and has offices in the US and Singapore, as well as local Sales teams in over 18 countries across EMEA, NA, and APAC.\cite{example_silverfort}
 
 \subsection*{Takeaways}
 
-Silverfort, Inc. provides risk-based authentication with the possibility of specifying adaptive policies.
+Silverfort provides risk-based authentication with the possibility of specifying adaptive policies.
 I like the concept of adaptive policies, as it is possible to create custom authentication policies to meet unique requirements for the authentication process.
 
-These policies can leverage risk scoring provided by the Silverfort, Inc. solution and trigger proactive security controls, such as requiring additional authentication steps or denying access. 
+These policies can leverage risk scoring provided by the Silverfort solution and trigger proactive security controls, such as requiring additional authentication steps or denying access. 
 This concept is very flexible and provides the possibility to explicitly set particular risk indicators in order to react to specific attacks that your environment is likely to experience.
 
 You can see an example of configuring the described adaptive policy in Figure \ref{fig:silverfort-auth-policy} below.
@@ -162,7 +163,7 @@ This adaptive policy is basically a rule for the authentication process, and whe
 \subsection*{Risk Factors Evaluation}
 
 The main takeaway from the solution is the understanding of the factors necessary for risk evaluations and their contextual tightness.
-Silverfort, Inc. divides the risk factors into three main categories: access source, user, and authentication mechanism.
+Silverfort divides the risk factors into three main categories: access source, user, and authentication mechanism.
 
 In assessing the access source, the security posture of the device is crucial.
 This includes evaluating factors such as the operating system version, the application of security patches, and the presence of antivirus software.
@@ -182,7 +183,7 @@ This includes identifying potential threats like pass-the-hash attacks, which co
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.92\textwidth]{img/silverfort-auth-policy.png}
-  \caption[Silverfort Adaptive Policy]{Silverfort Adaptive Policy. Source: \cite{example_silverfort}}
+  \caption[Silverfort Adaptive Policy]{Silverfort Adaptive Policy. Source: \cite{example_silverfort}.}
   \label{fig:silverfort-auth-policy}
 \end{figure}
 
@@ -192,7 +193,7 @@ This includes identifying potential threats like pass-the-hash attacks, which co
 Beyond Identity, Inc. is a company that specializes in passwordless identity management and authentication solutions. They offer a platform that aims to eliminate the need for passwords and provide more secure and user-friendly authentication methods.
 
 \subsection*{Takeaways}
-I like the concept called the triad of risk that Beyond Identity, Inc. provided in relation to adaptive (risk-based) authentication.
+I like the concept called the triad of risk that Beyond Identity provides in relation to adaptive (risk-based) authentication.
 The triad of risk is a methodology for conceptualizing risk factors when permitting or denying access to applications.
 The triad consists of three factors: \textit{Device risk}, \textit{Application risk}, and \textit{Contextual risk}.
 
@@ -208,9 +209,8 @@ Factors such as geographic location, typical access patterns, and time of access
 Adaptive authentication uses contextual factors to evaluate access attempts, triggering alarms for deviations from established patterns.
 Certain anomalies, like accessing an application from an unusual location, are given higher risk weighting.
 
-\newpage
 \subsection*{Authentication and Device Policies}
-Beyond Identity, Inc. also provides the feature of authentication and device policies.
+Beyond Identity also provides the feature of authentication and device policies.
 As was stated previously, authentication policies may provide the possibility to create custom authentication policies to meet unique requirements for the authentication process.
 Other than that, additional device policies provide an additional security layer, as devices that are trying to access the application need to meet the requirements specified by these policies.
 
@@ -219,7 +219,7 @@ You can notice that the user experience around configuring these policies varies
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1\textwidth]{img/beyond-auth-policy.png}
-  \caption[Beyond Identity Authentication Policies]{Beyond Identity Authentication Policies. Source: \cite{existing-beyond-identity}}
+  \caption[Beyond Identity Authentication Policies]{Beyond Identity Authentication Policies. Source: \cite{existing-beyond-identity}.}
   \label{fig:beyond-identity-auth-policy}
 \end{figure}
 
