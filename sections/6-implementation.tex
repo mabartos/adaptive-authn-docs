@@ -120,7 +120,8 @@ It provides the isolation of storage operations and user interaction and complie
 
 Possible operations on the \textit{AuthnPoliciesResource} request handler class with the additional redirection:
 \begin{itemize}
-    \item \textit{GET /authn-policies} -- retrieve all authentication policies in JSON\footnote{JavaScript Object Notation} format. 
+    \item \textit{GET /authn-policies} -- retrieve all authentication policies in JSON\footnote{JavaScript Object Notation} format.
+    \item \textit{GET /authn-policies/parent} -- retrieve the parent authentication policy in JSON format.
     \item \textit{POST /authn-policies} -- create a new authentication policy with attributes defined as JSON in the request body.  
     \item \textit{/authn-policies/{policyId}} -- Redirects requests to the \textit{AuthnPolicyResource} request handler class.
 \end{itemize}
