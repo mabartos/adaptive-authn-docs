@@ -17,19 +17,19 @@ The main advantage of using user contexts is to get the required information, re
 It means that it does not really matter which approach was used for obtaining the information but that the information is available.
 It implies that administrators need to be aware of present user context providers/implementations in order to prevent any inaccuracies.
 
-As shown in Figure \ref{fig:user-context-diagram}, user context is represented as interface \textit{UserContext}, where the generic is used.
-This means that every implementation of the \textit{UserContext} interface can retrieve different types of data.
+As shown in Figure \ref{fig:user-context-diagram}, user context is represented as abstract class \textit{UserContext}, where the generic is used.
+This means that every implementation of the \textit{UserContext} abstract class can retrieve different types of data.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.4\textwidth]{img/sections/5-design/userContext.png}
+  \includegraphics[width=0.4\textwidth]{img/sections/5-design/userContextAbstract.png}
   \caption{User Context Diagram.}
   \label{fig:user-context-diagram}
 \end{figure}
 
 \newpage
 
-Methods of the \textit{UserContext} interface:
+Methods of the \textit{UserContext} abstract class:
 \begin{itemize}
     \item \textit{requiresUser()} -- a Boolean flag to determine whether the data can be obtained without the information about the authentication user.
     \item \textit{initData()} -- a method that initiates retrieving the data.
@@ -42,10 +42,10 @@ An excellent example of leveraging user context is the implementation of an IP a
 It provides the ability to obtain the IP address of the device in multiple ways.
 The IP address can be obtained either from the user agent attributes or from the HTTP headers \textit{Forwarded} and \textit{X-Forwarded-For} when a proxy is used.
 
-As seen in Figure \ref{fig:user-context-ip-address-context}, the \textit{IpAddressContext} interface extends the \textit{UserContext} interface and specifies that the retrieved data will be of type \textit{IPAddress}, which is a structure describing the IP address attributes.
+As seen in Figure \ref{fig:user-context-ip-address-context}, the \textit{IpAddressContext} abstract class extends the \textit{UserContext} abstract class and specifies that the retrieved data will be of type \textit{IPAddress}, which is a structure describing the IP address attributes.
 
-The \textit{DeviceIpAddressContext} class is an implementation of the \textit{IpAddressContext} interface and obtains the IP address from the user agent attributes.
-The \textit{HeaderIpAddressContext} class is also an implementation of the \textit{IpAddressContext} interface and obtains the IP address from the HTTP headers when a proxy is used.
+The \textit{DeviceIpAddressContext} class is an implementation of the \textit{IpAddressContext} abstract class and obtains the IP address from the user agent attributes.
+The \textit{HeaderIpAddressContext} class is also an implementation of the \textit{IpAddressContext} abstract class and obtains the IP address from the HTTP headers when a proxy is used.
 
 \begin{figure}[htbp]
   \centering

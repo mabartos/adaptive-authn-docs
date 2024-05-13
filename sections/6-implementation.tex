@@ -148,7 +148,7 @@ The abstract model representation is converted to the \textit{Data Transfer Obje
 
 \newpage
 \section{User Context}
-The first step for implementing the \textit{UserContext<T>} interface is to bind the generic type to the required one, either through extending the interface or directly in the implementation of the context.
+The first step for implementing the \textit{UserContext<T>} abstract class is to bind the generic type to the required one, either through extending the abstract class or via a direct reference from the implementation class. 
 
 For demonstration purposes, consider a specific user context \textit{IpProxyContext}, which handles all IP addresses present in the HTTP \textit{Forwarded}, and \textit{X-Forwarded-For} headers used when a proxy is part of the deployment.
 
@@ -161,10 +161,12 @@ The specific \textit{IpProxyContext} was created, shown in Figure \ref{fig:impl-
   \label{fig:impl-user-ctx-ifc}
 \end{figure}
 
-The implementation of the \textit{IpProxyContext}, shown in Figure \ref{fig:impl-user-ctx-ip}, consists of several attributes to fulfill the requirements of the interface by returning particular data in methods.
+The implementation of the \textit{IpProxyContext}, shown in Figure \ref{fig:impl-user-ctx-ip}, consists of the implementation of the \textit{initData()} method to fulfill the requirements of the abstract class.
 
-In the constructor, the \textit{initData()} method is called, which initializes data when the context is needed.
 With the help of the \textit{KeycloakSession}, the data for a particular context is processed only once per request, so when different risk evaluators need the context, it is not evaluated multiple times.
+
+However, the initialization of the data does not have to be successful.
+In that case, the \textit{isInitialized} Boolean flag is \textit{false}, and the user contexts processing unit may repeat the initialization based on the information.
 
 During the initialization of the data, the HTTP headers of the current request are parsed.
 IP addresses included in the headers \textit{Forwarded} and \textit{X-Forwarded-For} are concatenated together.
