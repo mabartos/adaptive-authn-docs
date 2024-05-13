@@ -31,10 +31,12 @@ This means that every implementation of the \textit{UserContext} abstract class 
 
 Methods of the \textit{UserContext} abstract class:
 \begin{itemize}
+    
+    \item \textit{initData()} -- a method that initiates retrieving the data. 
+    \item \textit{isInitialized()} -- a Boolean flag to determine whether the data has already been initialized.
+    \item \textit{getData()} -- obtain the retrieved data.
+    \item \textit{getPriority()} -- a priority for determining the order of retrieval of contexts of the same type. The higher the priority, the more preferred context it is.
     \item \textit{requiresUser()} -- a Boolean flag to determine whether the data can be obtained without the information about the authentication user.
-    \item \textit{initData()} -- a method that initiates retrieving the data.
-    \item \textit{getData()} -- obtain the retrieved data. 
-    \item \textit{isInitialized()} -- a Boolean flag to determine whether the data has already been initialized. 
 \end{itemize}
 
 \subsection{Specific User Context}
@@ -621,7 +623,7 @@ Therefore, the application still seamlessly works with the location data despite
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{img/sections/5-design/location-diagram.png}
+  \includegraphics[width=0.75\textwidth]{img/sections/5-design/location-diagram.png}
   \caption{Remote Location Context.}
   \label{fig:design-external-integration}
 \end{figure}
