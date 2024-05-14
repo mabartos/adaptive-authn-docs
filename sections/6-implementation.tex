@@ -39,7 +39,7 @@ The signature of operations for the authentication policy DAO is declared via th
 
 \newpage
 
-The interface \textit{AuthnPolicyProvider} consists of the basic CRUD\footnote{Create-Read-Update-Delete} operations that can be made on authentication policies, such as:
+The interface \textit{AuthnPolicyProvider} consists of the basic CRUD operations that can be made on authentication policies, such as:
 
 \begin{itemize}
     \item \textit{getParentPolicy()} -- retrieve the parent \textit{Authentication policies - PARENT} flow.
@@ -120,7 +120,7 @@ It provides the isolation of storage operations and user interaction and complie
 
 Possible operations on the \textit{AuthnPoliciesResource} request handler class with the additional redirection:
 \begin{itemize}
-    \item \textit{GET /authn-policies} -- retrieve all authentication policies in JSON\footnote{JavaScript Object Notation} format.
+    \item \textit{GET /authn-policies} -- retrieve all authentication policies in JSON format.
     \item \textit{GET /authn-policies/parent} -- retrieve the parent authentication policy in JSON format.
     \item \textit{POST /authn-policies} -- create a new authentication policy with attributes defined as JSON in the request body.  
     \item \textit{/authn-policies/{policyId}} -- Redirects requests to the \textit{AuthnPolicyResource} request handler class.
@@ -298,8 +298,10 @@ Therefore, after providing the password, the risk engine authenticator executes 
 \newpage
 
 \subsection{Retry Evaluations} \label{impl-engine-retry}
-It is possible that risk evaluations are not properly completed due to occurring failures, mainly for remote services, as certain network issues can be seen.
-In that case, the best-effort approach is leveraged, and the retry mechanism sends a signal to retry the evaluation for the specific risk evaluator.
+Due to unexpected failures, individual risk evaluations might not be properly executed.
+During the risk evaluation, either obtaining user contexts or directly the evaluation might fail.
+In that case, a retry mechanism has been introduced so the evaluation process is executed again.
+The management around retrying risk evaluations handles the risk engine, described in Section \ref{risk-engine}.
 The evaluation can be retried at most \textit{n} times, where \textit{n} is the specified \textit{retry} parameter described in Section \ref{risk-engine-config}.
 The visual representation of the case is in Figure \ref{fig:impl-risk-engine-retry}.
 
@@ -314,7 +316,7 @@ The visual representation of the case is in Figure \ref{fig:impl-risk-engine-ret
 
 \subsection{Evaluations Timeout} \label{impl-engine-timeout}
 In order to guarantee specific time boundaries, the timeout for the risk evaluators has been introduced.
-It provides the ability to stop evaluating risk after exceeding a specific configurable timeout for a particular risk evaluator.
+It provides the ability to stop risk evaluation after exceeding a specific configurable timeout for a particular risk evaluator.
 This means that after exceeding the time limit, the risk evaluator is not taken into consideration for the overall risk score calculations.
 For more information about the configuration, see Section \ref{risk-engine-config}.
 The visual representation of the case is in Figure \ref{fig:impl-risk-engine-timeout}.
@@ -345,7 +347,7 @@ After retrieving these two parts of the fraction, the overall risk is calculated
 
 \newpage
 \section{Artificial Intelligence}
-The implementation of AI relies on the NLP\footnote{Natural Language Processing} engine, as described in Section \ref{design-ai}.
+The implementation of AI relies on the Natural Language Processing (NLP) engine, as described in Section \ref{design-ai}.
 The main purpose of integrating AI into risk-based authentication is for individual risk evaluations.
 
 The default NLP engine is ChatGPT, developed by OpenAI as its popularity rapidly grows and meets all requirements of this thesis.
@@ -428,7 +430,7 @@ Therefore, retrieving location information from the remote service is suitable f
 For this purpose, the \textit{ipapi}\footnote{https://ipapi.com/} service is used as it provides a simple API for location information based on the provided IP address.
 Remote calls on the service are executed during the initialization of the \textit{IpApiLocationContext} when the IP address from the \textit{IpAddressContext} is returned and substituted to the request.
 
-The approach for the request assembly is straightforward and uses only path parameters of the URL\footnote{Uniform Resource Locator} as follows:
+The approach for the request assembly is straightforward and uses only path parameters of the URL as follows:
 \textit{https://ipapi.co/<ip-address>/json}.
 The data in the format specified in \textit{IpApiLocationData} class is returned.
 The simplified architecture of the \textit{IpApiLocationContext} context is shown in Figure \ref{fig:impl-external-ipapi}.

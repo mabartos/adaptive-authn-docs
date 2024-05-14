@@ -133,7 +133,13 @@
 \newcommand{\thesis@def}[2][]{%
   \expandafter\def\csname thesis@#2\endcsname{%
     <<\ifx\thesis@empty#1\thesis@empty#2\else#1\fi>>}}
-\def\thesis@declaration{\thesis@@{declaration}}
+\def\thesis@declaration{\thesis@@{declaration}
+
+During the preparation of this thesis, AI-driven tools were employed, including \textit{Grammarly} for grammatical analysis and \textit{ChatGPT} for occasional textual expression enhancements.
+I declare that I used these tools in accordance with the principles of academic integrity.
+I checked the content and took full responsibility for it.
+
+}
 \long\def\KV@thesis@declaration#1{%
   \long\def\thesis@declaration{#1}}
 \newif\ifthesis@woman\thesis@womanfalse
