@@ -63,8 +63,8 @@
     advisor     = {prof. RNDr. Václav Matyáš, M.Sc., Ph.D.},
     title       = {Adaptive Authentication in Keycloak},
     TeXtitle    = {Adaptive Authentication in Keycloak},
-    keywords    = {adaptive, authentication, Keycloak, open-source, Red Hat, risk-based, security},
-    TeXkeywords = {adaptive, authentication, Keycloak, open-source, Red Hat, risk-based, security},
+    keywords    = {adaptive, authentication, Keycloak, open-source, CNCF, risk-based, security},
+    TeXkeywords = {adaptive, authentication, Keycloak, open-source, CNCF, risk-based, security},
     abstract    = {%
       Keycloak is an open-source identity and access management system that provides robust security solutions for applications and services. It acts as a centralized authentication and authorization platform, enabling organizations to secure their resources while offering Single Sign-On capabilities. Keycloak is widely used in various industries, including web applications, microservices, and APIs, to protect sensitive data and streamline user access control. 
       
@@ -115,18 +115,24 @@
 \markright{\textsc{Introduction}}
 \addcontentsline{toc}{chapter}{Introduction}
 
-In today's digital landscape, where cybersecurity threats continue to evolve in sophistication and frequency, the need for robust authentication mechanisms to safeguard sensitive data and systems has become paramount.
-Traditional authentication methods, such as static passwords or even static Multi-Factor Authentication (MFA), often fall short of adequately addressing the dynamic nature of security risks and user behavior.
+In today’s digital landscape, where cybersecurity threats continue to evolve in sophistication and frequency, the need for robust authentication mechanisms to safeguard sensitive data and systems has become
+critical.
+Traditional authentication methods, such as static passwords or even static Multi-Factor Authentication (MFA), often fail to adequately address the dynamic nature of security risks and user behavior.
 As a response to these challenges, adaptive authentication has emerged as a promising approach to authentication, offering a dynamic and context-aware method for verifying user identities.
 
-This thesis aims to explore the principles, mechanisms, benefits, and challenges of adaptive authentication in-depth.
+Adaptive authentication offers significant advantages by evaluating various factors such as user behavior, device characteristics, location, and risk attributes to provide a more secure and seamless user experience.
+Adaptive authentication enhances security without compromising convenience by dynamically adjusting authentication requirements based on real-time assessments.
 
+This thesis is aimed at the principles and implementation of adaptive authentication within Keycloak, an open-source identity and access management system.
+Keycloak is widely used to secure web applications, microservices, and APIs by providing centralized authentication and authorization services with a broad user community.
 
-
-
-
-By examining the underlying concepts and technologies, as well as conducting case studies and analyses, this research seeks to provide insights into the effectiveness and applicability of adaptive authentication solutions in diverse organizational contexts.
-Through a comprehensive examination of adaptive authentication, this thesis aims to contribute to the understanding of modern authentication practices and their role in mitigating cybersecurity risks.
+Chapter \ref{adaptive-authentication} introduces adaptive authentication, outlining its benefits and challenges.
+It explains how adaptive authentication dynamically adjusts based on various factors.
+Chapter \ref{existing-solutions} reviews and compares existing market solutions, providing a comprehensive understanding of different implementations and their pros and cons.
+Chapter \ref{keycloak} focuses on Keycloak, detailing its architecture, service provider interface, and authentication processes.
+Chapter \ref{specification} specifies the requirements and goals for this topic.
+Chapter \ref{design} covers design aspects such as user context, authentication policies, risk-based authentication, and AI integration, offering a development blueprint with diagrams and examples.
+Chapter \ref{implementation} presents the actual implementation, describing the development itself with the necessary coding and configuration for adaptive authentication in Keycloak.
 
 \shorthandoff{-}
 \begin{markdown*}{%
@@ -148,6 +154,7 @@ Through a comprehensive examination of adaptive authentication, this thesis aims
 \import{sections/}{4-specification.tex}
 \import{sections/}{5-design.tex}
 \import{sections/}{6-implementation.tex}
+\import{sections/}{7-conclusion.tex}
 
 \end{markdown*}
 \end{document}
