@@ -44,7 +44,7 @@ An excellent example of leveraging user context is the implementation of an IP a
 It provides the ability to obtain the IP address of the device in multiple ways.
 The IP address can be obtained either from the user agent attributes or from the HTTP headers \textit{Forwarded} and \textit{X-Forwarded-For} when a proxy is used.
 
-As seen in Figure \ref{fig:user-context-ip-address-context}, the \textit{IpAddressContext} abstract class extends the \textit{UserContext} abstract class and specifies that the retrieved data will be of type \textit{IPAddress}, which is a structure describing the IP address attributes.
+As seen in Figure \ref{fig:user-context-ip-address-context}, the \textit{IpAddressContext}\footnote{The naming convention assessed for the Keycloak project notes that the Pascal case used for class/interface names starts only with the first character uppercase, even with acronyms and abbreviations.} abstract class extends the \textit{UserContext} abstract class and specifies that the retrieved data will be of type \textit{IPAddress}\footnote{A different naming convention as it describes an external third-party class.}, which is a structure describing the IP address attributes.
 
 The \textit{DeviceIpAddressContext} class is an implementation of the \textit{IpAddressContext} abstract class and obtains the IP address from the user agent attributes.
 The \textit{HeaderIpAddressContext} class is also an implementation of the \textit{IpAddressContext} abstract class and obtains the IP address from the HTTP headers when a proxy is used.
@@ -102,7 +102,7 @@ When all the predicates of specified operations are met, the whole condition is 
 
 A suitable example of the user context condition might be a newly introduced condition for the IP address user context entity.
 During the evaluation of the condition, the first step is obtaining the IP address context, which contains the current IP address of the device that is trying to authenticate.
-Some specified operations that can be made on top of the IP address context are \textit{is equal}, \textit{is not equal} or \textit{is in range}.
+Some specified operations that can be made on top of the IP address context are \textit{is equal}, \textit{is not equal}, or \textit{is in range}.
 
 The predicate of the \textit{equal} operation is to directly match the IP address provided by the administrator.
 The opposite \textit{not equal} operation just negatively matches the IP address, as it represents the state when the IP address is not the specified one.
@@ -141,6 +141,8 @@ All of them are stored in persistent storage, so every change of the structure i
 Specific operations can be executed on the policy entities, such as obtaining a specific authentication policy, creating a new one, or updating or removing the existing one.
 Moreover, the priority to achieve the required hierarchy structure can be defined as well.
 
+\newpage
+
 \subsection{Authentication Flow}
 
 Authentication policies are tightly coupled to the authentication flows described in Section \ref{keycloak-authentication-flows}.
@@ -155,8 +157,6 @@ Administrators should not add a higher number of conditional flows to their exis
 Authentication policies extend the capabilities around the authentication flow process as they can be defined for the whole realm, not even for a specific flow.
 To be more specific, it gives the possibility to share policies across different flows, which is the main difference between conditional flows and authentication policies.
 It provides more fine-grained authentication policy management and a better authentication settings approach.
-
-\newpage
 
 \subsection{Authentication Policy Authenticator}
 In order to properly evaluate all authentication policies specified for the realm without the need to comprehensively expand the authentication flows, a specific authenticator was introduced.
@@ -181,8 +181,6 @@ When all conditions are met for an arbitrary policy, and the action explicitly a
 The same applies to the case when the action explicitly denies access to the user, the authenticator is evaluated as false, and the whole authentication flow processing is stopped.
 
 Otherwise, when the action is not terminal, the other policies are evaluated as usual.
-
-\newpage
 
 \subsection{Policy Evaluation Example}
 For a better representation of the authentication policy evaluation, a simple example with the described configuration might be considered.

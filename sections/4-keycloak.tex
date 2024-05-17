@@ -3,13 +3,13 @@
 \section{Introduction}
 Keycloak is a very popular open-source single sign-on and identity and access management solution for modern applications and services.
 The goal of Keycloak is to simplify security so that it is easy for application developers to secure the apps and services they have deployed in their organization.
-Security features that developers normally have to write for themselves are provided out of the box and are easily tailorable to the individual requirements of your organization.
+Security features that developers normally have to write for themselves are provided out of the box and are easily tailorable to the individual requirements of customer organizations.
 
 Keycloak provides customizable user interfaces for login, registration, administration, and account management.
-You can also use Keycloak as an integration platform to hook it into existing Lightweight Directory Access Protocol (LDAP) and Active Directory servers.
-You can also delegate authentication to third-party identity providers like Facebook and Google.
+Keycloak can be also used as an integration platform to hook it into existing Lightweight Directory Access Protocol (LDAP) and Active Directory servers.
+Moreover, Keycloak provides the delegation of authentication to third-party identity providers like Facebook and Google.
 
-This community project is currently, in 2024, under the stewardship of the Cloud Native Computing Foundation (CNCF).\cite{keycloak-web}
+Since April 2023, Keycloak has been under the stewardship of the Cloud Native Computing Foundation (CNCF) as an incubating project.\cite{keycloak-web}
 
 \section{Service Provider Interface}\label{keycloak-spi}
 Service Provider Interface (SPI) is an API intended to be implemented or extended by a third party.
@@ -63,9 +63,9 @@ Providers can be configured by using a specific configuration format such as fol
 \newline
 Where the explanation of these items is as follows:
 \begin{itemize}
-    \item \textit{<spi-id>} is the name of the SPI you want to configure.
-    \item \textit{<provider-id>} is the identifier of the provider you want to configure.
-    \item \textit{<property>} is the actual name of the property you want to set for a given provider.
+    \item \textit{<spi-id>} is the name of the SPI.
+    \item \textit{<provider-id>} is the identifier of the provider.
+    \item \textit{<property>} is the actual name of the configured property.
 \end{itemize}
 
 \section{Authentication Flow} \label{keycloak-authentication-flows}
@@ -77,7 +77,7 @@ Keycloak consists of several authentication flow types, and part of them are des
 
 \begin{itemize}
     \item \textit{Login flow} -- outlines the necessary credentials a user needs to provide to gain access.
-    \item \textit{Registration flow} -- dictates the required profile information a user must provide and whether additional measures like reCAPTCHA are necessary to prevent bot activity.
+    \item \textit{Registration flow} -- dictates the required profile information a user must provide in order to be able to register and whether additional measures like reCAPTCHA are necessary to prevent bot activity.
     \item \textit{Credential reset flow} -- specifies the actions a user must take before being able to reset their password.
 \end{itemize}
 
@@ -94,7 +94,8 @@ These executions allow for the creation of comprehensive authentication flows, p
 Ultimately, authentication executions serve as the cornerstone for building robust and user-centric authentication experiences within systems.
 
 Authentication executions may play different roles in the context of particular authentication flows and provide the ability to control authentication flows in a more fine-grained way. \cite{keycloak-auth-flows}
-\newpage
+\newline
+\newline
 Every authentication execution has a specified requirement type in its parent flow as follows:
 
 \begin{enumerate}

@@ -1,34 +1,20 @@
 \chapter{Adaptive Authentication} \label{adaptive-authentication}
 \section{Concept}
 
-Authentication incorporates two primary domains: user authentication and data authentication. 
-
-User authentication assures the identity verification of an individual to grant access to a system or service.
-It ensures that individuals are who they claim to be before allowing them access to resources.
-
-Data authentication, on the other hand, assures data integrity and origin, ensuring it remains unaltered during transmission or storage, focusing solely on data content.
-
-Adaptive authentication extends user authentication, as it is an advanced security mechanism designed to dynamically adjust the level of authentication based on various factors such as user behavior, context, and risk levels.
-Unlike traditional authentication methods that rely on static credentials or fixed Multi-Factor Authentication (MFA) processes, adaptive authentication continuously evaluates the risk associated with each authentication attempt and adapts the authentication requirements accordingly.
-
 At its core, adaptive authentication usually leverages real-time data analysis and contextual insights to make informed decisions about the appropriate level of authentication needed to verify a user's identity.
 This dynamic approach allows organizations to strengthen security measures while minimizing disruption to user workflows.
 Unlike static authentication methods, which apply the exact authentication requirements to all users and sessions, adaptive authentication systems continuously evaluate risk factors and adjust authentication measures accordingly.
 
 By leveraging real-time data and analytical capabilities, adaptive authentication enhances security while also optimizing the user experience.\cite{intro-logintc}
-
 Adaptive authentication is closely tied to the Identity Thread Detection and Response (ITDR) security discipline.
 Certain aspects of adaptive authentication are fundamental concepts of the ITDR strategies aimed at identifying and responding to identity threats.
-\newpage
 
 \section{Benefits}
 As was stated in the introduction of adaptive authentication, the main benefits behind its usability are mainly the dynamics.
-As in the traditional approaches, the static MFA is very often used when assessing authentication policies with predefined exact rules that the user might comply with or the system's state is in. 
+As in the traditional approaches, the static MFA is very often used when assessing authentication policies with predefined exact rules that the user might comply with or the system state is in. 
 
 Adaptive authentication may provide the ability to have a more frictionless approach when a user is trying to prove their identity.
-\cite{intro-silverfort}\cite{intro-descope}
-\newline
-\newline
+\cite{intro-silverfort,intro-descope}
 The summarization of the more exciting benefits might be as follows:
 
 \begin{itemize}
@@ -40,7 +26,6 @@ The summarization of the more exciting benefits might be as follows:
     \item \textbf{Alignment with zero trust model} -- Adaptive authentication, in most cases, aligns well with the zero trust security model due to its main principle to 'never trust, always verify'. \cite{intro-incognia}
 \end{itemize}
 
-\newpage
 \section{Challenges}
 While the benefits of adaptive authentication are clear and compelling, it is essential to acknowledge that this approach might face several challenges.
 Despite its dynamic nature and improved user experience, adaptive authentication presents several challenges that organizations must address to realize its full potential.
@@ -52,11 +37,10 @@ The summarization of the biggest challenges might be as follows:
     \item \textbf{Complexity} -- the implementation of the processing user behavior and evaluation of contextual data might be very complex and time-consuming.  
     \item \textbf{Accuracy of risk assessment} -- as the contextual data might not be reliable and correct in a particular context, the risk evaluation needs to be properly executed -- we need to prevent the count of false positives and false negatives. 
     \item \textbf{Privacy and data protection} -- as the contextual data might help to strengthen security, these data need to be collected and processed -- compliance with data protection regulations and users' preferences need to be assessed.
-    \item \textbf{Potentially non-deterministic} -- the benefit of integration of AI/ML might also bring some challenges as we can achieve non-deterministic behavior in processing contextual data and assessing risk levels -- it might be challenging to predict possible outcomes, which also makes testing harder.\cite{intro-logintc}\cite{intro-silverfort}\cite{intro-descope}
+    \item \textbf{Potentially non-deterministic} -- the benefit of integration of AI/ML might also bring some challenges as we can achieve non-deterministic behavior in processing contextual data and assessing risk levels -- it might be challenging to predict possible outcomes, which also makes testing harder.\cite{intro-logintc,intro-silverfort,intro-descope}
     
 \end{itemize}
 
-\newpage
 \section{Authentication Factors} \label{authentication-factors}
 Authentication factors play a crucial role in verifying the identity of users and granting them access to digital systems, applications, and data.
 In the realm of cybersecurity, authentication factors serve as the building blocks of authentication mechanisms, providing layers of security to protect against unauthorized access and mitigate the risk of security breaches.
@@ -81,7 +65,6 @@ These factors use contextual data obtained by arbitrary approaches and can be di
 The first three authentication factors \textit{Knowledge factor}, \textit{Possession factor}, and \textit{Inherence factor} are the well-known traditional factors used in many applications managing identity access.
 The last two authentication factors \textit{Location factor}, and \textit{Behavior factor}, are extensions of traditional approaches and are extensively used for adaptive authentication.\cite{auth-factors-descope}  
 
-\newpage
 \subsection{Knowledge Factor (Something you know)}
 Knowledge factors involve users providing specific information or data to access a secured system.
 The most common type of knowledge-based authentication is through passwords or personal identification numbers (PINs), which are used to limit system access.
@@ -132,7 +115,7 @@ Behavior factors depend on user actions to access the system. In systems accommo
 
 Consider keystroke dynamics and mouse movement patterns as examples of behavior-based authentication factors.
 Keystroke dynamics can study the unique way a user types on a keyboard.
-Mouse movement patterns can analyze the way a user moves the mouse while interacting with a system. \cite{auth-factors-aratek} \cite{auth-factors-sumologic} \cite{auth-factors-globalknowledge} 
+Mouse movement patterns can analyze the way a user moves the mouse while interacting with a system. \cite{auth-factors-aratek, auth-factors-sumologic,auth-factors-globalknowledge} 
 
 \section{Risk Levels}
 Risk levels in adaptive authentication typically refer to the likelihood that a particular access attempt is fraudulent or unauthorized.

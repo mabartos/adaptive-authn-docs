@@ -39,7 +39,7 @@ ThreatInsight evaluates authentication requests by analyzing data to identify po
 
 This service furnishes critical details encompassing users, devices, locations, and networks, thereby facilitating more informed decision-making regarding access permissions.
 
-ThreatInsight provides a way to add risk factors from external sources like third-party services. However, relying on remote services may introduce challenges, such as potential latency issues, which could impede the authentication process and lead to user frustration and operational inefficiencies.\cite{existing-okta-lowrisk} \cite{existing-okta-confidence}
+ThreatInsight provides a way to add risk factors from external sources like third-party services. However, relying on remote services may introduce challenges, such as potential latency issues, which could impede the authentication process and lead to user frustration and operational inefficiencies.\cite{existing-okta-lowrisk,existing-okta-confidence}
 
 Ensuring the safety and trustworthiness of these outside sources is very important.
 I think leveraging the risk factors from external sources must be carefully considered in order to avoid the risk of data leaks or mistakes that could harm the authentication system.
@@ -53,9 +53,9 @@ One of these actions is recording the potentially malicious requests and their o
 It can record a variety of events, such as sign-in attempts from suspicious IP addresses or detection of security threats.
 Moreover, it can record information about the continuity of potential cyber-attacks involving the attack duration and aggregation of relevant events.
 
-With the gathered data, an administrator can easily create a blacklist of IP addresses with denied application access.
+With the gathered data, an administrator can easily create a blocklist of IP addresses with denied application access.
 The system log events contain information about how the risk level was determined for each authentication attempt.
-It can take into consideration factors like anomalous location, anomalous device, or suspected threat based on Okta ThreatInsight detection.\cite{existing-okta-risk-scoring}\cite{existing-okta-syslog}
+It can take into consideration factors like anomalous location, anomalous device, or suspected threat based on Okta ThreatInsight detection.\cite{existing-okta-risk-scoring,existing-okta-syslog}
 
 In all cases, such comprehensive information about login attempts and their metadata is necessary for followed risk factor evaluation and success of adaptive authentication. 
 
@@ -96,7 +96,7 @@ Citrix products were claimed to be used by over 400,000 clients worldwide, inclu
 I appreciate how the Citrix adaptive authentication solution handles various details of user authentication.
 It carefully considers factors such as user roles, organizational affiliations, and unique user attributes.
 These factors are crucial in assessing the level of risk in each authentication attempt.
-The solution does not treat each factor in isolation.\cite{existing-citrix-wiki} \cite{existing-citrix-blog}
+The solution does not treat each factor in isolation.\cite{existing-citrix-wiki,existing-citrix-blog}
 
 Instead, it integrates all these details to determine the overall security of an authentication attempt.
 This enhances overall security and improves the user experience by making the authentication process smoother by considering the whole context of risk factors.
@@ -142,7 +142,7 @@ Administrators are able to create rules based on the allow/deny list of IP addre
 An exciting thing is furthermore the gathering of risk score evaluation statistics, as administrators can obtain the count of sign-in events grouped by their risk score bucket.
 Vigilance AI divides the risk score bucket, previously called risk levels, into five categories: \textit{minimal}, \textit{low}, \textit{medium}, \textit{high}, and \textit{very high}.
 
-To be more specific, the statistics contain the number of sign-in events for each particular risk level, which might be beneficial for following data analysis. \cite{existing-onelogin-score-insights} \cite{existing-onelogin-score}
+To be more specific, the statistics contain the number of sign-in events for each particular risk level, which might be beneficial for following data analysis. \cite{existing-onelogin-score-insights,existing-onelogin-score}
 
 \section{Silverfort}
 Silverfort, Inc. provides several security-related products, such as the Advanced MFA, Identity Threat Detection and Response solution, Risk-based authentication, and others.
@@ -177,7 +177,7 @@ Deviations from this established authentication trail, such as sudden changes in
 Additionally, examining actions like interactive logins with service accounts or admin logins from unfamiliar devices helps identify suspicious behavior that could compromise security.
 
 Lastly, the authentication mechanism involves analyzing abnormalities or vulnerabilities in the underlying authentication process.
-This includes identifying potential threats like pass-the-hash attacks, which could exploit weaknesses in authentication protocols, thereby enhancing overall security measures. \cite{existing-silverfort-risk} \cite{existing-silverfort-analysis}
+This includes identifying potential threats like pass-the-hash attacks, which could exploit weaknesses in authentication protocols, thereby enhancing overall security measures. \cite{existing-silverfort-risk,existing-silverfort-analysis}
 
 
 \begin{figure}[htbp]

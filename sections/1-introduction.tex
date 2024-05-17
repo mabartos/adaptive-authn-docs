@@ -1,0 +1,27 @@
+\chapter{Introduction}
+
+In today’s digital landscape, where cybersecurity threats continue to evolve in sophistication and frequency, the need for robust authentication mechanisms to safeguard sensitive data and systems has become
+critical.
+Authentication incorporates two primary domains: user authentication and data authentication. 
+User authentication assures the identity verification of an individual to grant access to a system or service.
+It ensures that individuals are who they claim to be before allowing them access to resources.
+Data authentication, on the other hand, assures data integrity and origin, ensuring it remains unaltered during transmission or storage, focusing solely on data content.
+
+Adaptive authentication extends user authentication, as it is an advanced security mechanism designed to dynamically adjust the level of authentication based on various factors such as user behavior, context, and risk levels.
+Unlike traditional authentication methods that rely on static credentials or fixed Multi-Factor Authentication (MFA) processes, adaptive authentication continuously evaluates the risk associated with each authentication attempt and adapts the authentication requirements accordingly.
+
+Adaptive authentication offers significant advantages by evaluating various factors such as user behavior, device characteristics, location, and risk attributes to provide a more secure and seamless user experience.
+Adaptive authentication enhances security without compromising convenience by dynamically adjusting authentication requirements based on real-time assessments.
+
+This thesis is aimed at the principles and implementation of adaptive authentication within Keycloak\footnote{https://www.keycloak.org/}, an open-source Identity and Access Management (IAM) system.
+Keycloak is widely used to secure web applications, microservices, and APIs by providing centralized authentication and authorization services with a broad user community.\cite{keycloak-web} 
+Keycloak is one of the leading open-source IAM solutions on the market and is getting increasingly popular due to its capabilities and rapid development.
+Extending its capabilities further by integrating adaptive authentication will have a magnificent impact on enhancing security, improving user experience, and meeting the dynamic needs of modern enterprises.
+
+The roadmap of this thesis is as follows -- Chapter \ref{adaptive-authentication} introduces adaptive authentication, outlining its benefits and challenges.
+It explains how adaptive authentication dynamically adjusts based on various factors.
+Chapter \ref{existing-solutions} reviews and compares existing market solutions, providing a comprehensive understanding of different implementations and their pros and cons.
+Chapter \ref{keycloak} focuses on Keycloak, detailing its architecture, service provider interface, and authentication processes.
+Chapter \ref{specification} specifies the requirements and goals for this topic.
+Chapter \ref{design} covers design aspects such as user context, authentication policies, risk-based authentication, and AI integration, offering a development blueprint with diagrams and examples.
+Chapter \ref{implementation} presents the actual implementation, describing the development itself with the necessary coding and configuration for adaptive authentication in Keycloak.

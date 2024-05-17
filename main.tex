@@ -107,32 +107,6 @@
 \usepackage{import}
 
 \begin{document}
-%% The \chapter* command can be used to produce unnumbered chapters:
-\chapter*{Introduction}
-%% Unlike \chapter, \chapter* does not update the headings and does not
-%% enter the chapter to the table of contents. I we want correct
-%% headings and a table of contents entry, we must add them manually:
-\markright{\textsc{Introduction}}
-\addcontentsline{toc}{chapter}{Introduction}
-
-In today’s digital landscape, where cybersecurity threats continue to evolve in sophistication and frequency, the need for robust authentication mechanisms to safeguard sensitive data and systems has become
-critical.
-Traditional authentication methods, such as static passwords or even static Multi-Factor Authentication (MFA), often fail to adequately address the dynamic nature of security risks and user behavior.
-As a response to these challenges, adaptive authentication has emerged as a promising approach to authentication, offering a dynamic and context-aware method for verifying user identities.
-
-Adaptive authentication offers significant advantages by evaluating various factors such as user behavior, device characteristics, location, and risk attributes to provide a more secure and seamless user experience.
-Adaptive authentication enhances security without compromising convenience by dynamically adjusting authentication requirements based on real-time assessments.
-
-This thesis is aimed at the principles and implementation of adaptive authentication within Keycloak, an open-source identity and access management system.
-Keycloak is widely used to secure web applications, microservices, and APIs by providing centralized authentication and authorization services with a broad user community.
-
-Chapter \ref{adaptive-authentication} introduces adaptive authentication, outlining its benefits and challenges.
-It explains how adaptive authentication dynamically adjusts based on various factors.
-Chapter \ref{existing-solutions} reviews and compares existing market solutions, providing a comprehensive understanding of different implementations and their pros and cons.
-Chapter \ref{keycloak} focuses on Keycloak, detailing its architecture, service provider interface, and authentication processes.
-Chapter \ref{specification} specifies the requirements and goals for this topic.
-Chapter \ref{design} covers design aspects such as user context, authentication policies, risk-based authentication, and AI integration, offering a development blueprint with diagrams and examples.
-Chapter \ref{implementation} presents the actual implementation, describing the development itself with the necessary coding and configuration for adaptive authentication in Keycloak.
 
 \shorthandoff{-}
 \begin{markdown*}{%
@@ -148,13 +122,14 @@ Chapter \ref{implementation} presents the actual implementation, describing the 
   tableCaptions,
 }
 
-\import{sections/}{1-adaptive-authentication.tex}
-\import{sections/}{2-existing-solutions.tex}
-\import{sections/}{3-keycloak.tex}
-\import{sections/}{4-specification.tex}
-\import{sections/}{5-design.tex}
-\import{sections/}{6-implementation.tex}
-\import{sections/}{7-conclusion.tex}
+\import{sections/}{1-introduction.tex}
+\import{sections/}{2-adaptive-authentication.tex}
+\import{sections/}{3-existing-solutions.tex}
+\import{sections/}{4-keycloak.tex}
+\import{sections/}{5-specification.tex}
+\import{sections/}{6-design.tex}
+\import{sections/}{7-implementation.tex}
+\import{sections/}{8-conclusion.tex}
 
 \end{markdown*}
 \end{document}
