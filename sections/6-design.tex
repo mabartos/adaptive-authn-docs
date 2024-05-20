@@ -377,8 +377,8 @@ The formula for the weighted arithmetic mean:
 
 The \( \bar{x} \) represents the overall risk score, \( x_i \) represents the individual risk evaluator score, and \( w_i \) represents the corresponding weight for each risk evaluator.
 
-The overall risk of the whole authentication process is evaluated as an arithmetic average of risk scores for each individual phase.
-It means when the overall score for phase \textit{NO\_USER} is \textit{0.7}, and the score for phase \textit{REQUIRES\_USER} is \textit{0.6}, the overall risk score for the whole process is \textit{0.65}. 
+The overall risk of the whole authentication process is evaluated as the maximum risk score of each individual phase.
+It means when the overall score for phase \textit{NO\_USER} is \textit{0.7}, and the score for phase \textit{REQUIRES\_USER} is \textit{0.6}, the overall risk score for the whole process is \textit{0.7}. 
 
 \subsubsection{Design}
 The risk engine is presented as \textit{RiskEngine} interface with several methods shown in Figure \ref{fig:design-user-engine-diagram}.
